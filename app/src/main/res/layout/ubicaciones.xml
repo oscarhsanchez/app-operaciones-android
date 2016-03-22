@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f2f2f2"
+    android:orientation="vertical"
+    tools:context=".app.Home">
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/ub_refresh"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/location_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            android:clipToPadding="false"
+            android:divider="@null" />
+
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+    <TextView
+        android:id="@+id/empty_locations"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:text="@string/empty_locations"
+        android:visibility="gone" />
+
+    <tr.xip.errorview.ErrorView xmlns:errorview="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/location_error_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:visibility="gone"
+        errorview:ev_retryButtonBackground="@drawable/transparent_background_selector"
+        errorview:ev_retryButtonText="@string/retry"
+        errorview:ev_retryButtonTextColor="@color/colorAccent"
+        errorview:ev_showRetryButton="true"
+        errorview:ev_showSubtitle="true"
+        errorview:ev_showTitle="true"
+        errorview:ev_subtitleColor="@color/text_gray"
+        errorview:ev_titleColor="@color/text_gray" />
+
+</RelativeLayout>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#f47121</color>
+    <color name="colorPrimaryDark">#C13E00</color>
+    <color name="colorAccent">#FF9800</color>
+
+
+    <color name="colorPrimaryAlpha">#f9ac7b</color>
+    <color name="tab_text_color">#929292</color>
+    <color name="background">#f9f9f9</color>
+    <color name="text_gray">#676a6c</color>
+    <color name="text_gray_alpha">#80676a6c</color>
+    <color name="text_black">#202020</color>
+
+    <color name="text_enabled">#3e4041</color>
+    <color name="text_disabled">#40676a6c</color>
+</resources>

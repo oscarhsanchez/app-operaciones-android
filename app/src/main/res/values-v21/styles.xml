@@ -1,0 +1,56 @@
+<resources>>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- enable window content transitions -->
+        <item name="android:windowContentTransitions">true</item>
+        <!-- specify shared element transitions -->
+        <item name="android:windowSharedElementEnterTransition">
+            @transition/change_image_transform</item>
+        <item name="android:windowSharedElementExitTransition">
+            @transition/change_image_transform</item>
+        <item name="android:windowAllowEnterTransitionOverlap">true</item>
+        <item name="android:windowAllowReturnTransitionOverlap">true</item>
+
+        <item name="android:textColorPrimary">@color/colorPrimary</item>
+        <item name="android:colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="android:navigationBarColor">@color/colorPrimaryDark</item>
+
+        <item name="android:colorAccent">@color/colorAccent</item>
+        <item name="colorControlNormal">#80ffffff</item>
+        <item name="colorControlActivated">@color/colorAccent</item>
+        <item name="colorControlHighlight">@color/colorPrimaryAlpha</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowActionBar">false</item>
+
+        <item name="actionMenuTextColor">@android:color/white</item>
+        <item name="android:actionMenuTextColor">@android:color/white</item>
+
+        <item name="android:timePickerDialogTheme">@style/Dialog</item>
+        <item name="android:datePickerDialogTheme">@style/Dialog</item>
+        <item name="android:alertDialogTheme">@style/Dialog</item>
+    </style>
+
+    <style name="Dialog" parent="android:Theme.Material.Light.Dialog.Alert">
+        <item name="android:textColorPrimary">@color/text_gray</item>
+        <item name="android:textColor">@color/text_black</item>
+
+    </style>
+
+    <style name="SplashTheme" parent="AppTheme">
+        <item name="android:windowSharedElementEnterTransition">
+            @transition/splash_image_transform</item>
+        <item name="android:windowSharedElementExitTransition">
+            @transition/splash_image_transform</item>
+    </style>
+
+    <style name="ThemeDialogTransparent" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowBackground">@drawable/transparent</item>
+    </style>
+
+    <style name="SwichtCompatStyle">
+        <item name="android:colorControlActivated">@color/colorPrimary</item>
+    </style>
+
+</resources>

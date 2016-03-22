@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rootLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/background">
+
+    <ImageView
+        android:id="@+id/login_bg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:background="@color/background"
+        android:transitionName="background"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="@dimen/login_padding_bottom"
+        android:paddingLeft="@dimen/login_padding_horizontal"
+        android:paddingRight="@dimen/login_padding_horizontal"
+        android:paddingTop="@dimen/login_padding_top">
+
+        <ImageView
+            android:id="@+id/logo"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/logo_login_height"
+            android:layout_alignParentTop="true"
+            android:layout_centerVertical="true"
+            android:layout_marginTop="@dimen/dp20"
+            android:scaleType="fitCenter"
+            android:src="@drawable/logo_orange"
+            android:transitionName="logoTransition" />
+
+        <LinearLayout
+            android:id="@+id/fields_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/logo"
+            android:layout_marginTop="30dp"
+            android:gravity="center"
+            android:orientation="vertical">
+
+
+            <TextView
+                android:id="@+id/tv_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="left|center"
+                android:text="@string/username"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/sp12" />
+
+            <EditText
+                android:id="@+id/et_username"
+                style="@style/Edittext_White"
+                android:imeOptions="actionNext"
+                android:inputType="text" />
+
+            <TextView
+                android:id="@+id/tv_pass"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:gravity="left|center"
+                android:text="@string/pass"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/sp12" />
+
+            <EditText
+                android:id="@+id/et_pass"
+                style="@style/Edittext_White"
+                android:inputType="textPassword" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/btns_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/fields_layout"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+
+            <Button
+                android:id="@+id/btn_enter"
+                style="@style/Button_Generic"
+                android:layout_width="0dp"
+                android:layout_marginLeft="5dp"
+                android:layout_weight="1"
+                android:onClick="onClickLogin"
+                android:text="@string/enter" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_recover_pass"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:text="@string/forgot_password"
+            android:textColor="@color/generic_text_selector"
+            android:clickable="true"
+            android:onClick="onClickRecoverPassword"
+            android:textSize="@dimen/sp12"
+            android:layout_below="@+id/btns_layout"
+            android:visibility="visible"/>
+
+    </RelativeLayout>
+</RelativeLayout>

@@ -1,0 +1,253 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="colorControlNormal">#80ffffff</item>
+        <item name="colorControlActivated">@color/colorPrimary</item>
+        <item name="colorControlHighlight">@color/colorPrimaryDark</item>
+
+        <item name="actionMenuTextColor">@android:color/white</item>
+        <item name="android:actionMenuTextColor">@android:color/white</item>
+    </style>
+
+
+    <style name="AppTheme.BackgroundTransparent" parent="AppTheme">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:backgroundDimEnabled">false</item>
+        <item name="android:windowCloseOnTouchOutside">true</item>
+    </style>
+
+    <style name="AppThemeFullScreen" parent="AppTheme">
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+    </style>
+
+    <style name="ActionBarTheme" parent="Widget.AppCompat.Toolbar">
+        <item name="android:textColorPrimary">@android:color/white</item>
+        <item name="colorControlNormal">@android:color/white</item>
+        <item name="selectableItemBackground">?android:selectableItemBackground</item>
+        <item name="selectableItemBackgroundBorderless">?android:selectableItemBackground</item>
+        <item name="colorControlHighlight">@color/colorPrimary</item>
+    </style>
+
+    <style name="MyCustomTabLayout" parent="Widget.Design.TabLayout">
+        <item name="tabMaxWidth">700dp</item>
+        <item name="tabGravity">fill</item>
+        <item name="tabMode">fixed</item>
+        <item name="tabIndicatorColor">@color/colorPrimary</item>
+        <item name="tabSelectedTextColor">?android:textColorPrimary</item>
+    </style>
+
+    <style name="Edittext_White" parent="Widget.AppCompat.EditText">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/edittext_height</item>
+        <item name="android:background">#FFFFFF</item>
+        <item name="android:paddingRight">5dp</item>
+        <item name="android:paddingLeft">10dp</item>
+        <item name="android:paddingTop">5dp</item>
+        <item name="android:paddingBottom">5dp</item>
+        <item name="android:gravity">center|left</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:layout_marginTop">5dp</item>
+        <item name="android:layout_marginBottom">5dp</item>
+        <item name="android:textSize">@dimen/sp16</item>
+        <item name="android:textColor">@color/text_gray</item>
+    </style>
+
+    <style name="Button_Generic" parent="Widget.AppCompat.Button">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">35dp</item>
+        <item name="android:textColor">@color/btn_generic_text_selector</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">@dimen/sp14</item>
+        <item name="android:paddingTop">5dp</item>
+        <item name="android:paddingBottom">5dp</item>
+        <item name="android:paddingLeft">15dp</item>
+        <item name="android:paddingRight">15dp</item>
+        <item name="android:background">@drawable/btn_generic_selector</item>
+        <item name="android:minHeight">0dp</item>
+        <item name="android:minWidth">0dp</item>
+    </style>
+
+
+    <style name="row_filter">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:paddingBottom">10dp</item>
+        <item name="android:paddingLeft">@dimen/activity_horizontal_margin</item>
+        <item name="android:paddingRight">@dimen/activity_horizontal_margin</item>
+    </style>
+
+    <style name="filter_title_text">
+        <item name="android:singleLine">true</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:gravity">left|center</item>
+        <item name="android:layout_marginRight">10dp</item>
+
+        <item name="android:textSize">@dimen/sp12</item>
+    </style>
+
+
+    <style name="filter_selection_text">
+        <item name="android:singleLine">true</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:textSize">@dimen/sp12</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/text_gray</item>
+        <item name="android:gravity">right|center</item>
+        <item name="android:layout_marginRight">10dp</item>
+    </style>
+
+
+    <style name="expandedappbar" parent="@android:style/TextAppearance.Medium">
+        <item name="android:textSize">@dimen/sp18</item>
+        <item name="android:textColor">@color/text_gray</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="collapsedappbar" parent="@android:style/TextAppearance.Medium">
+        <item name="android:textSize">@dimen/sp14</item>
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:layout_width">match_parent</item>
+    </style>
+
+
+    <style name="data_linear_layout">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingLeft">@dimen/activity_horizontal_margin</item>
+        <item name="android:paddingRight">@dimen/activity_horizontal_margin</item>
+        <item name="android:paddingTop">15dp</item>
+        <item name="android:paddingBottom">15dp</item>
+        <item name="android:gravity">center|left</item>
+        <item name="android:layout_marginBottom">6dp</item>
+        <item name="android:background">@drawable/data_layout_default</item>
+        <item name="android:elevation">0.5dp</item>
+    </style>
+
+    <style name="profile_label">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginRight">10dp</item>
+        <item name="android:gravity">left|center</item>
+        <item name="android:textColor">@color/text_enabled</item>
+        <item name="android:textSize">@dimen/sp15</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:ellipsize">end</item>
+    </style>
+
+    <style name="profile_edittext">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">right|center</item>
+        <item name="android:textColor">@color/text_gray_alpha</item>
+        <item name="android:textSize">@dimen/sp15</item>
+        <item name="android:background">@null</item>
+        <item name="android:enabled">false</item>
+        <item name="android:textColorHint">@color/text_gray_alpha</item>
+    </style>
+
+    <style name="profile_view">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:background">#e4e4e4</item>
+        <item name="android:layout_marginRight">@dimen/activity_horizontal_margin</item>
+        <item name="android:layout_marginLeft">@dimen/activity_horizontal_margin</item>
+    </style>
+
+
+    <style name="TextLabel" parent="AppTheme">
+        <!-- Hint color and label color in FALSE state -->
+        <item name="android:textColorHint">@color/colorPrimary</item>
+        <item name="android:textSize">@dimen/sp16</item>
+        <!-- Label color in TRUE state and bar color FALSE and TRUE State -->
+        <item name="colorAccent">@color/colorPrimaryDark</item>
+        <item name="colorControlNormal">@color/colorPrimary</item>
+        <item name="colorControlActivated">@color/colorPrimaryDark</item>
+    </style>
+
+    <style name="spinnerItemStyle" parent="android:Widget.TextView.SpinnerItem">
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:textSize">@dimen/sp16</item>
+        <item name="android:paddingLeft">0dp</item>
+        <item name="android:ellipsize">marquee</item>
+        <item name="android:singleLine">true</item>
+    </style>
+
+    <style name="TextInputLayoutStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginBottom">10dp</item>
+        <item name="android:textColorHint">@color/text_gray</item>
+    </style>
+
+    <style name="FloatingActionButtonStyle" >
+        <item name="android:theme">@style/AppTheme.FloatingAccentButtonOverlay</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:scaleType">centerInside</item>
+    </style>
+
+    <style name="AppTheme.FloatingAccentButtonOverlay">
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+
+    <style name="TableRow">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_column">0</item>
+        <item name="android:gravity">left|center</item>
+        <item name="android:textColor">@color/text_gray</item>
+        <item name="android:textSize">@dimen/sp14</item>
+        <item name="android:layout_marginRight">10dp</item>
+        <item name="android:ellipsize">end</item>
+    </style>
+
+    <style name="cart_layout" parent="data_linear_layout">
+        <item name="android:paddingTop">15dp</item>
+        <item name="android:paddingBottom">15dp</item>
+        <item name="android:gravity">center|left</item>
+        <item name="android:layout_marginBottom">0dp</item>
+    </style>
+
+    <style name="ficha_prov_row">
+        <item name="android:layout_marginBottom">10dp</item>
+    </style>
+
+    <style name="ficha_prov_label">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginRight">30dp</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:gravity">left|center</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/text_gray</item>
+    </style>
+
+    <style name="ficha_prov_text">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_marginRight">10dp</item>
+        <item name="android:singleLine">false</item>
+        <item name="android:gravity">left|center</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">#ff626976</item>
+    </style>
+</resources>

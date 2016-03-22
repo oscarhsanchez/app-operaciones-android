@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f2f2f2"
+    android:orientation="vertical"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            style="@style/profile_label"
+            android:layout_width="match_parent"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="10dp"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:text="@string/basic_data"
+            android:textAllCaps="true"
+            android:textSize="@dimen/sp13"
+            android:textStyle="bold" />
+
+        <TableRow style="@style/data_linear_layout">
+
+            <TextView
+                style="@style/profile_label"
+                android:text="@string/referencia" />
+
+            <EditText
+                android:id="@+id/et_ub_referencia"
+                style="@style/profile_edittext" />
+
+        </TableRow>
+
+        <TableRow style="@style/data_linear_layout">
+
+            <TextView
+                style="@style/profile_label"
+                android:text="@string/ubicacion" />
+
+            <EditText
+                android:id="@+id/et_ub_ubicacion"
+                style="@style/profile_edittext" />
+
+        </TableRow>
+
+        <TableRow style="@style/data_linear_layout">
+
+            <TextView
+                style="@style/profile_label"
+                android:text="@string/dir_comercial" />
+
+            <EditText
+                android:id="@+id/et_ub_dir_comercial"
+                style="@style/profile_edittext" />
+
+        </TableRow>
+
+        <TableRow style="@style/data_linear_layout">
+
+            <TextView
+                style="@style/profile_label"
+                android:text="@string/estado" />
+
+            <EditText
+                android:id="@+id/et_ub_estatus"
+                style="@style/profile_edittext" />
+
+        </TableRow>
+
+        <TableRow style="@style/data_linear_layout">
+
+            <TextView
+                style="@style/profile_label"
+                android:text="@string/categoria" />
+
+            <EditText
+                android:id="@+id/et_ub_categoria"
+                style="@style/profile_edittext" />
+
+            <LinearLayout android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:gravity="right|center">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_column="1"
+                    android:layout_weight="0"
+                    android:scaleType="fitCenter"
+                    android:gravity="left|center"
+                    android:src="@drawable/icon_user"/>
+
+                <ImageView
+                    android:id="@+id/iv_ub_transeuntes"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_column="1"
+                    android:layout_marginRight="@dimen/dp20"
+                    android:layout_weight="0"
+                    android:scaleType="fitCenter"
+                    android:gravity="left|center"
+                    android:src="@drawable/icon_minus"/>
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_column="1"
+                    android:layout_weight="0"
+                    android:scaleType="fitCenter"
+                    android:gravity="left|center"
+                    android:src="@drawable/icon_car"/>
+
+                <ImageView
+                    android:id="@+id/iv_ub_vehicular"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_column="1"
+                    android:layout_weight="0"
+                    android:scaleType="fitCenter"
+                    android:gravity="left|center"
+                    android:src="@drawable/icon_minus"/>
+            </LinearLayout>
+        </TableRow>
+
+        <TableRow style="@style/data_linear_layout">
+
+            <TextView
+                style="@style/profile_label"
+                android:text="@string/fecha_instalacion" />
+
+            <EditText
+                android:id="@+id/et_ub_fecha"
+                style="@style/profile_edittext" />
+
+        </TableRow>
+        <TextView
+            style="@style/profile_label"
+            android:layout_width="match_parent"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="10dp"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:text="@string/locate"
+            android:textAllCaps="true"
+            android:textSize="@dimen/sp13"
+            android:textStyle="bold" />
+
+        <TableRow style="@style/data_linear_layout">
+
+            <TextView
+                style="@style/profile_label"
+                android:text="@string/latitud" />
+
+            <EditText
+                android:id="@+id/et_ub_latitud"
+                style="@style/profile_edittext" />
+
+        </TableRow>
+
+        <TableRow style="@style/data_linear_layout">
+
+            <TextView
+                style="@style/profile_label"
+                android:text="@string/longitud" />
+
+            <EditText
+                android:id="@+id/et_ub_longitud"
+                style="@style/profile_edittext" />
+
+        </TableRow>
+
+        <TableRow style="@style/data_linear_layout">
+
+            <TextView
+                style="@style/profile_label"
+                android:text="@string/lugares_cercanos" />
+
+            <EditText
+                android:id="@+id/et_ub_lug_cerc"
+                style="@style/profile_edittext" />
+
+        </TableRow>
+
+        <TextView
+            style="@style/profile_label"
+            android:layout_width="match_parent"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="10dp"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:text="@string/otros"
+            android:textAllCaps="true"
+            android:textSize="@dimen/sp13"
+            android:textStyle="bold" />
+
+        <TableRow style="@style/data_linear_layout">
+
+            <TextView
+                style="@style/profile_label"
+                android:text="@string/observaciones" />
+
+            <EditText
+                android:id="@+id/et_ub_observaciones"
+                style="@style/profile_edittext"
+                android:maxLines="4"
+                android:ellipsize="end"
+                android:singleLine="false"/>
+
+        </TableRow>
+
+    </TableLayout>
+</android.support.v4.widget.NestedScrollView>
