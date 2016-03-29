@@ -23,7 +23,7 @@ public class GetUbicacionesImagenesRequest extends WsRequest {
         params.add(new BasicNameValuePair("estado", "1"));
 		params.add(new BasicNameValuePair("fk_ubicacion", pk_ubicacion));
 
-		return super.executeGetDefaultHeaders(Constants.LOCATIONS_IMAGES, params, responseClass);
+		return super.executeGetDefaultHeaders(Constants.UBICACIONES_IMAGES, params, responseClass);
 	}
 
 }

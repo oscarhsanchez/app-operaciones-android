@@ -36,4 +36,6 @@ public class Ubicacion implements Serializable{
     public String token;
     public String created_at;
     public String updated_at;
+
+    public Medio medio;
 }

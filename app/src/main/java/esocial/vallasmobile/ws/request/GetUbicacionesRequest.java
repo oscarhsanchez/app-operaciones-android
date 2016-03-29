@@ -28,7 +28,7 @@ public class GetUbicacionesRequest extends WsRequest {
 		params.add(new BasicNameValuePair("offset", from.toString()));
 		params.add(new BasicNameValuePair("limit", num.toString()));
 
-		return super.executeGetDefaultHeaders(Constants.LOCATIONS, params, responseClass);
+		return super.executeGetDefaultHeaders(Constants.UBICACIONES, params, responseClass);
 	}
 
 }

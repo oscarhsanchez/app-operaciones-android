@@ -1,9 +1,10 @@
 <resources>
     <string name="app_name">Vallas</string>
     <string name="action_settings">Settings</string>
-    <string name="google_maps_key">AIzaSyCxYdunvD_qvpdH57iYM99hmjbrqNRqGmM</string>
+    <string name="google_maps_key">AIzaSyCXL0qbEVMI0qWUbZ9Wgo9F0I_vEGDcADU</string>
 
     <string name="accept">Aceptar</string>
+    <string name="cancel">Cancelar</string>
     <string name="exit">Salir</string>
     <string name="close">Cerrar</string>
     <string name="confirm_exit">¿Quieres salir de la aplicación?</string>
@@ -18,11 +19,15 @@
     <string name="check_connection">Comprueba tu conexión y vuelve a intentarlo</string>
     <string name="warning">Advertencia</string>
     <string name="fill_fields">Debe rellenar todos los campos</string>
+    <string name="fecha_limite_empty">Selecciona la fecha límite</string>
+    <string name="medio_empty">Selecciona un medio</string>
     <string name="checking_credentials">Comprobando credenciales...</string>
 
     <string name="orders">Órdenes</string>
     <string name="incidents">Incidencias</string>
     <string name="locations">Ubicaciones</string>
+    <string name="order_detail">Detalle Orden</string>
+    <string name="incidencia_detail">Detalle Incidencia</string>
     <string name="retry">Reintentar</string>
     <string name="empty_incidents">No hay ninguna incidencia actualmente</string>
     <string name="empty_orders">No hay ninguna orden disponible actualmente</string>
@@ -33,6 +38,7 @@
     <string name="info">Información</string>
     <string name="images">Imágenes</string>
     <string name="media">Medios</string>
+    <string name="medio">Medio</string>
     <string name="change">Modificar</string>
     <string name="change_location">¿Deseas modificar la posición de la ubicación actual?</string>
     <string name="open_location_settings">Activar</string>
@@ -40,8 +46,15 @@
 
     <string name="basic_data">Datos Básicos</string>
     <string name="ubicacion">Ubicación</string>
+    <string name="ubicacion_">Ubicación:</string>
+    <string name="tipo_">Tipo:</string>
+    <string name="tipo_medio_">Tipo Medio:</string>
+    <string name="posicion">Posición</string>
+    <string name="slots">Slots</string>
+    <string name="posicion_">Posición:</string>
     <string name="categoria">Categoría</string>
     <string name="estado">Estado</string>
+    <string name="estado_">Estado:</string>
     <string name="referencia">Referencia</string>
     <string name="dir_comercial">Dir.Comercial</string>
     <string name="fecha_instalacion">F.Instalación</string>
@@ -53,8 +66,38 @@
     <string name="locate">Localización</string>
     <string name="otros">Otros</string>
     <string name="saving_image">Guardando imagen...</string>
+    <string name="aplicando_cambios">Aplicando cambios...</string>
     <string name="take_pic">Hacer Foto</string>
     <string name="open_gallery">Abrir Galería</string>
     <string name="location_changed">Localización modificada correctamente</string>
     <string name="modifying_data">Modificando datos...</string>
+    <string name="incidencia_created">Incidencia creada</string>
+    <string name="incidencia_created_text">Incidencia creada correctamente</string>
+    <string name="creating_incidencia">Creando incidencia...</string>
+    <string name="create_incidencia">Crear Incidencia</string>
+    <string name="new_incidencia">Nueva Incidencia</string>
+
+    <string name="tipo">Tipo</string>
+    <string name="fecha_limite">Fecha Límite</string>
+    <string name="fecha_cierre">Fecha Cierre</string>
+    <string name="observaciones_cierre">Observ. Cierre</string>
+    <string name="observaciones_hint">Añadir observaciones...</string>
+    <string name="fecha_limite_">F. Límite:</string>
+    <string name="select_fecha">Selecciona fecha</string>
+    <string name="pendiente">Pendiente</string>
+    <string name="en_curso">En curso</string>
+    <string name="finalizado">Finalizado</string>
+    <string name="inventario">Inventario</string>
+    <string name="iluminacion">Iluminación</string>
+    <string name="fijacion">Fijación</string>
+    <string name="instalacion">Instalación</string>
+    <string name="selecciona_ubicacion">Selecciona Ubicación</string>
+    <string name="selecciona_medio">Selecciona Medio</string>
+    <string name="selecciona_medio__">Selecciona medio...</string>
+
+    <string name="cambiar_estado">Cambiar estado</string>
+    <string name="incidencia_modificada_text">Incidencia modificada correctamente</string>
+    <string name="orden_modificada_text">Orden modificada correctamente</string>
+    <string name="incidencia_modificada">Incidencia modificada</string>
+    <string name="orden_modificada">Orden modificada</string>
 </resources>

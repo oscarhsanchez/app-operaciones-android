@@ -10,15 +10,12 @@ import org.apache.http.message.BasicNameValuePair;
 
 import java.io.ByteArrayOutputStream;
 import java.io.UnsupportedEncodingException;
-import java.net.ContentHandler;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
 import esocial.vallasmobile.app.VallasApplication;
-import esocial.vallasmobile.obj.Imagen;
+import esocial.vallasmobile.obj.UbicacionImagen;
 import esocial.vallasmobile.utils.Constants;
-import esocial.vallasmobile.utils.Utils;
 import esocial.vallasmobile.ws.WsRequest;
 
 
@@ -30,7 +27,7 @@ public class PostUbicacionImageRequest extends WsRequest {
 
     public <T> T execute(String pk_ubicacion, String nombre, Bitmap bitmap, Class<T> responseClass) {
 
-        Imagen imagen = new Imagen();
+        UbicacionImagen imagen = new UbicacionImagen();
         imagen.fk_ubicacion = pk_ubicacion;
         imagen.fk_pais = context.getSession().fk_pais;
         imagen.nombre = nombre;
@@ -52,7 +49,7 @@ public class PostUbicacionImageRequest extends WsRequest {
         List<NameValuePair> param = new ArrayList<NameValuePair>(2);
         param.add(new BasicNameValuePair("entity", eSend));
 
-        return super.executePostDefaultHeaders(Constants.LOCATIONS_IMAGES, param, responseClass);
+        return super.executePostDefaultHeaders(Constants.UBICACIONES_IMAGES, param, responseClass);
     }
 
 }

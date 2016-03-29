@@ -5,12 +5,10 @@ import java.io.Serializable;
 /**
  * Created by jesus.martinez on 22/03/2016.
  */
-public class Imagen implements Serializable {
+public class Imagen implements Serializable{
 
     public String pk_archivo;
     public String fk_pais;
-    public String fk_ubicacion;
-    public String fk_medio;
     public String nombre;
     public String path;
     public String url;

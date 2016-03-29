@@ -11,14 +11,14 @@ public class Constants {
 
     public static String MAIN = "http://api.gpovallas.com/";
     public static String LOGIN = "login";
-    public static String ORDERS = "ordenes";
-    public static String ORDERS_IMAGES = "ordenes/imagenes";
+    public static String ORDENES = "ordenes";
+    public static String ORDENES_IMAGES = "ordenes/imagenes";
 
-    public static String INCIDENTS = "incidencias";
-    public static String INCIDENTS_IMAGES = "incidencias/imagenes";
+    public static String INCIDENCIAS = "incidencias";
+    public static String INCIDENCIAS_IMAGES = "incidencias/imagenes";
 
-    public static String LOCATIONS = "ubicaciones";
-    public static String LOCATIONS_IMAGES = "ubicaciones/imagenes";
+    public static String UBICACIONES = "ubicaciones";
+    public static String UBICACIONES_IMAGES = "ubicaciones/imagenes";
 
     public static String MEDIO = "medios";
 
@@ -27,4 +27,21 @@ public class Constants {
     //--------------------------------SHARED PREFERENCES---------------------------//
 
     public static String SESSION = "session";
+    public static String REFRESH_ORDENES = "refreshOrdenes";
+    public static String REFRESH_INCIDENCIAS = "refreshIncidencias";
+
+    //--------------------------------PERMISSION--------------------------------------//
+
+    public static final int PERMISSION_LOCATION = 100;
+    public static final int PERMISSION_READ_STORAGE = 101;
+
+
+    public static final int REQUEST_GALLERY = 1000;
+    public static final int REQUEST_CAMERA = 1001;
+    public static final int REQUEST_ORDEN = 1002;
+    public static final int REQUEST_ADD_INCIDENCIA = 1003;
+    public static final int REQUEST_SELECT_UBI = 1004;
+    public static final int REQUEST_SELECT_MEDIO = 1005;
+    public static final int REQUEST_CHANGE_ORDEN_STATUS = 1006;
+    public static final int REQUEST_CHANGE_INCIDENCIA_STATUS = 1007;
 }

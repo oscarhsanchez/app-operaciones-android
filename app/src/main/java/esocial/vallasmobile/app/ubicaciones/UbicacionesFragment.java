@@ -21,13 +21,12 @@ import esocial.vallasmobile.components.SpacesItemDecoration;
 import esocial.vallasmobile.listeners.UbicacionesListener;
 import esocial.vallasmobile.obj.Ubicacion;
 import esocial.vallasmobile.tasks.GetUbicacionesTask;
+import esocial.vallasmobile.utils.Constants;
 import esocial.vallasmobile.utils.ErrorViewUtils;
 import tr.xip.errorview.ErrorView;
 
 public class UbicacionesFragment extends BaseFragment implements UbicacionesListener,
-        MainTabActivity.OnFragmentInteractionListener{
-
-    private final int REQUEST_SELECT_UBI = 1000;
+        MainTabActivity.OnUbicacionesFragmentInteractionListener {
 
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private RecyclerView list;
@@ -77,6 +76,14 @@ public class UbicacionesFragment extends BaseFragment implements UbicacionesList
         list.setLayoutManager(mLayoutManager);
         mSwipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
         setListeners();
+
+        mSwipeRefreshLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                mSwipeRefreshLayout.setRefreshing(true);
+                loadMore();
+            }
+        });
     }
 
     private void setListeners(){
@@ -125,25 +132,11 @@ public class UbicacionesFragment extends BaseFragment implements UbicacionesList
                 selectedPosition = position;
                 Intent intent = new Intent(getActivity(), UbicacionDetalle.class);
                 intent.putExtra("ubicacion", ubicaciones.get(position));
-                getActivity().startActivityForResult(intent, REQUEST_SELECT_UBI);
+                getActivity().startActivityForResult(intent, Constants.REQUEST_SELECT_UBI);
             }
         });
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-
-        if (!getActivity().isFinishing() && !boolFirstSearchDone) {
-            mSwipeRefreshLayout.post(new Runnable() {
-                @Override
-                public void run() {
-                    mSwipeRefreshLayout.setRefreshing(true);
-                    loadMore();
-                }
-            });
-        }
-    }
 
     ErrorView.RetryListener listener = new ErrorView.RetryListener() {
         @Override
@@ -214,12 +207,13 @@ public class UbicacionesFragment extends BaseFragment implements UbicacionesList
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(requestCode == REQUEST_SELECT_UBI){
+        if(requestCode == Constants.REQUEST_SELECT_UBI){
             adapter.modifyUbicacion(selectedPosition, (Ubicacion) data.getSerializableExtra("ubicacion"));
         }
     }
 
 
+    //-------------MainTabListener--------------//
     @Override
     public void onSearch(String criteria) {
         clearListView();

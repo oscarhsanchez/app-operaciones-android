@@ -3,7 +3,7 @@ package esocial.vallasmobile.ws.response;
 
 import java.util.ArrayList;
 
-import esocial.vallasmobile.obj.Order;
+import esocial.vallasmobile.obj.Orden;
 import esocial.vallasmobile.ws.WsResponse;
 
 /**
@@ -11,5 +11,5 @@ import esocial.vallasmobile.ws.WsResponse;
  */
 public class GetOrdenesResponse extends WsResponse {
 
-    public ArrayList<Order> ordenes;
+    public ArrayList<Orden> ordenes;
 }

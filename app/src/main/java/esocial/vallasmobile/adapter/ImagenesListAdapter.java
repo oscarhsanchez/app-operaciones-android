@@ -12,10 +12,12 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 
 import esocial.vallasmobile.R;
+import esocial.vallasmobile.callback.ImageLoadedCallback;
 import esocial.vallasmobile.obj.Imagen;
+import esocial.vallasmobile.obj.UbicacionImagen;
 
 
-public class UbicacionesImagenesAdapter extends RecyclerView.Adapter<UbicacionesImagenesAdapter.ViewHolder> {
+public class ImagenesListAdapter extends RecyclerView.Adapter<ImagenesListAdapter.ViewHolder> {
 
 
     private LayoutInflater inflater;
@@ -23,7 +25,7 @@ public class UbicacionesImagenesAdapter extends RecyclerView.Adapter<Ubicaciones
     private Context context;
     private OnItemClickListener mItemClickListener;
 
-    public UbicacionesImagenesAdapter(Context context, ArrayList<Imagen> values) {
+    public ImagenesListAdapter(Context context, ArrayList<Imagen> values) {
         inflater = LayoutInflater.from(context);
         this.context = context;
         this.values = values;
@@ -32,7 +34,7 @@ public class UbicacionesImagenesAdapter extends RecyclerView.Adapter<Ubicaciones
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.ubicaciones_imagenes_row, null);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_imagenes_row, null);
 
         ViewHolder viewHolder = new ViewHolder(view);
         return viewHolder;
@@ -44,9 +46,11 @@ public class UbicacionesImagenesAdapter extends RecyclerView.Adapter<Ubicaciones
 
         Picasso.with(context)
                 .load(item.url + item.nombre)
+                .fit()
+                .centerCrop()
                 .placeholder(R.drawable.logo_orange)
                 .error(R.drawable.logo_orange)
-                .into(holder.ivImage);
+                .into(holder.ivImage, new ImageLoadedCallback(holder.ivImage));
     }
 
 

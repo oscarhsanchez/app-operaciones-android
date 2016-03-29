@@ -49,7 +49,7 @@
 
         <TextView
             style="@style/TableRow"
-            android:text="Posición:" />
+            android:text="@string/posicion_" />
 
         <TextView
             android:id="@+id/medio_posicion"

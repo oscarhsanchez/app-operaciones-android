@@ -19,7 +19,7 @@ public class PutUbicacionRequest extends WsRequest {
 
     public <T> T executeLocation(String fk_ubicacion, Double latitude, Double longitude, Class<T> responseClass) {
 
-        String accion = Constants.LOCATIONS + "?pk_ubicacion=" +fk_ubicacion;
+        String accion = Constants.UBICACIONES + "?pk_ubicacion=" +fk_ubicacion;
 
         List<NameValuePair> param = new ArrayList<NameValuePair>(2);
         param.add(new BasicNameValuePair("latitud", latitude.toString()));
@@ -33,7 +33,7 @@ public class PutUbicacionRequest extends WsRequest {
         List<NameValuePair> param = new ArrayList<NameValuePair>(2);
         //param.add(new BasicNameValuePair("entity", eSend));
 
-        return super.executePutDefaultHeaders(Constants.LOCATIONS, param, responseClass);
+        return super.executePutDefaultHeaders(Constants.UBICACIONES, param, responseClass);
     }
 
 }

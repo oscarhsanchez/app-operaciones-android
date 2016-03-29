@@ -42,8 +42,40 @@
             android:windowSoftInputMode="stateHidden"/>
 
         <activity
+            android:name=".app.incidencias.IncidenciaAdd"
+            android:theme="@style/AppDialog"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden"/>
+
+        <activity
+            android:name=".app.ordenes.OrdenDetalle"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden"/>
+
+        <activity
             android:name=".app.FullScreenImage"
             android:screenOrientation="sensor"/>
+
+        <activity
+            android:name=".app.incidencias.IncidenciaSelectUbicacion"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden"/>
+
+        <activity
+            android:name=".app.incidencias.IncidenciaSelectMedio"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden"/>
+
+        <activity
+            android:name=".app.incidencias.IncidenciaDetalle"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden"/>
+
+        <activity
+            android:name=".app.ordenes.OrdenComentarioCierre"
+            android:theme="@style/AppDialog"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden"/>
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

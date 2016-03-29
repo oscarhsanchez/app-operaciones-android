@@ -9,6 +9,9 @@ import esocial.vallasmobile.obj.Incidencia;
  */
 public interface IncidenciasListener {
 
-    void onGetIncidentsOK(ArrayList<Incidencia> incidents);
-    void onGetIncidentsError(String title, String description);
+    void onGetIncidenciasOK(ArrayList<Incidencia> incidencias);
+    void onGetIncidenciasError(String title, String description);
+
+    void onAddIncidenciaOK();
+    void onAddIncidenciaError(String title, String description);
 }

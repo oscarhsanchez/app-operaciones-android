@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#f2f2f2"
+    android:orientation="vertical"
+    tools:context=".app.Home">
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/id_toolbar_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            style="@style/ActionBarTheme"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:layout_alignParentTop="true"
+            android:background="@color/colorPrimary"
+            android:elevation="1dp"
+            android:minHeight="?attr/actionBarSize">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <android.support.v7.widget.AppCompatImageButton
+                    android:id="@+id/action_back"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="7dp"
+                    android:background="?selectableItemBackgroundBorderless"
+                    android:padding="8dp"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/icon_back"
+                    android:visibility="visible" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:gravity="center"
+                    android:textColor="#fff"
+                    android:padding="10dp"
+                    android:textSize="@dimen/sp18"
+                    android:text="@string/selecciona_ubicacion" />
+
+                <android.support.v7.widget.SearchView
+                    android:id="@+id/action_search"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:imeOptions="actionSearch"
+                    android:background="@color/colorPrimary"
+                    android:maxWidth="1000dp" />
+
+
+            </RelativeLayout>
+        </android.support.v7.widget.Toolbar>
+
+
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/ub_refresh"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/id_toolbar_container">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/location_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            android:clipToPadding="false"
+            android:divider="@null" />
+
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+    <TextView
+        android:id="@+id/empty_ubicaciones"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:text="@string/empty_locations"
+        android:visibility="gone"
+        android:layout_below="@+id/id_toolbar_container"/>
+
+    <tr.xip.errorview.ErrorView xmlns:errorview="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/location_error_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:visibility="gone"
+        errorview:ev_retryButtonBackground="@drawable/transparent_background_selector"
+        errorview:ev_retryButtonText="@string/retry"
+        errorview:ev_retryButtonTextColor="@color/colorAccent"
+        errorview:ev_showRetryButton="true"
+        errorview:ev_showSubtitle="true"
+        errorview:ev_showTitle="true"
+        errorview:ev_subtitleColor="@color/text_gray"
+        errorview:ev_titleColor="@color/text_gray"
+        android:layout_below="@+id/id_toolbar_container"/>
+
+</RelativeLayout>

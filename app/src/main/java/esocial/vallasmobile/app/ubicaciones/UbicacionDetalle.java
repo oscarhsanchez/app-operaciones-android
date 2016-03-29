@@ -38,6 +38,7 @@ import esocial.vallasmobile.listeners.LocationService;
 import esocial.vallasmobile.listeners.UbicacionesModifyListener;
 import esocial.vallasmobile.obj.Ubicacion;
 import esocial.vallasmobile.tasks.PutUbicacionLocationTask;
+import esocial.vallasmobile.utils.Constants;
 import esocial.vallasmobile.utils.Dialogs;
 
 
@@ -47,7 +48,6 @@ import esocial.vallasmobile.utils.Dialogs;
 public class UbicacionDetalle extends BaseActivity implements OnMapReadyCallback, UbicacionesModifyListener {
 
     public String tabTitles[];
-    public final int PERMISSION_LOCATION = 100;
 
     private Ubicacion ubicacion;
     private Toolbar toolbar;
@@ -67,7 +67,6 @@ public class UbicacionDetalle extends BaseActivity implements OnMapReadyCallback
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Transition enterTrans = new Fade();
             enterTrans.setDuration(400);
-            enterTrans.setStartDelay(500);
             getWindow().setEnterTransition(enterTrans);
 
             Transition exitTrans = new Fade();
@@ -98,7 +97,7 @@ public class UbicacionDetalle extends BaseActivity implements OnMapReadyCallback
 
             ActivityCompat.requestPermissions(this,
                     new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},
-                    PERMISSION_LOCATION);
+                    Constants.PERMISSION_LOCATION);
         } else {
             fabGoNavigation.setVisibility(View.VISIBLE);
             fabSetLocation.setVisibility(View.VISIBLE);
@@ -197,8 +196,8 @@ public class UbicacionDetalle extends BaseActivity implements OnMapReadyCallback
             @Override
             public void onClick(View v) {
                 if (VallasApplication.currentLocation != null) {
-                    String destiny = VallasApplication.currentLocation.getLatitude() + "," +
-                            VallasApplication.currentLocation.getLongitude();
+                    String destiny = ubicacion.latitud + "," +
+                            ubicacion.longitud;
                     Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse("google.navigation:q=" + destiny));
                     startActivity(i);
                 }
@@ -272,7 +271,7 @@ public class UbicacionDetalle extends BaseActivity implements OnMapReadyCallback
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
         switch (requestCode) {
-            case PERMISSION_LOCATION:
+            case Constants.PERMISSION_LOCATION:
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     // permission was granted

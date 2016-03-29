@@ -10,6 +10,8 @@
 
         <item name="actionMenuTextColor">@android:color/white</item>
         <item name="android:actionMenuTextColor">@android:color/white</item>
+
+        <item name="android:itemBackground">@android:color/white</item>
     </style>
 
 
@@ -24,6 +26,16 @@
     <style name="AppThemeFullScreen" parent="AppTheme">
         <item name="android:windowFullscreen">true</item>
         <item name="android:windowContentOverlay">@null</item>
+    </style>
+
+    <style name="AppDialog" parent="Base.Theme.AppCompat.Light.Dialog">
+        <item name="windowActionBar">false</item>
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowCloseOnTouchOutside">false</item>
+        <item name="android:windowFrame">@null</item>
     </style>
 
     <style name="ActionBarTheme" parent="Widget.AppCompat.Toolbar">
@@ -125,6 +137,15 @@
         <item name="android:layout_width">match_parent</item>
     </style>
 
+    <style name="MyCardViewStyle" parent="CardView">
+        <item name="cardBackgroundColor">@android:color/white</item>
+        <item name="android:foreground">?android:selectableItemBackground</item>
+        <item name="cardElevation">2dp</item>
+        <item name="cardCornerRadius">3dp</item>
+        <item name="android:clickable">true</item>
+        <item name="android:layout_margin">8dp</item>
+    </style>
+
 
     <style name="data_linear_layout">
         <item name="android:layout_width">match_parent</item>
@@ -136,13 +157,12 @@
         <item name="android:gravity">center|left</item>
         <item name="android:layout_marginBottom">6dp</item>
         <item name="android:background">@drawable/data_layout_default</item>
-        <item name="android:elevation">0.5dp</item>
     </style>
 
     <style name="profile_label">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_marginRight">10dp</item>
+        <item name="android:layout_marginRight">15dp</item>
         <item name="android:gravity">left|center</item>
         <item name="android:textColor">@color/text_enabled</item>
         <item name="android:textSize">@dimen/sp15</item>
@@ -182,9 +202,12 @@
     </style>
 
     <style name="spinnerItemStyle" parent="android:Widget.TextView.SpinnerItem">
-        <item name="android:textColor">@color/colorPrimary</item>
-        <item name="android:textSize">@dimen/sp16</item>
-        <item name="android:paddingLeft">0dp</item>
+        <item name="android:textColor">@color/text_gray</item>
+        <item name="android:textSize">@dimen/sp18</item>
+        <item name="android:paddingTop">5dp</item>
+        <item name="android:paddingBottom">5dp</item>
+        <item name="android:paddingRight">10dp</item>
+        <item name="android:paddingLeft">5dp</item>
         <item name="android:ellipsize">marquee</item>
         <item name="android:singleLine">true</item>
     </style>

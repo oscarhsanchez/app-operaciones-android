@@ -18,6 +18,8 @@ public class VallasApplication extends Application {
     public static String appEntornoPago;
     public static String currentEntity;
     private Session session;
+    private Boolean refreshOrdenes;
+    private Boolean refreshIncidencias;
     private SharedPreferences.Editor prefsEditor;
     public static String imagePath = "https://efinanzas.s3.amazonaws.com/";
     public static Location currentLocation;
@@ -44,5 +46,37 @@ public class VallasApplication extends Application {
             prefsEditor.apply();
         }
         this.session = session;
+    }
+
+    public Boolean getRefreshOrdenes() {
+        if (refreshOrdenes == null) {
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+            refreshOrdenes = prefs.getBoolean(Constants.REFRESH_ORDENES, false);
+        }
+        return refreshOrdenes;
+    }
+
+    public void setRefreshOrdenes(Boolean refreshOrdenes) {
+        if (refreshOrdenes != null) {
+            prefsEditor.putBoolean(Constants.REFRESH_ORDENES, refreshOrdenes);
+            prefsEditor.apply();
+        }
+        this.refreshOrdenes = refreshOrdenes;
+    }
+
+    public Boolean getRefreshIncidencias() {
+        if (refreshIncidencias == null) {
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+            refreshIncidencias = prefs.getBoolean(Constants.REFRESH_INCIDENCIAS, false);
+        }
+        return refreshIncidencias;
+    }
+
+    public void setRefreshIncidencias(Boolean refreshIncidencias) {
+        if (refreshIncidencias != null) {
+            prefsEditor.putBoolean(Constants.REFRESH_INCIDENCIAS, refreshIncidencias);
+            prefsEditor.apply();
+        }
+        this.refreshIncidencias = refreshIncidencias;
     }
 }

@@ -41,12 +41,12 @@ public class GetIncidenciasTask extends AsyncTask<Object, Integer, GetIncidencia
     protected void onPostExecute(GetIncidenciasResponse response) {
         if (response != null) {
             if (!response.failed()) {
-                listener.onGetIncidentsOK(response.incidencias);
+                listener.onGetIncidenciasOK(response.incidencias);
             } else {
-                listener.onGetIncidentsError("Error " + response.error.code, response.error.description);
+                listener.onGetIncidenciasError("Error " + response.error.code, response.error.description);
             }
         } else {
-            listener.onGetIncidentsError(activity.getString(R.string.opps), activity.getString(R.string.check_connection));
+            listener.onGetIncidenciasError(activity.getString(R.string.opps), activity.getString(R.string.check_connection));
         }
     }
 }

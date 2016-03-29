@@ -21,8 +21,9 @@ public class GetOrdenesRequest extends WsRequest {
 
 		List<NameValuePair> params = new ArrayList<NameValuePair>(2);
 		params.add(new BasicNameValuePair("extended", "1"));
+		params.add(new BasicNameValuePair("codigo_user", context.getSession().codigo));
 
-		return super.executeGetDefaultHeaders(Constants.ORDERS, params, responseClass);
+		return super.executeGetDefaultHeaders(Constants.ORDENES, params, responseClass);
 	}
 
 }

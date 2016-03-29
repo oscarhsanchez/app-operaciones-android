@@ -23,8 +23,9 @@
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowActionBar">false</item>
 
-        <item name="actionMenuTextColor">@android:color/white</item>
-        <item name="android:actionMenuTextColor">@android:color/white</item>
+        <item name="actionMenuTextColor">@color/text_black</item>
+        <item name="android:actionMenuTextColor">@color/text_black</item>
+        <item name="android:itemBackground">@android:color/white</item>
 
         <item name="android:timePickerDialogTheme">@style/Dialog</item>
         <item name="android:datePickerDialogTheme">@style/Dialog</item>
@@ -34,7 +35,7 @@
     <style name="Dialog" parent="android:Theme.Material.Light.Dialog.Alert">
         <item name="android:textColorPrimary">@color/text_gray</item>
         <item name="android:textColor">@color/text_black</item>
-
+        <item name="android:colorAccent">@color/colorPrimary</item>
     </style>
 
     <style name="SplashTheme" parent="AppTheme">
@@ -49,8 +50,20 @@
         <item name="android:windowBackground">@drawable/transparent</item>
     </style>
 
+    <style name="data_linear_layout" >
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingLeft">@dimen/activity_horizontal_margin</item>
+        <item name="android:paddingRight">@dimen/activity_horizontal_margin</item>
+        <item name="android:paddingTop">15dp</item>
+        <item name="android:paddingBottom">15dp</item>
+        <item name="android:gravity">center|left</item>
+        <item name="android:layout_marginBottom">6dp</item>
+        <item name="android:background">@drawable/data_layout_default</item>
+        <item name="android:elevation">0.5dp</item>
+    </style>
+
     <style name="SwichtCompatStyle">
         <item name="android:colorControlActivated">@color/colorPrimary</item>
     </style>
-
 </resources>

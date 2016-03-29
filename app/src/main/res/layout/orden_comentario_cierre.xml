@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#ffffff"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+
+    <TextView
+        style="@style/profile_label"
+        android:gravity="center"
+        android:text="@string/observaciones"
+        android:textSize="@dimen/sp16"
+        android:layout_marginBottom="5dp"/>
+
+    <EditText
+        android:id="@+id/et_observaciones"
+        style="@style/profile_edittext"
+        android:layout_weight="0"
+        android:layout_width="match_parent"
+        android:background="@drawable/et_background_border"
+        android:enabled="true"
+        android:gravity="left|top"
+        android:hint="@string/observaciones_hint"
+        android:lines="4"
+        android:padding="5dp"
+        android:textColor="@color/text_gray"
+        android:textSize="@dimen/sp16" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/table"
+        android:gravity="center|right"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp">
+
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/btn_cancel"
+            style="?attr/buttonBarButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:elevation="1dp"
+            android:minHeight="@dimen/min_height_btn"
+            android:onClick="onClickCancel"
+            android:text="@string/cancel"
+            android:textAllCaps="true"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/sp14" />
+
+        <Button
+            android:id="@+id/btn_crear"
+            style="?attr/buttonBarButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:elevation="1dp"
+            android:minHeight="@dimen/min_height_btn"
+            android:onClick="onClickAccept"
+            android:text="@string/accept"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/sp14" />
+
+    </LinearLayout>
+
+</LinearLayout>

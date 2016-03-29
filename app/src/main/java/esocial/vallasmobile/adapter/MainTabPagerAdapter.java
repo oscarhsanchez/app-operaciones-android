@@ -11,10 +11,10 @@ import android.widget.TextView;
 
 import esocial.vallasmobile.R;
 import esocial.vallasmobile.app.BaseFragment;
-import esocial.vallasmobile.app.IncidenciasFragment;
+import esocial.vallasmobile.app.incidencias.IncidenciasFragment;
 import esocial.vallasmobile.app.ubicaciones.UbicacionesFragment;
 import esocial.vallasmobile.app.MainTabActivity;
-import esocial.vallasmobile.app.OrdenesFragment;
+import esocial.vallasmobile.app.ordenes.OrdenesFragment;
 
 /**
  * Created by jesus.martinez on 04/01/2016.

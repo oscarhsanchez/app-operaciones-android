@@ -1,6 +1,7 @@
 package esocial.vallasmobile.ws.request;
 
 import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,8 +20,10 @@ public class GetIncidenciasRequest extends WsRequest {
 	public <T> T execute(Class<T> responseClass) {
 
 		List<NameValuePair> params = new ArrayList<NameValuePair>(2);
+		params.add(new BasicNameValuePair("extended", "1"));
+        params.add(new BasicNameValuePair("codigo_user_asignado", context.getSession().codigo));
 
-		return super.executeGetDefaultHeaders(Constants.INCIDENTS, params, responseClass);
+		return super.executeGetDefaultHeaders(Constants.INCIDENCIAS, params, responseClass);
 	}
 
 }

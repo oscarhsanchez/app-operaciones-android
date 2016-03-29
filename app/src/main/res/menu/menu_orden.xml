@@ -1,0 +1,20 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".app.ordenes.OrdenDetalle">
+
+
+    <item android:id="@+id/menu_cambiar_estado"
+        android:title="@string/cambiar_estado" app:showAsAction="never"
+        android:enabled="false" />
+
+    <item android:id="@+id/menu_pendiente"
+        android:title="@string/pendiente" app:showAsAction="never"/>
+
+    <item android:id="@+id/menu_encurso"
+        android:title="@string/en_curso" app:showAsAction="never"/>
+
+    <item android:id="@+id/menu_finalizado"
+        android:title="@string/finalizado" app:showAsAction="never"/>
+
+</menu>

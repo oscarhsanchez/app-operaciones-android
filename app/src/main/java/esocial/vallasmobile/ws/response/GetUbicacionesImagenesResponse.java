@@ -3,7 +3,7 @@ package esocial.vallasmobile.ws.response;
 
 import java.util.ArrayList;
 
-import esocial.vallasmobile.obj.Imagen;
+import esocial.vallasmobile.obj.UbicacionImagen;
 import esocial.vallasmobile.ws.WsResponse;
 
 /**
@@ -11,5 +11,5 @@ import esocial.vallasmobile.ws.WsResponse;
  */
 public class GetUbicacionesImagenesResponse extends WsResponse {
 
-    public ArrayList<Imagen> imagenes;
+    public ArrayList<UbicacionImagen> imagenes;
 }

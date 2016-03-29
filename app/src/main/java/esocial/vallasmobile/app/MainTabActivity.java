@@ -6,18 +6,21 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
-import android.widget.TextView;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 
 import esocial.vallasmobile.R;
 import esocial.vallasmobile.adapter.MainTabPagerAdapter;
-import esocial.vallasmobile.app.ubicaciones.UbicacionesFragment;
+import esocial.vallasmobile.app.incidencias.IncidenciaAdd;
+import esocial.vallasmobile.obj.Incidencia;
+import esocial.vallasmobile.utils.Constants;
 import esocial.vallasmobile.utils.Dialogs;
 
 /**
@@ -25,16 +28,19 @@ import esocial.vallasmobile.utils.Dialogs;
  */
 public class MainTabActivity extends BaseActivity {
 
+
     public static String POSITION = "POSITION";
     public String tabTitles[];
 
+    private FloatingActionButton fabAddIncidencia;
     private Toolbar toolbar;
     private SearchView searchView;
     private ViewPager viewPager;
     private MainTabPagerAdapter adapter;
     private TabLayout tabLayout;
 
-    private OnFragmentInteractionListener ubicacionesListener;
+    private OnUbicacionesFragmentInteractionListener ubicacionesListener;
+    private OnIncidenciasFragmentListener incidenciasListener;
 
 
     @Override
@@ -57,15 +63,18 @@ public class MainTabActivity extends BaseActivity {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         viewPager = (ViewPager) findViewById(R.id.pager);
         tabLayout = (TabLayout) findViewById(R.id.tab_layout);
+        fabAddIncidencia = (FloatingActionButton) findViewById(R.id.fab_add_incidencia);
         viewPager.setOffscreenPageLimit(3);
 
         tabTitles = new String[]{getString(R.string.orders), getString(R.string.incidents),
                 getString(R.string.locations)};
         initToolBar();
         initTabLayout();
-        //populateToolBar(0);
+        setListeners();
+        populateToolBar(0);
 
     }
+
 
 
     private void initToolBar() {
@@ -92,6 +101,17 @@ public class MainTabActivity extends BaseActivity {
             @Override
             public boolean onQueryTextChange(String newText) {
                 return false;
+            }
+        });
+
+        searchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    if (tabLayout.getSelectedTabPosition() == 2){//Ubicaciones
+                        ubicacionesListener.onSearch("");
+                    }
+                }
             }
         });
         searchView.setQueryHint(getString(R.string.search_hint));
@@ -127,7 +147,7 @@ public class MainTabActivity extends BaseActivity {
                 adapter.updateCustomView(v, tab.getPosition(), true);
                 searchView.setIconified(true);
                 searchView.setQuery("", false);
-                //populateToolBar(tab.getPosition());
+                populateToolBar(tab.getPosition());
             }
 
             @Override
@@ -143,11 +163,55 @@ public class MainTabActivity extends BaseActivity {
     }
 
 
-
-    public void selectTab(int pageIndex) {
-        TabLayout.Tab tab = tabLayout.getTabAt(pageIndex);
-        tab.select();
+    private void setListeners(){
+        fabAddIncidencia.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Abrimos la pantalla de incidencia
+                Intent intent = new Intent(MainTabActivity.this, IncidenciaAdd.class);
+                startActivityForResult(intent, Constants.REQUEST_ADD_INCIDENCIA);
+            }
+        });
     }
+
+
+    private void populateToolBar(int position){
+        switch (position){
+            case 0:
+                hideFABIncidencia();
+                break;
+            case 1:
+                showFABIncidencia();
+                break;
+            case 2:
+                hideFABIncidencia();
+                break;
+        }
+    }
+
+    private void showFABIncidencia(){
+        fabAddIncidencia.setVisibility(View.VISIBLE);
+        Animation anim = AnimationUtils.loadAnimation(this, R.anim.fab_enter);
+        fabAddIncidencia.startAnimation(anim);
+    }
+
+    private void hideFABIncidencia(){
+        Animation anim = AnimationUtils.loadAnimation(this, R.anim.fab_exit);
+        anim.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {}
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                fabAddIncidencia.setVisibility(View.INVISIBLE);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {}
+        });
+        fabAddIncidencia.startAnimation(anim);
+    }
+
 
     @Override
     public void onBackPressed() {
@@ -171,15 +235,28 @@ public class MainTabActivity extends BaseActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Fragment frag = adapter.getItem(tabLayout.getSelectedTabPosition());
-        frag.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == Constants.REQUEST_ADD_INCIDENCIA && resultCode == RESULT_OK){
+            incidenciasListener.onAddIncidencia((Incidencia)data.getSerializableExtra("incidencia"));
+        }else{
+            Fragment frag = adapter.getItem(tabLayout.getSelectedTabPosition());
+            frag.onActivityResult(requestCode, resultCode, data);
+        }
     }
 
-    public void setUbicacionesListener(OnFragmentInteractionListener listener){
+    public void setUbicacionesListener(OnUbicacionesFragmentInteractionListener listener){
         ubicacionesListener = listener;
     }
 
-    public interface OnFragmentInteractionListener {
+    public void setIncidenciasListener(OnIncidenciasFragmentListener listener){
+        incidenciasListener = listener;
+    }
+
+    public interface OnUbicacionesFragmentInteractionListener {
         void onSearch(String criteria);
+    }
+
+    public interface OnIncidenciasFragmentListener {
+        void onSearch(String criteria);
+        void onAddIncidencia(Incidencia incidencia);
     }
 }
