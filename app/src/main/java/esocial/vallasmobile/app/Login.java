@@ -8,7 +8,6 @@ import android.transition.Fade;
 import android.transition.Transition;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import esocial.vallasmobile.R;
 import esocial.vallasmobile.listeners.LoginListener;
@@ -17,12 +16,11 @@ import esocial.vallasmobile.utils.Constants;
 import esocial.vallasmobile.utils.Dialogs;
 
 /**
- * Created by jesus.martinez on 21/03/2016.
+ * Created by jesus.martinez on 28/03/2016.
  */
 public class Login extends BaseActivity implements LoginListener{
 
     private EditText etUsername, etPass;
-    private TextView tvRecoverPass;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +29,6 @@ public class Login extends BaseActivity implements LoginListener{
 
         etUsername = (EditText) findViewById(R.id.et_username);
         etPass = (EditText) findViewById(R.id.et_pass);
-        tvRecoverPass = (TextView) findViewById(R.id.tv_recover_pass);
 
         if(Constants.isDebug){
             etUsername.setText("admin");

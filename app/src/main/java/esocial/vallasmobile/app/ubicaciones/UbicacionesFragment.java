@@ -25,6 +25,9 @@ import esocial.vallasmobile.utils.Constants;
 import esocial.vallasmobile.utils.ErrorViewUtils;
 import tr.xip.errorview.ErrorView;
 
+/**
+ * Created by jesus.martinez on 28/03/2016.
+ */
 public class UbicacionesFragment extends BaseFragment implements UbicacionesListener,
         MainTabActivity.OnUbicacionesFragmentInteractionListener {
 
@@ -41,7 +44,6 @@ public class UbicacionesFragment extends BaseFragment implements UbicacionesList
     private Integer num = 40;
     private int previousTotal = 20;
     private boolean loading = false;
-    private boolean boolFirstSearchDone = false;
     private int visibleThreshold = 5;
     int firstVisibleItem, visibleItemCount, totalItemCount;
 
@@ -70,7 +72,7 @@ public class UbicacionesFragment extends BaseFragment implements UbicacionesList
         super.onActivityCreated(savedInstanceState);
 
         //Listener para comunicarnos con tabactivity
-        ((MainTabActivity)getActivity()).setUbicacionesListener(this);
+        ((MainTabActivity) getActivity()).setUbicacionesListener(this);
 
         mLayoutManager = new LinearLayoutManager(getActivity());
         list.setLayoutManager(mLayoutManager);
@@ -86,7 +88,7 @@ public class UbicacionesFragment extends BaseFragment implements UbicacionesList
         });
     }
 
-    private void setListeners(){
+    private void setListeners() {
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -125,14 +127,16 @@ public class UbicacionesFragment extends BaseFragment implements UbicacionesList
 
     }
 
-    private void setAdapterListener(){
+    private void setAdapterListener() {
         adapter.SetOnItemClickListener(new UbicacionesAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                selectedPosition = position;
-                Intent intent = new Intent(getActivity(), UbicacionDetalle.class);
-                intent.putExtra("ubicacion", ubicaciones.get(position));
-                getActivity().startActivityForResult(intent, Constants.REQUEST_SELECT_UBI);
+                if (ubicaciones.size() > 0) {
+                    selectedPosition = position;
+                    Intent intent = new Intent(getActivity(), UbicacionDetalle.class);
+                    intent.putExtra("ubicacion", ubicaciones.get(position));
+                    getActivity().startActivityForResult(intent, Constants.REQUEST_SELECT_UBI);
+                }
             }
         });
     }
@@ -152,7 +156,6 @@ public class UbicacionesFragment extends BaseFragment implements UbicacionesList
     private void loadMore() {
         if (loading) return;
         loading = true;
-        boolFirstSearchDone = true;
 
         new GetUbicacionesTask(getActivity(), criteria, from, num, UbicacionesFragment.this);
     }
@@ -160,9 +163,12 @@ public class UbicacionesFragment extends BaseFragment implements UbicacionesList
 
     private void clearListView() {
         from = 0;
-        criteria="";
+        criteria = "";
         ubicaciones = new ArrayList<>();
-        if (adapter != null) adapter.notifyDataSetChanged();
+        if (adapter != null) {
+            adapter.notifyDataSetChanged();
+            adapter.SetOnItemClickListener(null);
+        }
         adapter = null;
         list.setVisibility(View.INVISIBLE);
         errorView.setVisibility(View.GONE);
@@ -172,22 +178,22 @@ public class UbicacionesFragment extends BaseFragment implements UbicacionesList
     public void onGetUbicacionesOK(ArrayList<Ubicacion> ubicaciones) {
         mSwipeRefreshLayout.setRefreshing(false);
 
-        if(this.ubicaciones ==null) this.ubicaciones = new ArrayList<>();
+        if (this.ubicaciones == null) this.ubicaciones = new ArrayList<>();
         this.ubicaciones.addAll(ubicaciones);
 
-        if(adapter!=null){
+        if (adapter != null) {
             adapter.notifyDataSetChanged();
-        }else{
+        } else {
             adapter = new UbicacionesAdapter(getActivity(), this.ubicaciones);
             list.setAdapter(adapter);
             setAdapterListener();
         }
 
 
-        if(this.ubicaciones.size()==0){
+        if (this.ubicaciones.size() == 0) {
             emptyText.setVisibility(View.VISIBLE);
             list.setVisibility(View.INVISIBLE);
-        }else{
+        } else {
             emptyText.setVisibility(View.GONE);
             list.setVisibility(View.VISIBLE);
         }
@@ -199,7 +205,7 @@ public class UbicacionesFragment extends BaseFragment implements UbicacionesList
     @Override
     public void onGetUbicacionesError(String title, String description) {
         mSwipeRefreshLayout.setRefreshing(false);
-        criteria="";
+        criteria = "";
         list.setVisibility(View.INVISIBLE);
         ErrorViewUtils.showError(errorView, title, description,
                 getString(R.string.error_view_retry), listener);
@@ -207,7 +213,7 @@ public class UbicacionesFragment extends BaseFragment implements UbicacionesList
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(requestCode == Constants.REQUEST_SELECT_UBI){
+        if (requestCode == Constants.REQUEST_SELECT_UBI) {
             adapter.modifyUbicacion(selectedPosition, (Ubicacion) data.getSerializableExtra("ubicacion"));
         }
     }

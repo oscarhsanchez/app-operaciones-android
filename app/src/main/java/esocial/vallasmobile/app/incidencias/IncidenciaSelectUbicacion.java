@@ -34,6 +34,9 @@ import esocial.vallasmobile.utils.Constants;
 import esocial.vallasmobile.utils.ErrorViewUtils;
 import tr.xip.errorview.ErrorView;
 
+/**
+ * Created by jesus.martinez on 28/03/2016.
+ */
 public class IncidenciaSelectUbicacion extends BaseActivity implements UbicacionesListener {
 
     private SwipeRefreshLayout mSwipeRefreshLayout;

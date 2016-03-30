@@ -26,8 +26,10 @@ import esocial.vallasmobile.tasks.PostIncidenciaImagenTask;
 import esocial.vallasmobile.tasks.PostOrdenImagenTask;
 import esocial.vallasmobile.utils.Dialogs;
 
+/**
+ * Created by jesus.martinez on 28/03/2016.
+ */
 public class IncidenciaImagenesFragment extends ImagenesListFragment implements IncidenciasImagenesListener{
-
 
     @Override
     public void getImages() {

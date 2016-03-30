@@ -24,7 +24,7 @@ import esocial.vallasmobile.utils.Constants;
 import esocial.vallasmobile.utils.Dialogs;
 
 /**
- * Created by jesus.martinez on 04/01/2016.
+ * Created by jesus.martinez on 21/03/2016.
  */
 public class MainTabActivity extends BaseActivity {
 
@@ -77,7 +77,6 @@ public class MainTabActivity extends BaseActivity {
     }
 
 
-
     private void initToolBar() {
         setSupportActionBar(toolbar);
         toolbar.setContentInsetsAbsolute(10, 0);
@@ -90,16 +89,17 @@ public class MainTabActivity extends BaseActivity {
         searchAutoComplete.setHintTextColor(Color.parseColor("#bbffffff"));
         searchAutoComplete.setTextColor(Color.parseColor("#DDFFFFFF"));
         searchAutoComplete.setTextSize(16);
-       // searchAutoComplete.setImeOptions(EditorInfo.IME_ACTION_SEARCH);
+        // searchAutoComplete.setImeOptions(EditorInfo.IME_ACTION_SEARCH);
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                if (tabLayout.getSelectedTabPosition() == 0){//Ordenes
+                if (tabLayout.getSelectedTabPosition() == 0) {//Ordenes
                     ordenesListener.onSearch(searchAutoComplete.getText().toString());
-                }else if (tabLayout.getSelectedTabPosition() == 1){//Incidencias
+                } else if (tabLayout.getSelectedTabPosition() == 1) {//Incidencias
                     incidenciasListener.onSearch(searchAutoComplete.getText().toString());
-                }if (tabLayout.getSelectedTabPosition() == 2){//Ubicaciones
+                }
+                if (tabLayout.getSelectedTabPosition() == 2) {//Ubicaciones
                     ubicacionesListener.onSearch(searchAutoComplete.getText().toString());
                 }
                 return false;
@@ -115,11 +115,13 @@ public class MainTabActivity extends BaseActivity {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus) {
-                    if (tabLayout.getSelectedTabPosition() == 0){//Ordenes
+                    if (lastTabSelected == 0 || tabLayout.getSelectedTabPosition() == 0) {//Ordenes
                         ordenesListener.onSearch("");
-                    }else if (tabLayout.getSelectedTabPosition() == 1){//Incidencias
+                    }
+                    if (lastTabSelected == 1 || tabLayout.getSelectedTabPosition() == 1) {//Incidencias
                         incidenciasListener.onSearch("");
-                    }if (tabLayout.getSelectedTabPosition() == 2){//Ubicaciones
+                    }
+                    if (lastTabSelected == 2 || tabLayout.getSelectedTabPosition() == 2) {//Ubicaciones
                         ubicacionesListener.onSearch("");
                     }
                 }
@@ -156,8 +158,9 @@ public class MainTabActivity extends BaseActivity {
                 viewPager.setCurrentItem(tab.getPosition());
                 View v = tab.getCustomView();
                 adapter.updateCustomView(v, tab.getPosition(), true);
-                searchView.setIconified(true);
                 searchView.setQuery("", false);
+                searchView.setIconified(true);
+                searchView.setIconified(true);
                 populateToolBar(tab.getPosition());
             }
 
@@ -165,6 +168,7 @@ public class MainTabActivity extends BaseActivity {
             public void onTabUnselected(TabLayout.Tab tab) {
                 View v = tab.getCustomView();
                 adapter.updateCustomView(v, tab.getPosition(), false);
+                lastTabSelected = tab.getPosition();
             }
 
             @Override
@@ -173,8 +177,9 @@ public class MainTabActivity extends BaseActivity {
         });
     }
 
+    private Integer lastTabSelected = 0;
 
-    private void setListeners(){
+    private void setListeners() {
         fabAddIncidencia.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -186,8 +191,8 @@ public class MainTabActivity extends BaseActivity {
     }
 
 
-    private void populateToolBar(int position){
-        switch (position){
+    private void populateToolBar(int position) {
+        switch (position) {
             case 0:
                 hideFABIncidencia();
                 break;
@@ -200,17 +205,18 @@ public class MainTabActivity extends BaseActivity {
         }
     }
 
-    private void showFABIncidencia(){
+    private void showFABIncidencia() {
         fabAddIncidencia.setVisibility(View.VISIBLE);
         Animation anim = AnimationUtils.loadAnimation(this, R.anim.fab_enter);
         fabAddIncidencia.startAnimation(anim);
     }
 
-    private void hideFABIncidencia(){
+    private void hideFABIncidencia() {
         Animation anim = AnimationUtils.loadAnimation(this, R.anim.fab_exit);
         anim.setAnimationListener(new Animation.AnimationListener() {
             @Override
-            public void onAnimationStart(Animation animation) {}
+            public void onAnimationStart(Animation animation) {
+            }
 
             @Override
             public void onAnimationEnd(Animation animation) {
@@ -218,7 +224,8 @@ public class MainTabActivity extends BaseActivity {
             }
 
             @Override
-            public void onAnimationRepeat(Animation animation) {}
+            public void onAnimationRepeat(Animation animation) {
+            }
         });
         fabAddIncidencia.startAnimation(anim);
     }
@@ -246,23 +253,23 @@ public class MainTabActivity extends BaseActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(requestCode == Constants.REQUEST_ADD_INCIDENCIA && resultCode == RESULT_OK){
-            incidenciasListener.onAddIncidencia((Incidencia)data.getSerializableExtra("incidencia"));
-        }else{
+        if (requestCode == Constants.REQUEST_ADD_INCIDENCIA && resultCode == RESULT_OK) {
+            incidenciasListener.onAddIncidencia((Incidencia) data.getSerializableExtra("incidencia"));
+        } else {
             Fragment frag = adapter.getItem(tabLayout.getSelectedTabPosition());
             frag.onActivityResult(requestCode, resultCode, data);
         }
     }
 
-    public void setUbicacionesListener(OnUbicacionesFragmentInteractionListener listener){
+    public void setUbicacionesListener(OnUbicacionesFragmentInteractionListener listener) {
         ubicacionesListener = listener;
     }
 
-    public void setIncidenciasListener(OnIncidenciasFragmentListener listener){
+    public void setIncidenciasListener(OnIncidenciasFragmentListener listener) {
         incidenciasListener = listener;
     }
 
-    public void setOrdenesListener(OnOrdenesFragmentInteractionListener listener){
+    public void setOrdenesListener(OnOrdenesFragmentInteractionListener listener) {
         ordenesListener = listener;
     }
 
@@ -277,6 +284,7 @@ public class MainTabActivity extends BaseActivity {
 
     public interface OnIncidenciasFragmentListener {
         void onSearch(String criteria);
+
         void onAddIncidencia(Incidencia incidencia);
     }
 }

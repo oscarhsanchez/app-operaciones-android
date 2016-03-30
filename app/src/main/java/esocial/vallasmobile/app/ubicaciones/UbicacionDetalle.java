@@ -43,7 +43,7 @@ import esocial.vallasmobile.utils.Dialogs;
 
 
 /**
- * Created by jesus.martinez on 16/12/2015.
+ * Created by jesus.martinez on 28/03/2016.
  */
 public class UbicacionDetalle extends BaseActivity implements OnMapReadyCallback, UbicacionesModifyListener {
 

@@ -12,6 +12,9 @@ import esocial.vallasmobile.R;
 import esocial.vallasmobile.app.BaseFragment;
 import esocial.vallasmobile.obj.Ubicacion;
 
+/**
+ * Created by jesus.martinez on 28/03/2016.
+ */
 public class UbicacionInfoFragment extends BaseFragment {
 
     private EditText etCategoria, etDirComer, etEstatus, etFecha, etLatitud, etLongitud, etLugCerc,

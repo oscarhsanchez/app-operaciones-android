@@ -14,6 +14,9 @@ import esocial.vallasmobile.app.BaseFragment;
 import esocial.vallasmobile.obj.Orden;
 import esocial.vallasmobile.utils.Dates;
 
+/**
+ * Created by jesus.martinez on 28/03/2016.
+ */
 public class OrdenInfoFragment extends BaseFragment {
 
     private EditText etEstado, etTipo, etFechaLimite, etObserv, etFechaCierre, etObservCierre, etUbicacion,

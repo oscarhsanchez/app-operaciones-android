@@ -66,4 +66,12 @@
     <style name="SwichtCompatStyle">
         <item name="android:colorControlActivated">@color/colorPrimary</item>
     </style>
+
+    <style name="FloatingActionButtonStyle" >
+        <item name="android:theme">@style/AppTheme.FloatingAccentButtonOverlay</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:scaleType">centerInside</item>
+        <item name="android:layout_margin">@dimen/activity_horizontal_margin</item>
+    </style>
 </resources>

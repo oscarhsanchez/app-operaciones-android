@@ -13,6 +13,9 @@ import esocial.vallasmobile.app.BaseFragment;
 import esocial.vallasmobile.obj.Incidencia;
 import esocial.vallasmobile.utils.Dates;
 
+/**
+ * Created by jesus.martinez on 28/03/2016.
+ */
 public class IncidenciaInfoFragment extends BaseFragment {
 
     private EditText etEstado, etTipo, etFechaLimite, etObserv, etFechaCierre, etObservCierre, etUbicacion,
@@ -88,12 +91,12 @@ public class IncidenciaInfoFragment extends BaseFragment {
         }
 
         etUbicacion.setText(incidencia.ubicacion.ubicacion);
-        etLatitud.setText(incidencia.ubicacion.latitud.toString());
-        etLongitud.setText(incidencia.ubicacion.longitud.toString());
+        etLatitud.setText(String.valueOf(incidencia.ubicacion.latitud));
+        etLongitud.setText(String.valueOf(incidencia.ubicacion.longitud));
         etTipoMedio.setText(incidencia.ubicacion.medio.tipo_medio);
         etTipoInv.setText(incidencia.ubicacion.medio.estatus_inventario);
-        etMedioPos.setText(incidencia.ubicacion.medio.posicion.toString());
-        etMedioSlots.setText(incidencia.ubicacion.medio.slots.toString());
+        etMedioPos.setText(String.valueOf(incidencia.ubicacion.medio.posicion));
+        etMedioSlots.setText(String.valueOf(incidencia.ubicacion.medio.slots));
     }
 
 }

@@ -71,13 +71,13 @@ public class IncidenciaAdd extends BaseActivity {
     }
 
 
-    private void fillSpinner(){
+    private void fillSpinner() {
         ArrayAdapter<String> spnAdapter = new ArrayAdapter<>(this,
                 R.layout.simple_spinner_item, Incidencia.tipos);
         spnTipo.setAdapter(spnAdapter);
     }
 
-    private void setListeners(){
+    private void setListeners() {
         tvFechaLimite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -94,17 +94,17 @@ public class IncidenciaAdd extends BaseActivity {
         });
     }
 
-    public void onClickCancel(View v){
+    public void onClickCancel(View v) {
         finish();
     }
 
-    public void onClickAccept(View v){
-        if(selectedMedio==null){
+    public void onClickAccept(View v) {
+        if (selectedMedio == null) {
             Dialogs.showAlertDialog(this, getString(R.string.warning), getString(R.string.medio_empty));
             return;
         }
 
-        if(TextUtils.isEmpty(tvFechaLimite.getText().toString())){
+        if (TextUtils.isEmpty(tvFechaLimite.getText().toString())) {
             Dialogs.showAlertDialog(this, getString(R.string.warning), getString(R.string.fecha_limite_empty));
             return;
         }
@@ -139,8 +139,8 @@ public class IncidenciaAdd extends BaseActivity {
                     @Override
                     public void onDateSet(DatePicker view, int year,
                                           int monthOfYear, int dayOfMonth) {
-                        tvFechaLimite.setText(String.format("%02d",dayOfMonth) + "/"
-                                + String.format("%02d",(monthOfYear + 1)) + "/" + year);
+                        tvFechaLimite.setText(String.format("%02d", dayOfMonth) + "/"
+                                + String.format("%02d", (monthOfYear + 1)) + "/" + year);
 
                     }
                 }, mYear, mMonth, mDay);
@@ -155,9 +155,9 @@ public class IncidenciaAdd extends BaseActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(requestCode == Constants.REQUEST_SELECT_UBI && resultCode == RESULT_OK){
+        if (requestCode == Constants.REQUEST_SELECT_UBI && resultCode == RESULT_OK) {
             selectedMedio = (Medio) data.getSerializableExtra("medio");
-            tvMedio.setText(selectedMedio.tipo_medio+", "+selectedMedio.posicion);
+            tvMedio.setText(selectedMedio.tipo_medio + ", " + selectedMedio.posicion);
         }
     }
 }

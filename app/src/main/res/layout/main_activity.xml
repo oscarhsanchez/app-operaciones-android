@@ -90,7 +90,6 @@
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fab_add_incidencia"
             style="@style/FloatingActionButtonStyle"
-            android:layout_margin="@dimen/activity_horizontal_margin"
             android:src="@drawable/icon_add"
             app:pressedTranslationZ="12dp"
             app:layout_anchor="@+id/pager"

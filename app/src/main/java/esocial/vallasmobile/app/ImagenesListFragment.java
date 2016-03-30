@@ -40,6 +40,9 @@ import esocial.vallasmobile.utils.Dialogs;
 import esocial.vallasmobile.utils.ImageUtils;
 import esocial.vallasmobile.utils.Utils;
 
+/**
+ * Created by jesus.martinez on 28/03/2016.
+ */
 public abstract class ImagenesListFragment extends BaseFragment {
 
 

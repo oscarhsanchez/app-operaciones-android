@@ -22,6 +22,9 @@ import esocial.vallasmobile.tasks.GetUbicacionesImagenesTask;
 import esocial.vallasmobile.tasks.PostUbicacionImagenTask;
 import esocial.vallasmobile.utils.Dialogs;
 
+/**
+ * Created by jesus.martinez on 28/03/2016.
+ */
 public class UbicacionImagenesFragment extends ImagenesListFragment implements UbicacionesImagenesListener {
 
 

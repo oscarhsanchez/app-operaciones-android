@@ -12,6 +12,6 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:textColor="@color/tab_text_color"
-        android:textSize="@dimen/sp12"
+        android:textSize="@dimen/sp13"
         android:layout_marginTop="2dp"/>
 </LinearLayout>

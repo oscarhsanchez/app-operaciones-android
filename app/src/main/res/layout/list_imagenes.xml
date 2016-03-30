@@ -6,7 +6,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="#f2f2f2"
     android:orientation="vertical"
-    tools:context=".app.Home">
+    tools:context=".app.Home"
+    android:clipChildren="false">
 
 
     <android.support.v7.widget.RecyclerView
@@ -41,7 +42,6 @@
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab_add_image"
         style="@style/FloatingActionButtonStyle"
-        android:layout_margin="@dimen/activity_horizontal_margin"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
         android:src="@drawable/icon_add"

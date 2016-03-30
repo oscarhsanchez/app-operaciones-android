@@ -13,6 +13,9 @@ import esocial.vallasmobile.R;
 import esocial.vallasmobile.listeners.RenewTokenListener;
 import esocial.vallasmobile.tasks.RenewTokenTask;
 
+/**
+ * Created by jesus.martinez on 21/03/2016.
+ */
 public class Splash extends BaseActivity implements RenewTokenListener {
 
     private ImageView logo;

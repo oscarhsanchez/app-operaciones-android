@@ -15,13 +15,10 @@ import esocial.vallasmobile.utils.Constants;
  */
 public class VallasApplication extends Application {
 
-    public static String appEntornoPago;
-    public static String currentEntity;
     private Session session;
     private Boolean refreshOrdenes;
     private Boolean refreshIncidencias;
     private SharedPreferences.Editor prefsEditor;
-    public static String imagePath = "https://efinanzas.s3.amazonaws.com/";
     public static Location currentLocation;
 
     @Override

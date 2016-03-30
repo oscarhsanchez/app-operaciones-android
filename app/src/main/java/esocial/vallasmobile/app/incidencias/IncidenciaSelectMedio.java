@@ -25,6 +25,9 @@ import esocial.vallasmobile.obj.Medio;
 import esocial.vallasmobile.tasks.GetUbicacionesMediosTask;
 import esocial.vallasmobile.utils.Dialogs;
 
+/**
+ * Created by jesus.martinez on 28/03/2016.
+ */
 public class IncidenciaSelectMedio extends BaseActivity implements MediosListener {
 
     private ListView list;

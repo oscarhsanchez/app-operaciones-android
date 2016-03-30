@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import tr.xip.errorview.ErrorView;
 
 /**
- * Created by jesus.martinez on 21/01/2016.
+ * Created by jesus.martinez on 28/03/2016.
  */
 public class BaseFragment extends Fragment {
 

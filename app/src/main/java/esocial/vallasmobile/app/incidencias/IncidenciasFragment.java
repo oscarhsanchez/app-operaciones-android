@@ -11,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Adapter;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -28,6 +29,9 @@ import esocial.vallasmobile.utils.Dialogs;
 import esocial.vallasmobile.utils.ErrorViewUtils;
 import tr.xip.errorview.ErrorView;
 
+/**
+ * Created by jesus.martinez on 28/03/2016.
+ */
 public class IncidenciasFragment extends BaseFragment implements IncidenciasListener,
                                                     MainTabActivity.OnIncidenciasFragmentListener{
 
@@ -99,6 +103,7 @@ public class IncidenciasFragment extends BaseFragment implements IncidenciasList
 
     private void loadIncidencias(){
         if(incidencias!=null) incidencias.clear();
+        if(adapter!=null) adapter.SetOnItemClickListener(null);
         adapter = null;
         errorView.setVisibility(View.GONE);
         mSwipeRefreshLayout.setRefreshing(true);
@@ -126,9 +131,11 @@ public class IncidenciasFragment extends BaseFragment implements IncidenciasList
         adapter.SetOnItemClickListener(new IncidenciasAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                Intent intent = new Intent(getActivity(), IncidenciaDetalle.class);
-                intent.putExtra("incidencia", incidencias.get(position));
-                startActivity(intent);
+                if(incidencias.size()>0) {
+                    Intent intent = new Intent(getActivity(), IncidenciaDetalle.class);
+                    intent.putExtra("incidencia", incidencias.get(position));
+                    startActivity(intent);
+                }
             }
         });
 

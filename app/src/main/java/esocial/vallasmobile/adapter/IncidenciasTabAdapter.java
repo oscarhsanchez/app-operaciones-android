@@ -13,9 +13,6 @@ import esocial.vallasmobile.app.BaseFragment;
 import esocial.vallasmobile.app.incidencias.IncidenciaDetalle;
 import esocial.vallasmobile.app.incidencias.IncidenciaImagenesFragment;
 import esocial.vallasmobile.app.incidencias.IncidenciaInfoFragment;
-import esocial.vallasmobile.app.ordenes.OrdenDetalle;
-import esocial.vallasmobile.app.ordenes.OrdenImagenesFragment;
-import esocial.vallasmobile.app.ordenes.OrdenInfoFragment;
 
 /**
  * Created by jesus.martinez on 04/01/2016.
@@ -53,7 +50,7 @@ public class IncidenciasTabAdapter extends FragmentStatePagerAdapter {
 
     public View getTabView(int position, boolean isSelected) {
         // Given you have a custom layout in `res/layout/main_tabml` with a TextView and ImageView
-        View v = ((LayoutInflater) ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.ubicacion_tab,
+        View v = ((LayoutInflater) ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.text_tab,
                 null, false);
         TextView tv = (TextView) v.findViewById(R.id.ub_tabText);
 

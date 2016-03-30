@@ -35,11 +35,27 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"/>
 
+
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/location_fab"
+                style="@style/FloatingActionButtonStyle"
+                android:src="@drawable/icon_location"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                app:pressedTranslationZ="12dp"
+                app:layout_anchor="@+id/map"
+                app:layout_anchorGravity="bottom|right|end"
+                app:fabSize="mini"
+                app:backgroundTint="#795548"
+                app:rippleColor="#9f7160"
+                android:visibility="visible"/>
+
             <android.support.design.widget.FloatingActionButton
                 android:id="@+id/route_fab"
                 style="@style/FloatingActionButtonStyle"
-                android:layout_marginRight="@dimen/activity_horizontal_margin"
                 android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
                 android:layout_above="@+id/location_fab"
                 android:src="@drawable/icon_navigation"
                 app:pressedTranslationZ="12dp"
@@ -48,22 +64,7 @@
                 app:backgroundTint="#795548"
                 app:rippleColor="#9f7160"
                 app:layout_anchorGravity="bottom|right|end"
-                android:visibility="invisible"/>
-
-            <android.support.design.widget.FloatingActionButton
-                android:id="@+id/location_fab"
-                style="@style/FloatingActionButtonStyle"
-                android:layout_margin="@dimen/activity_horizontal_margin"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentBottom="true"
-                android:src="@drawable/icon_location"
-                app:pressedTranslationZ="12dp"
-                app:layout_anchor="@+id/map"
-                app:layout_anchorGravity="bottom|right|end"
-                app:fabSize="mini"
-                app:backgroundTint="#795548"
-                app:rippleColor="#9f7160"
-                android:visibility="invisible"/>
+                android:visibility="visible"/>
 
         </RelativeLayout>
 

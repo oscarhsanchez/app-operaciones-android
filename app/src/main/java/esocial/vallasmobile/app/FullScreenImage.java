@@ -9,6 +9,10 @@ import com.squareup.picasso.Picasso;
 import esocial.vallasmobile.R;
 import esocial.vallasmobile.components.TouchImageView;
 
+
+/**
+ * Created by jesus.martinez on 28/03/2016.
+ */
 public class FullScreenImage extends BaseActivity {
 
     private TouchImageView image;

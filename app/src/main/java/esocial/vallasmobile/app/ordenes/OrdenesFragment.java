@@ -25,6 +25,9 @@ import esocial.vallasmobile.utils.Constants;
 import esocial.vallasmobile.utils.ErrorViewUtils;
 import tr.xip.errorview.ErrorView;
 
+/**
+ * Created by jesus.martinez on 28/03/2016.
+ */
 public class OrdenesFragment extends BaseFragment implements OrdenesListener,
                                     MainTabActivity.OnOrdenesFragmentInteractionListener{
 
@@ -96,6 +99,7 @@ public class OrdenesFragment extends BaseFragment implements OrdenesListener,
 
     private void loadOrdenes(){
         if(ordenes!=null) ordenes.clear();
+        if(adapter!=null) adapter.SetOnItemClickListener(null);
         adapter = null;
         errorView.setVisibility(View.GONE);
         mSwipeRefreshLayout.setRefreshing(true);
@@ -121,9 +125,11 @@ public class OrdenesFragment extends BaseFragment implements OrdenesListener,
         adapter.SetOnItemClickListener(new OrdenesAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                Intent intent = new Intent(getActivity(), OrdenDetalle.class);
-                intent.putExtra("orden", ordenes.get(position));
-                getActivity().startActivityForResult(intent, Constants.REQUEST_ORDEN);
+                if(ordenes.size()>0) {
+                    Intent intent = new Intent(getActivity(), OrdenDetalle.class);
+                    intent.putExtra("orden", ordenes.get(position));
+                    getActivity().startActivityForResult(intent, Constants.REQUEST_ORDEN);
+                }
             }
         });
 
