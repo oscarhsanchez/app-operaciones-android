@@ -23,17 +23,17 @@ public class GetIncidenciasTask extends AsyncTask<Object, Integer, GetIncidencia
     private IncidenciasListener listener;
 
 
-    public GetIncidenciasTask(Activity activity, IncidenciasListener listener) {
+    public GetIncidenciasTask(Activity activity, String criteria, IncidenciasListener listener) {
         this.activity = activity;
         this.listener = listener;
 
-        execute();
+        execute(criteria);
     }
 
     @Override
     protected GetIncidenciasResponse doInBackground(Object... params) {
         GetIncidenciasRequest request = new GetIncidenciasRequest((VallasApplication) activity.getApplicationContext());
-        GetIncidenciasResponse response = request.execute(GetIncidenciasResponse.class);
+        GetIncidenciasResponse response = request.execute((String) params[0], GetIncidenciasResponse.class);
 
         return response;
     }

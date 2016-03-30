@@ -215,66 +215,7 @@ public class OrdenDetalle extends BaseActivity implements OnMapReadyCallback, Or
     }
 
 
-    @Override
-    public void onBackPressed() {
-        finish();
-    }
 
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_orden, menu);
-        for (int i = 0; i < menu.size(); i++) {
-            MenuItem item = menu.getItem(i);
-            if (item.getTitle().equals(getString(R.string.pendiente))) {
-                item.setVisible(!orden.estado_orden.equals(0));
-            } else if (item.getTitle().equals(getString(R.string.en_curso))) {
-                item.setVisible(!orden.estado_orden.equals(1));
-            } else if (item.getTitle().equals(getString(R.string.finalizado))) {
-                item.setVisible(!orden.estado_orden.equals(2));
-            }
-
-            SpannableString spanString = new SpannableString(menu.getItem(i).getTitle().toString());
-            spanString.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.text_gray)),
-                    0, spanString.length(), 0); //fix the color to text_gray
-            item.setTitle(spanString);
-        }
-
-        return true;
-    }
-
-    private Integer changedStatus;
-
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.menu_cambiar_estado:
-                changedStatus = -1;
-                break;
-            case R.id.menu_pendiente:
-                changedStatus = 0;
-                break;
-            case R.id.menu_encurso:
-                changedStatus = 1;
-                break;
-            case R.id.menu_finalizado:
-                changedStatus = 2;
-                break;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-        if (!changedStatus.equals(-1)) {
-            if(changedStatus.equals(2)){
-                Intent intent = new Intent(OrdenDetalle.this, OrdenComentarioCierre.class);
-                startActivityForResult(intent, Constants.REQUEST_CHANGE_ORDEN_STATUS);
-            }else {
-                progressDialog = Dialogs.newProgressDialog(OrdenDetalle.this, getString(R.string.aplicando_cambios), false);
-                progressDialog.show();
-
-                new PutOrdenEstadoTask(OrdenDetalle.this, orden.pk_orden_trabajo, changedStatus, "",
-                        OrdenDetalle.this);
-            }
-        }
-
-        return true;
-    }
 
     @Override
     public void onPutOrdenOK() {
@@ -324,5 +265,75 @@ public class OrdenDetalle extends BaseActivity implements OnMapReadyCallback, Or
             Fragment frag = adapter.getItem(tabLayout.getSelectedTabPosition());
             frag.onActivityResult(requestCode, resultCode, data);
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        finish();
+    }
+
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_orden, menu);
+        for (int i = 0; i < menu.size(); i++) {
+            MenuItem item = menu.getItem(i);
+            if(item.getSubMenu()!=null && item.getSubMenu().size()>0){
+                for (int j = 0; j < item.getSubMenu().size(); j++) {
+                    MenuItem subItem = item.getSubMenu().getItem(j);
+                    if (subItem.getTitle().equals(getString(R.string.pendiente))) {
+                        subItem.setVisible(!orden.estado_orden.equals(0));
+                    } else if (subItem.getTitle().equals(getString(R.string.en_curso))) {
+                        subItem.setVisible(!orden.estado_orden.equals(1));
+                    } else if (subItem.getTitle().equals(getString(R.string.finalizado))) {
+                        subItem.setVisible(!orden.estado_orden.equals(2));
+                    }
+                    SpannableString spanString = new SpannableString(subItem.getTitle().toString());
+                    spanString.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.text_gray)),
+                            0, spanString.length(), 0); //fix the color to text_gray
+                    subItem.setTitle(spanString);
+                }
+            }
+
+            SpannableString spanString = new SpannableString(item.getTitle().toString());
+            spanString.setSpan(new ForegroundColorSpan(getResources().getColor(android.R.color.white)),
+                    0, spanString.length(), 0); //fix the color to text_gray
+            item.setTitle(spanString);
+        }
+
+        return true;
+    }
+
+    private Integer changedStatus;
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_cambiar_estado:
+                changedStatus = -1;
+                break;
+            case R.id.menu_pendiente:
+                changedStatus = 0;
+                break;
+            case R.id.menu_encurso:
+                changedStatus = 1;
+                break;
+            case R.id.menu_finalizado:
+                changedStatus = 2;
+                break;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+        if (!changedStatus.equals(-1)) {
+            if(changedStatus.equals(2)){
+                Intent intent = new Intent(OrdenDetalle.this, OrdenComentarioCierre.class);
+                startActivityForResult(intent, Constants.REQUEST_CHANGE_ORDEN_STATUS);
+            }else {
+                progressDialog = Dialogs.newProgressDialog(OrdenDetalle.this, getString(R.string.aplicando_cambios), false);
+                progressDialog.show();
+
+                new PutOrdenEstadoTask(OrdenDetalle.this, orden.pk_orden_trabajo, changedStatus, "",
+                        OrdenDetalle.this);
+            }
+        }
+
+        return true;
     }
 }

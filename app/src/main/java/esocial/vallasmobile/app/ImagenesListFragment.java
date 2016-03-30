@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -27,6 +28,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import esocial.vallasmobile.R;
@@ -36,6 +38,7 @@ import esocial.vallasmobile.obj.Imagen;
 import esocial.vallasmobile.utils.Constants;
 import esocial.vallasmobile.utils.Dialogs;
 import esocial.vallasmobile.utils.ImageUtils;
+import esocial.vallasmobile.utils.Utils;
 
 public abstract class ImagenesListFragment extends BaseFragment {
 
@@ -95,7 +98,7 @@ public abstract class ImagenesListFragment extends BaseFragment {
         });
     }
 
-    private void openSelectDialog(){
+    private void openSelectDialog() {
         AlertDialog.Builder getImageFrom = new AlertDialog.Builder(getActivity());
         final CharSequence[] opsChars = {getResources().getString(R.string.take_pic), getResources().getString(R.string.open_gallery)};
         getImageFrom.setItems(opsChars, new DialogInterface.OnClickListener() {
@@ -140,7 +143,7 @@ public abstract class ImagenesListFragment extends BaseFragment {
                 cursor.close();
             } else if (requestCode == Constants.REQUEST_CAMERA) {
                 Uri imageUri = data.getData();
-                imgDecodableString = getRealPathFromUri(imageUri);
+                imgDecodableString = ImageUtils.getRealPathFromUri(getActivity(), imageUri);
             }
 
             File f = new File(imgDecodableString);
@@ -150,6 +153,8 @@ public abstract class ImagenesListFragment extends BaseFragment {
             progressDialog.show();
 
             Bitmap bitmap = ImageUtils.decodeSampledBitmapFromFile(imgDecodableString, 500, 500);
+            bitmap = ImageUtils.getImageRotated(imgDecodableString, bitmap);
+
             postImage(imageName, bitmap);
         }
     }
@@ -166,18 +171,5 @@ public abstract class ImagenesListFragment extends BaseFragment {
         }
     }
 
-    public String getRealPathFromUri( Uri contentUri) {
-        Cursor cursor = null;
-        try {
-            String[] proj = { MediaStore.Images.Media.DATA };
-            cursor = getActivity().getContentResolver().query(contentUri, proj, null, null, null);
-            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-            cursor.moveToFirst();
-            return cursor.getString(column_index);
-        } finally {
-            if (cursor != null) {
-                cursor.close();
-            }
-        }
-    }
+
 }

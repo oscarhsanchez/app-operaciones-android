@@ -39,6 +39,7 @@ public class IncidenciasFragment extends BaseFragment implements IncidenciasList
 
     private IncidenciasAdapter adapter;
     private ArrayList<Incidencia> incidencias;
+    private String criteria = "";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -74,7 +75,7 @@ public class IncidenciasFragment extends BaseFragment implements IncidenciasList
         });
         setListeners();
 
-        new GetIncidenciasTask(getActivity(), this);
+        new GetIncidenciasTask(getActivity(), criteria, this);
     }
 
     private void setListeners(){
@@ -102,7 +103,7 @@ public class IncidenciasFragment extends BaseFragment implements IncidenciasList
         errorView.setVisibility(View.GONE);
         mSwipeRefreshLayout.setRefreshing(true);
 
-        new GetIncidenciasTask(getActivity(), IncidenciasFragment.this);
+        new GetIncidenciasTask(getActivity(), criteria, IncidenciasFragment.this);
     }
 
     ErrorView.RetryListener listener = new ErrorView.RetryListener() {
@@ -148,15 +149,13 @@ public class IncidenciasFragment extends BaseFragment implements IncidenciasList
     @Override
     public void onAddIncidenciaOK() {
         progressDialog.dismiss();
+        criteria = "";
         Dialogs.newAlertDialog(getActivity(), getString(R.string.incidencia_created),
                 getString(R.string.incidencia_created_text), getString(R.string.accept),
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        mSwipeRefreshLayout.setRefreshing(true);
-                        incidencias.clear();
-                        adapter = null;
-                        new GetIncidenciasTask(getActivity(), IncidenciasFragment.this);
+                        loadIncidencias();
                     }
                 }).show();
     }
@@ -169,7 +168,10 @@ public class IncidenciasFragment extends BaseFragment implements IncidenciasList
 
     //-------------MainTabListener--------------//
     @Override
-    public void onSearch(String criteria) {}
+    public void onSearch(String criteria) {
+        this.criteria = criteria;
+        loadIncidencias();
+    }
 
     @Override
     public void onAddIncidencia(Incidencia incidencia) {

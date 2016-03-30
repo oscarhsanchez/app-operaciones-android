@@ -41,6 +41,7 @@ public class MainTabActivity extends BaseActivity {
 
     private OnUbicacionesFragmentInteractionListener ubicacionesListener;
     private OnIncidenciasFragmentListener incidenciasListener;
+    private OnOrdenesFragmentInteractionListener ordenesListener;
 
 
     @Override
@@ -94,7 +95,13 @@ public class MainTabActivity extends BaseActivity {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                ubicacionesListener.onSearch(searchAutoComplete.getText().toString());
+                if (tabLayout.getSelectedTabPosition() == 0){//Ordenes
+                    ordenesListener.onSearch(searchAutoComplete.getText().toString());
+                }else if (tabLayout.getSelectedTabPosition() == 1){//Incidencias
+                    incidenciasListener.onSearch(searchAutoComplete.getText().toString());
+                }if (tabLayout.getSelectedTabPosition() == 2){//Ubicaciones
+                    ubicacionesListener.onSearch(searchAutoComplete.getText().toString());
+                }
                 return false;
             }
 
@@ -108,7 +115,11 @@ public class MainTabActivity extends BaseActivity {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus) {
-                    if (tabLayout.getSelectedTabPosition() == 2){//Ubicaciones
+                    if (tabLayout.getSelectedTabPosition() == 0){//Ordenes
+                        ordenesListener.onSearch("");
+                    }else if (tabLayout.getSelectedTabPosition() == 1){//Incidencias
+                        incidenciasListener.onSearch("");
+                    }if (tabLayout.getSelectedTabPosition() == 2){//Ubicaciones
                         ubicacionesListener.onSearch("");
                     }
                 }
@@ -249,6 +260,15 @@ public class MainTabActivity extends BaseActivity {
 
     public void setIncidenciasListener(OnIncidenciasFragmentListener listener){
         incidenciasListener = listener;
+    }
+
+    public void setOrdenesListener(OnOrdenesFragmentInteractionListener listener){
+        ordenesListener = listener;
+    }
+
+
+    public interface OnOrdenesFragmentInteractionListener {
+        void onSearch(String criteria);
     }
 
     public interface OnUbicacionesFragmentInteractionListener {

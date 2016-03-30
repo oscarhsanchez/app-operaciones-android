@@ -24,7 +24,7 @@ public class GetUbicacionesRequest extends WsRequest {
 		List<NameValuePair> params = new ArrayList<NameValuePair>(2);
         params.add(new BasicNameValuePair("estado", "1"));
 		if(!TextUtils.isEmpty(criteria))
-			params.add(new BasicNameValuePair("ubicacion", "%25[" + criteria + "]%25"));
+			params.add(new BasicNameValuePair("ubicacion", "%25[" + criteria.replace(" ", "%20") + "]%25"));
 		params.add(new BasicNameValuePair("offset", from.toString()));
 		params.add(new BasicNameValuePair("limit", num.toString()));
 

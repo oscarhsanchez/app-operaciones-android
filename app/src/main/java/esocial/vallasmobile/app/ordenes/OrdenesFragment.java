@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import esocial.vallasmobile.R;
 import esocial.vallasmobile.adapter.OrdenesAdapter;
 import esocial.vallasmobile.app.BaseFragment;
+import esocial.vallasmobile.app.MainTabActivity;
 import esocial.vallasmobile.components.SpacesItemDecoration;
 import esocial.vallasmobile.listeners.OrdenesListener;
 import esocial.vallasmobile.obj.Orden;
@@ -24,7 +25,8 @@ import esocial.vallasmobile.utils.Constants;
 import esocial.vallasmobile.utils.ErrorViewUtils;
 import tr.xip.errorview.ErrorView;
 
-public class OrdenesFragment extends BaseFragment implements OrdenesListener {
+public class OrdenesFragment extends BaseFragment implements OrdenesListener,
+                                    MainTabActivity.OnOrdenesFragmentInteractionListener{
 
     private RecyclerView list;
     private SwipeRefreshLayout mSwipeRefreshLayout;
@@ -33,6 +35,8 @@ public class OrdenesFragment extends BaseFragment implements OrdenesListener {
 
     private OrdenesAdapter adapter;
     private ArrayList<Orden> ordenes;
+
+    private String criteria = "";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -51,6 +55,9 @@ public class OrdenesFragment extends BaseFragment implements OrdenesListener {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
+        //Listener para comunicarnos con tabactivity
+        ((MainTabActivity)getActivity()).setOrdenesListener(this);
+
         int spacingInPixels = getResources().getDimensionPixelSize(R.dimen.spacing);
         list.addItemDecoration(new SpacesItemDecoration(spacingInPixels));
         list.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -65,7 +72,7 @@ public class OrdenesFragment extends BaseFragment implements OrdenesListener {
         });
 
         setListener();
-        new GetOrdenesTask(getActivity(), this);
+        new GetOrdenesTask(getActivity(), criteria, this);
     }
 
     @Override
@@ -93,7 +100,7 @@ public class OrdenesFragment extends BaseFragment implements OrdenesListener {
         errorView.setVisibility(View.GONE);
         mSwipeRefreshLayout.setRefreshing(true);
 
-        new GetOrdenesTask(getActivity(), OrdenesFragment.this);
+        new GetOrdenesTask(getActivity(), criteria, OrdenesFragment.this);
     }
 
     ErrorView.RetryListener listener = new ErrorView.RetryListener() {
@@ -130,9 +137,17 @@ public class OrdenesFragment extends BaseFragment implements OrdenesListener {
 
     @Override
     public void onGetOrdersError(String title, String description) {
+        criteria="";
         mSwipeRefreshLayout.setRefreshing(false);
         ErrorViewUtils.showError(errorView, title, description,
                 getString(R.string.error_view_retry), listener);
     }
 
+
+    //-------------MainTabListener--------------//
+    @Override
+    public void onSearch(String criteria) {
+        this.criteria = criteria;
+        loadOrdenes();
+    }
 }

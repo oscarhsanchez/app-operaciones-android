@@ -23,17 +23,17 @@ public class GetOrdenesTask extends AsyncTask<Object, Integer, GetOrdenesRespons
     private OrdenesListener listener;
 
 
-    public GetOrdenesTask(Activity activity, OrdenesListener listener) {
+    public GetOrdenesTask(Activity activity, String criteria, OrdenesListener listener) {
         this.activity = activity;
         this.listener = listener;
 
-        execute();
+        execute(criteria);
     }
 
     @Override
     protected GetOrdenesResponse doInBackground(Object... params) {
         GetOrdenesRequest request = new GetOrdenesRequest((VallasApplication) activity.getApplicationContext());
-        GetOrdenesResponse response = request.execute(GetOrdenesResponse.class);
+        GetOrdenesResponse response = request.execute((String) params[0], GetOrdenesResponse.class);
 
         return response;
     }
