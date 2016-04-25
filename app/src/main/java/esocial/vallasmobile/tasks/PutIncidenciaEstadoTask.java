@@ -5,6 +5,7 @@ package esocial.vallasmobile.tasks;
  */
 
 import android.os.AsyncTask;
+import android.os.Build;
 
 import esocial.vallasmobile.R;
 import esocial.vallasmobile.app.BaseActivity;
@@ -31,7 +32,10 @@ public class PutIncidenciaEstadoTask extends AsyncTask<Object, Integer, PutIncid
         this.activity = activity;
         this.listener = listener;
 
-        execute(pk_incidencia, estado, observaciones);
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
+            executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, pk_incidencia, estado, observaciones);
+        else
+            execute(pk_incidencia, estado, observaciones);
     }
 
     @Override

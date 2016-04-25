@@ -6,10 +6,15 @@ package esocial.vallasmobile.utils;
 public class Constants {
 
     public static Boolean isDebug = true;
+    public static int refreshLocationTime = 20; //20 min
+    public static long minTime = 5 * 60 * 1000; // Minimum time interval for update in seconds, i.e. 5 minutes.
+    public static long minDistance = 0; // Minimum distance change for update in meters
+    public static long sendImageFrequency = 5 * 60 * 1000; //in ms 5min
+
 
     //---------------------------------RUTAS---------------------------------------//
 
-    public static String MAIN = "http://api.gpovallas.com/";
+    public static String MAIN = "http://api.gpovallas.com/";//"192.168.0.20/";
     public static String LOGIN = "login";
     public static String ORDENES = "ordenes";
     public static String ORDENES_IMAGES = "ordenes/imagenes";
@@ -19,6 +24,8 @@ public class Constants {
 
     public static String UBICACIONES = "ubicaciones";
     public static String UBICACIONES_IMAGES = "ubicaciones/imagenes";
+
+    public static String GEOLOCALIZACION = "usuarios/geo";
 
     public static String MEDIO = "medios";
 

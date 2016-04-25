@@ -1,5 +1,6 @@
 package esocial.vallasmobile.app.ubicaciones;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -213,7 +214,7 @@ public class UbicacionesFragment extends BaseFragment implements UbicacionesList
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == Constants.REQUEST_SELECT_UBI) {
+        if (requestCode == Constants.REQUEST_SELECT_UBI && resultCode == Activity.RESULT_OK) {
             adapter.modifyUbicacion(selectedPosition, (Ubicacion) data.getSerializableExtra("ubicacion"));
         }
     }

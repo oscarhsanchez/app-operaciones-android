@@ -21,10 +21,6 @@ import esocial.vallasmobile.app.ordenes.OrdenesFragment;
  */
 public class MainTabPagerAdapter extends FragmentStatePagerAdapter {
 
-    public static int[] imageDefaultResId = {R.drawable.tabbar_orders_default,
-            R.drawable.tabbar_incidents_default, R.drawable.tabbar_location_default};
-    private int[] imageSelectedResId = {R.drawable.tabbar_orders_active,
-            R.drawable.tabbar_incidents_active,  R.drawable.tabbar_location_active};
 
     int mNumOfTabs;
     MainTabActivity ctx;
@@ -58,39 +54,7 @@ public class MainTabPagerAdapter extends FragmentStatePagerAdapter {
         }
     }
 
-    public View getTabView(int position, boolean isSelected) {
-        // Given you have a custom layout in `res/layout/main_tabml` with a TextView and ImageView
-        View v = ((LayoutInflater) ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.main_tab,
-                null, false);
-        TextView tv = (TextView) v.findViewById(R.id.tabText);
-        ImageView img = (ImageView) v.findViewById(R.id.tabImage);
 
-        tv.setText(ctx.tabTitles[position]);
-        if (isSelected) {
-            img.setImageResource(imageSelectedResId[position]);
-            tv.setTextColor(ctx.getResources().getColor(R.color.colorPrimary));
-        } else {
-            img.setImageResource(imageDefaultResId[position]);
-            tv.setTextColor(ctx.getResources().getColor(R.color.tab_text_color));
-        }
-
-        return v;
-    }
-
-    public void updateCustomView(View v, int position, boolean isSelected) {
-        TextView tv = (TextView) v.findViewById(R.id.tabText);
-        ImageView img = (ImageView) v.findViewById(R.id.tabImage);
-
-        tv.setText(ctx.tabTitles[position]);
-        if (isSelected) {
-            img.setImageResource(imageSelectedResId[position]);
-            tv.setTextColor(ctx.getResources().getColor(R.color.colorPrimary));
-        } else {
-            img.setImageResource(imageDefaultResId[position]);
-            tv.setTextColor(ctx.getResources().getColor(R.color.tab_text_color));
-        }
-        notifyDataSetChanged();
-    }
 
     @Override
     public int getCount() {

@@ -21,6 +21,7 @@ import android.transition.Transition;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -31,12 +32,10 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import esocial.vallasmobile.R;
 import esocial.vallasmobile.adapter.IncidenciasTabAdapter;
-import esocial.vallasmobile.adapter.MainTabPagerAdapter;
 import esocial.vallasmobile.app.BaseActivity;
 import esocial.vallasmobile.app.VallasApplication;
 import esocial.vallasmobile.app.ordenes.OrdenComentarioCierre;
 import esocial.vallasmobile.listeners.IncidenciasModifyListener;
-import esocial.vallasmobile.listeners.LocationService;
 import esocial.vallasmobile.obj.Incidencia;
 import esocial.vallasmobile.tasks.GetIncidenciaTask;
 import esocial.vallasmobile.tasks.PutIncidenciaEstadoTask;
@@ -99,7 +98,6 @@ public class IncidenciaDetalle extends BaseActivity implements OnMapReadyCallbac
                     Constants.PERMISSION_LOCATION);
         } else {
             fabGoNavigation.setVisibility(View.VISIBLE);
-            LocationService.getLocationManager(getApplicationContext());
         }
 
         initTabLayout();
@@ -108,24 +106,16 @@ public class IncidenciaDetalle extends BaseActivity implements OnMapReadyCallbac
     }
 
     private void initTabLayout() {
-        //add tabs
-        for (int i = 0; i < tabTitles.length; i++) {
-            tabLayout.addTab(tabLayout.newTab().setText(tabTitles[i])
-                    .setIcon(MainTabPagerAdapter.imageDefaultResId[i]));
-        }
 
-        adapter = new IncidenciasTabAdapter(getSupportFragmentManager(), tabLayout.getTabCount(),
+        adapter = new IncidenciasTabAdapter(getSupportFragmentManager(), tabTitles.length,
                 IncidenciaDetalle.this);
         viewPager.setAdapter(adapter);
 
-        // Give the TabLayout the ViewPager
-        tabLayout.setupWithViewPager(viewPager);
-
-        // Iterate over all tabs and set the custom view
-        for (int i = 0; i < tabLayout.getTabCount(); i++) {
-            TabLayout.Tab tab = tabLayout.getTabAt(i);
-            tab.setCustomView(adapter.getTabView(i, i == 0));
+        //add tabs
+        for(int i=0; i<tabTitles.length;i++) {
+            tabLayout.addTab(tabLayout.newTab().setCustomView(customView(i)));
         }
+        tabLayout.setTabTextColors(ContextCompat.getColorStateList(this, R.color.tab_text_selector));
 
 
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
@@ -133,20 +123,23 @@ public class IncidenciaDetalle extends BaseActivity implements OnMapReadyCallbac
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 viewPager.setCurrentItem(tab.getPosition());
-                View v = tab.getCustomView();
-                adapter.updateCustomView(v, tab.getPosition(), true);
             }
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
-                View v = tab.getCustomView();
-                adapter.updateCustomView(v, tab.getPosition(), false);
             }
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
             }
         });
+    }
+
+    private View customView(int position){
+        View view = getLayoutInflater().inflate(R.layout.text_tab,null);
+        TextView textView = (TextView) view.findViewById(R.id.ub_tabText);
+        textView.setText(tabTitles[position]);
+        return view;
     }
 
 
@@ -197,7 +190,6 @@ public class IncidenciaDetalle extends BaseActivity implements OnMapReadyCallbac
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     // permission was granted
-                    LocationService.getLocationManager(getApplicationContext());
                     fabGoNavigation.setVisibility(View.VISIBLE);
                 } else {
                     // permission denied
@@ -272,30 +264,33 @@ public class IncidenciaDetalle extends BaseActivity implements OnMapReadyCallbac
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_orden, menu);
-        for (int i = 0; i < menu.size(); i++) {
-            MenuItem item = menu.getItem(i);
-            if(item.getSubMenu()!=null && item.getSubMenu().size()>0){
-                for (int j = 0; j < item.getSubMenu().size(); j++) {
-                    MenuItem subItem = item.getSubMenu().getItem(j);
-                    if (subItem.getTitle().equals(getString(R.string.pendiente))) {
-                        subItem.setVisible(!incidencia.estado_incidencia.equals(0));
-                    } else if (subItem.getTitle().equals(getString(R.string.en_curso))) {
-                        subItem.setVisible(!incidencia.estado_incidencia.equals(1));
-                    } else if (subItem.getTitle().equals(getString(R.string.finalizado))) {
-                        subItem.setVisible(!incidencia.estado_incidencia.equals(2));
+        //Mostramos el menu unicamente si es el usuario asignado
+        if(incidencia.codigo_user_asignado.equalsIgnoreCase(getVallasApplication().getSession().codigo)) {
+            getMenuInflater().inflate(R.menu.menu_orden, menu);
+            for (int i = 0; i < menu.size(); i++) {
+                MenuItem item = menu.getItem(i);
+                if (item.getSubMenu() != null && item.getSubMenu().size() > 0) {
+                    for (int j = 0; j < item.getSubMenu().size(); j++) {
+                        MenuItem subItem = item.getSubMenu().getItem(j);
+                        if (subItem.getTitle().equals(getString(R.string.pendiente))) {
+                            subItem.setVisible(!incidencia.estado_incidencia.equals(0));
+                        } else if (subItem.getTitle().equals(getString(R.string.en_proceso))) {
+                            subItem.setVisible(!incidencia.estado_incidencia.equals(1));
+                        } else if (subItem.getTitle().equals(getString(R.string.cerrada))) {
+                            subItem.setVisible(!incidencia.estado_incidencia.equals(2));
+                        }
+                        SpannableString spanString = new SpannableString(subItem.getTitle().toString());
+                        spanString.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.text_gray)),
+                                0, spanString.length(), 0); //fix the color to text_gray
+                        subItem.setTitle(spanString);
                     }
-                    SpannableString spanString = new SpannableString(subItem.getTitle().toString());
-                    spanString.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.text_gray)),
-                            0, spanString.length(), 0); //fix the color to text_gray
-                    subItem.setTitle(spanString);
                 }
-            }
 
-            SpannableString spanString = new SpannableString(item.getTitle().toString());
-            spanString.setSpan(new ForegroundColorSpan(getResources().getColor(android.R.color.white)),
-                    0, spanString.length(), 0); //fix the color to text_gray
-            item.setTitle(spanString);
+                SpannableString spanString = new SpannableString(item.getTitle().toString());
+                spanString.setSpan(new ForegroundColorSpan(getResources().getColor(android.R.color.white)),
+                        0, spanString.length(), 0); //fix the color to text_gray
+                item.setTitle(spanString);
+            }
         }
 
         return true;

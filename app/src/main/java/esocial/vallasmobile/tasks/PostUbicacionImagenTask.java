@@ -6,11 +6,15 @@ package esocial.vallasmobile.tasks;
 
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
+import android.os.Build;
 
 import esocial.vallasmobile.R;
 import esocial.vallasmobile.app.BaseActivity;
 import esocial.vallasmobile.app.VallasApplication;
+import esocial.vallasmobile.listeners.IncidenciasImagenesListener;
 import esocial.vallasmobile.listeners.UbicacionesImagenesListener;
+import esocial.vallasmobile.obj.IncidenciaImagen;
+import esocial.vallasmobile.obj.UbicacionImagen;
 import esocial.vallasmobile.ws.request.PostUbicacionImageRequest;
 import esocial.vallasmobile.ws.response.PostUbicacionImageResponse;
 
@@ -20,22 +24,25 @@ import esocial.vallasmobile.ws.response.PostUbicacionImageResponse;
  */
 public class PostUbicacionImagenTask extends AsyncTask<Object, Integer, PostUbicacionImageResponse> {
 
-    private BaseActivity activity;
+    private VallasApplication application;
     private UbicacionesImagenesListener listener;
 
 
-    public PostUbicacionImagenTask(BaseActivity activity,String pk_ubicacion, String name, Bitmap bitmap,
+    public PostUbicacionImagenTask(VallasApplication application, UbicacionImagen eSend,
                                    UbicacionesImagenesListener listener) {
-        this.activity = activity;
+        this.application = application;
         this.listener = listener;
 
-        execute(pk_ubicacion, name, bitmap);
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
+            executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, eSend);
+        else
+            execute(eSend);
     }
 
     @Override
     protected PostUbicacionImageResponse doInBackground(Object... params) {
-        PostUbicacionImageRequest request = new PostUbicacionImageRequest((VallasApplication) activity.getApplicationContext());
-        PostUbicacionImageResponse response = request.execute((String)params[0], (String)params[1], (Bitmap)params[2], PostUbicacionImageResponse.class);
+        PostUbicacionImageRequest request = new PostUbicacionImageRequest(application);
+        PostUbicacionImageResponse response = request.execute((UbicacionImagen)params[0], PostUbicacionImageResponse.class);
 
         return response;
     }
@@ -48,7 +55,7 @@ public class PostUbicacionImagenTask extends AsyncTask<Object, Integer, PostUbic
                 listener.onPostImageError("Error " + response.error.code, response.error.description);
             }
         } else {
-            listener.onPostImageError(activity.getString(R.string.opps), activity.getString(R.string.check_connection));
+            listener.onPostImageError(application.getString(R.string.opps), application.getString(R.string.check_connection));
         }
     }
 }

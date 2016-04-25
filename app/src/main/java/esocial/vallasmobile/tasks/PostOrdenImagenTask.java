@@ -4,18 +4,15 @@ package esocial.vallasmobile.tasks;
  * Created by jesus.martinez on 21/03/2016.
  */
 
-import android.graphics.Bitmap;
 import android.os.AsyncTask;
+import android.os.Build;
 
 import esocial.vallasmobile.R;
-import esocial.vallasmobile.app.BaseActivity;
 import esocial.vallasmobile.app.VallasApplication;
 import esocial.vallasmobile.listeners.OrdenesImagenesListener;
-import esocial.vallasmobile.listeners.UbicacionesImagenesListener;
+import esocial.vallasmobile.obj.OrdenImagen;
 import esocial.vallasmobile.ws.request.PostOrdenImageRequest;
-import esocial.vallasmobile.ws.request.PostUbicacionImageRequest;
 import esocial.vallasmobile.ws.response.PostOrderImageResponse;
-import esocial.vallasmobile.ws.response.PostUbicacionImageResponse;
 
 
 /**
@@ -23,22 +20,25 @@ import esocial.vallasmobile.ws.response.PostUbicacionImageResponse;
  */
 public class PostOrdenImagenTask extends AsyncTask<Object, Integer, PostOrderImageResponse> {
 
-    private BaseActivity activity;
+    private VallasApplication application;
     private OrdenesImagenesListener listener;
 
 
-    public PostOrdenImagenTask(BaseActivity activity, String pk_orden_trabajo, String name, Bitmap bitmap,
+    public PostOrdenImagenTask(VallasApplication activity, OrdenImagen eSend,
                                OrdenesImagenesListener listener) {
-        this.activity = activity;
+        this.application = activity;
         this.listener = listener;
 
-        execute(pk_orden_trabajo, name, bitmap);
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
+            executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, eSend);
+        else
+            execute(eSend);
     }
 
     @Override
     protected PostOrderImageResponse doInBackground(Object... params) {
-        PostOrdenImageRequest request = new PostOrdenImageRequest((VallasApplication) activity.getApplicationContext());
-        PostOrderImageResponse response = request.execute((String)params[0], (String)params[1], (Bitmap)params[2], PostOrderImageResponse.class);
+        PostOrdenImageRequest request = new PostOrdenImageRequest(application);
+        PostOrderImageResponse response = request.execute((OrdenImagen) params[0], PostOrderImageResponse.class);
 
         return response;
     }
@@ -51,7 +51,7 @@ public class PostOrdenImagenTask extends AsyncTask<Object, Integer, PostOrderIma
                 listener.onPostOrderImageError("Error " + response.error.code, response.error.description);
             }
         } else {
-            listener.onPostOrderImageError(activity.getString(R.string.opps), activity.getString(R.string.check_connection));
+            listener.onPostOrderImageError(application.getString(R.string.opps), application.getString(R.string.check_connection));
         }
     }
 }

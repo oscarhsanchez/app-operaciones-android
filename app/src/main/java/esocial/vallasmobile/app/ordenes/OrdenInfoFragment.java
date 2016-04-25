@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TableRow;
 
 import esocial.vallasmobile.R;
@@ -20,7 +19,7 @@ import esocial.vallasmobile.utils.Dates;
 public class OrdenInfoFragment extends BaseFragment {
 
     private EditText etEstado, etTipo, etFechaLimite, etObserv, etFechaCierre, etObservCierre, etUbicacion,
-            etLatitud, etLongitud, etTipoMedio, etTipoInv, etMedioPos, etMedioSlots;
+            etLatitud, etLongitud, etTipoMedio, etTipoInv, etMedioPos, etMedioSlots, etCamp, etVersion;
     private TableRow rowFechaCierre, rowObservCierre;
     private Orden orden;
 
@@ -37,6 +36,8 @@ public class OrdenInfoFragment extends BaseFragment {
         etUbicacion = (EditText) v.findViewById(R.id.et_orden_ubicacion);
         etLatitud = (EditText) v.findViewById(R.id.et_orden_latitud);
         etLongitud = (EditText) v.findViewById(R.id.et_orden_longitud);
+        etCamp = (EditText) v.findViewById(R.id.et_orden_campania);
+        etVersion = (EditText) v.findViewById(R.id.et_orden_version);
         etTipoMedio = (EditText) v.findViewById(R.id.et_orden_tipo_medio);
         etTipoInv = (EditText) v.findViewById(R.id.et_orden_medio_inv);
         etMedioPos = (EditText) v.findViewById(R.id.et_orden_medio_pos);
@@ -58,23 +59,25 @@ public class OrdenInfoFragment extends BaseFragment {
     private void loadData(){
         orden = ((OrdenDetalle)getActivity()).getOrden();
         if (orden.estado_orden != null) {
-            if (orden.estado_orden.equals(0)) {
+            if (orden.tipo != null && orden.tipo.equals(0) && orden.estado_orden.equals(3)) {
+                etEstado.setText(getString(R.string.pendiente_impresion));
+            } else if (orden.estado_orden.equals(0)) {
                 etEstado.setText(getString(R.string.pendiente));
             } else if (orden.estado_orden.equals(1)) {
-                etEstado.setText(getString(R.string.en_curso));
+                etEstado.setText(getString(R.string.en_proceso));
             } else if (orden.estado_orden.equals(2)) {
-                etEstado.setText(getString(R.string.finalizado));
+                etEstado.setText(getString(R.string.cerrada));
             }
         }
         if (orden.tipo != null) {
             if (orden.tipo.equals(0)) {
-                etTipo.setText(getString(R.string.iluminacion));
-            } else if (orden.tipo.equals(1)) {
                 etTipo.setText(getString(R.string.fijacion));
+            } else if (orden.tipo.equals(1)) {
+                etTipo.setText(getString(R.string.monitoreo));
             } else if (orden.tipo.equals(2)) {
                 etTipo.setText(getString(R.string.instalacion));
             } else if (orden.tipo.equals(3)) {
-                etTipo.setText(getString(R.string.otros));
+                etTipo.setText(getString(R.string.iluminacion));
             }
         }
         etFechaLimite.setText(Dates.ConvertSfDataStringToJavaString(orden.fecha_limite));
@@ -91,6 +94,8 @@ public class OrdenInfoFragment extends BaseFragment {
             rowObservCierre.setVisibility(View.GONE);
         }
 
+        etCamp.setText(orden.campania);
+        etVersion.setText(orden.version);
         etUbicacion.setText(orden.ubicacion.ubicacion);
         etLatitud.setText(orden.ubicacion.latitud.toString());
         etLongitud.setText(orden.ubicacion.longitud.toString());

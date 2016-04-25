@@ -16,12 +16,12 @@
 
             <item
                 android:id="@+id/menu_encurso"
-                android:title="@string/en_curso"
+                android:title="@string/en_proceso"
                 app:showAsAction="withText" />
 
             <item
                 android:id="@+id/menu_finalizado"
-                android:title="@string/finalizado"
+                android:title="@string/cerrada"
                 app:showAsAction="withText" />
         </menu>
     </item>

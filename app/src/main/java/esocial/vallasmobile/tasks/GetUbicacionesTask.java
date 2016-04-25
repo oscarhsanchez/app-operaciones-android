@@ -6,6 +6,7 @@ package esocial.vallasmobile.tasks;
 
 import android.app.Activity;
 import android.os.AsyncTask;
+import android.os.Build;
 
 import esocial.vallasmobile.R;
 import esocial.vallasmobile.app.VallasApplication;
@@ -27,7 +28,10 @@ public class GetUbicacionesTask extends AsyncTask<Object, Integer, GetUbicacione
         this.activity = activity;
         this.listener = listener;
 
-        execute(criteria, from, num);
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
+            executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, criteria, from, num);
+        else
+            execute(criteria, from, num);
     }
 
     @Override

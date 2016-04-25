@@ -4,18 +4,15 @@ package esocial.vallasmobile.tasks;
  * Created by jesus.martinez on 21/03/2016.
  */
 
-import android.graphics.Bitmap;
 import android.os.AsyncTask;
+import android.os.Build;
 
 import esocial.vallasmobile.R;
-import esocial.vallasmobile.app.BaseActivity;
 import esocial.vallasmobile.app.VallasApplication;
 import esocial.vallasmobile.listeners.IncidenciasImagenesListener;
-import esocial.vallasmobile.listeners.OrdenesImagenesListener;
+import esocial.vallasmobile.obj.IncidenciaImagen;
 import esocial.vallasmobile.ws.request.PostIncidenciaImageRequest;
-import esocial.vallasmobile.ws.request.PostOrdenImageRequest;
 import esocial.vallasmobile.ws.response.PostIncidenciaImageResponse;
-import esocial.vallasmobile.ws.response.PostOrderImageResponse;
 
 
 /**
@@ -23,23 +20,25 @@ import esocial.vallasmobile.ws.response.PostOrderImageResponse;
  */
 public class PostIncidenciaImagenTask extends AsyncTask<Object, Integer, PostIncidenciaImageResponse> {
 
-    private BaseActivity activity;
+    private VallasApplication application;
     private IncidenciasImagenesListener listener;
 
 
-    public PostIncidenciaImagenTask(BaseActivity activity, String pk_incidencia, String name, Bitmap bitmap,
+    public PostIncidenciaImagenTask(VallasApplication activity, IncidenciaImagen eSend,
                                     IncidenciasImagenesListener listener) {
-        this.activity = activity;
+        this.application = activity;
         this.listener = listener;
 
-        execute(pk_incidencia, name, bitmap);
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
+            executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, eSend);
+        else
+            execute(eSend);
     }
 
     @Override
     protected PostIncidenciaImageResponse doInBackground(Object... params) {
-        PostIncidenciaImageRequest request = new PostIncidenciaImageRequest((VallasApplication) activity.getApplicationContext());
-        PostIncidenciaImageResponse response = request.execute((String)params[0], (String)params[1],
-                (Bitmap)params[2], PostIncidenciaImageResponse.class);
+        PostIncidenciaImageRequest request = new PostIncidenciaImageRequest(application);
+        PostIncidenciaImageResponse response = request.execute((IncidenciaImagen)params[0], PostIncidenciaImageResponse.class);
 
         return response;
     }
@@ -52,7 +51,8 @@ public class PostIncidenciaImagenTask extends AsyncTask<Object, Integer, PostInc
                 listener.onPostIncidenciaImageError("Error " + response.error.code, response.error.description);
             }
         } else {
-            listener.onPostIncidenciaImageError(activity.getString(R.string.opps), activity.getString(R.string.check_connection));
+            listener.onPostIncidenciaImageError(application.getString(R.string.opps),
+                    application.getString(R.string.check_connection));
         }
     }
 }

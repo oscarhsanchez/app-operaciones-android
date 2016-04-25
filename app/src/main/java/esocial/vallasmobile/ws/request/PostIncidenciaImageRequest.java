@@ -26,17 +26,7 @@ public class PostIncidenciaImageRequest extends WsRequest {
         super(context);
     }
 
-    public <T> T execute(String pk_incidencia, String nombre, Bitmap bitmap, Class<T> responseClass) {
-
-        IncidenciaImagen imagen = new IncidenciaImagen();
-        imagen.fk_incidencia = pk_incidencia;
-        imagen.fk_pais = context.getSession().fk_pais;
-        imagen.nombre = nombre;
-
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
-        byte[] byteArray = byteArrayOutputStream.toByteArray();
-        imagen.data = Base64.encodeToString(byteArray, Base64.DEFAULT);
+    public <T> T execute(IncidenciaImagen imagen, Class<T> responseClass) {
 
         Gson gson = new Gson();
         String jSend = gson.toJson(imagen);

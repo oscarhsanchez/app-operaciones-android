@@ -26,6 +26,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.File;
 import java.io.IOException;
@@ -154,6 +155,7 @@ public abstract class ImagenesListFragment extends BaseFragment {
 
             progressDialog = Dialogs.newProgressDialog(getActivity(), getString(R.string.saving_image), false);
             progressDialog.show();
+
 
             Bitmap bitmap = ImageUtils.decodeSampledBitmapFromFile(imgDecodableString, 500, 500);
             bitmap = ImageUtils.getImageRotated(imgDecodableString, bitmap);

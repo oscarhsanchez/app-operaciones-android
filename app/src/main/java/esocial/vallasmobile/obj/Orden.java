@@ -19,6 +19,8 @@ public class Orden implements Serializable {
     public String fecha_cierre;
     public String observaciones;
     public String observaciones_cierre;
+    public String version;
+    public String campania;
     public Ubicacion ubicacion;
     public Integer estado;
     public String token;

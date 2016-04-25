@@ -6,6 +6,7 @@ package esocial.vallasmobile.tasks;
 
 import android.app.Activity;
 import android.os.AsyncTask;
+import android.os.Build;
 
 import esocial.vallasmobile.R;
 import esocial.vallasmobile.app.VallasApplication;
@@ -29,7 +30,10 @@ public class GetOrdenTask extends AsyncTask<Object, Integer, GetOrdenesResponse>
         this.activity = activity;
         this.listener = listener;
 
-        execute(pk_orden_trabajo);
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
+            executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, pk_orden_trabajo);
+        else
+            execute(pk_orden_trabajo);
     }
 
     @Override

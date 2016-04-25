@@ -53,33 +53,6 @@ public class UbicacionTabAdapter extends FragmentStatePagerAdapter {
         }
     }
 
-    public View getTabView(int position, boolean isSelected) {
-        // Given you have a custom layout in `res/layout/main_tabml` with a TextView and ImageView
-        View v = ((LayoutInflater) ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.text_tab,
-                null, false);
-        TextView tv = (TextView) v.findViewById(R.id.ub_tabText);
-
-        tv.setText(ctx.tabTitles[position]);
-        if (isSelected) {
-            tv.setTextColor(ctx.getResources().getColor(R.color.colorPrimary));
-        } else {
-            tv.setTextColor(ctx.getResources().getColor(R.color.tab_text_color));
-        }
-
-        return v;
-    }
-
-    public void updateCustomView(View v, int position, boolean isSelected) {
-        TextView tv = (TextView) v.findViewById(R.id.ub_tabText);
-
-        tv.setText(ctx.tabTitles[position]);
-        if (isSelected) {
-            tv.setTextColor(ctx.getResources().getColor(R.color.colorPrimary));
-        } else {
-            tv.setTextColor(ctx.getResources().getColor(R.color.tab_text_color));
-        }
-        notifyDataSetChanged();
-    }
 
     @Override
     public int getCount() {

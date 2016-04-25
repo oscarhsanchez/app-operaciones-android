@@ -12,21 +12,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 import esocial.vallasmobile.app.VallasApplication;
-import esocial.vallasmobile.obj.OrdenImagen;
+import esocial.vallasmobile.obj.GeoLocalizacion;
+import esocial.vallasmobile.obj.Incidencia;
 import esocial.vallasmobile.utils.Constants;
 import esocial.vallasmobile.ws.WsRequest;
 
 
-public class PostOrdenImageRequest extends WsRequest {
+public class PostGeoRequest extends WsRequest {
 
-    public PostOrdenImageRequest(VallasApplication context) {
+    public PostGeoRequest(VallasApplication context) {
         super(context);
     }
 
-    public <T> T execute(OrdenImagen imagen, Class<T> responseClass) {
+    public <T> T execute(ArrayList<GeoLocalizacion> localizaciones, Class<T> responseClass) {
 
         Gson gson = new Gson();
-        String jSend = gson.toJson(imagen);
+        String jSend = gson.toJson(localizaciones);
         String eSend = "";
         try {
             eSend = new String(Base64.encodeToString(jSend.getBytes("UTF-8"), Base64.DEFAULT));
@@ -35,9 +36,9 @@ public class PostOrdenImageRequest extends WsRequest {
         }
 
         List<NameValuePair> param = new ArrayList<NameValuePair>(2);
-        param.add(new BasicNameValuePair("entity", eSend));
+        param.add(new BasicNameValuePair("array", eSend));
 
-        return super.executePostDefaultHeaders(Constants.ORDENES_IMAGES, param, responseClass);
+        return super.executePostDefaultHeaders(Constants.GEOLOCALIZACION, param, responseClass);
     }
 
 }

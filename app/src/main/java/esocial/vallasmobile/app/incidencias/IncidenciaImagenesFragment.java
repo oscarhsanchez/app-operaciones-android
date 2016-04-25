@@ -3,12 +3,16 @@ package esocial.vallasmobile.app.incidencias;
 import android.app.ActivityOptions;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.transition.TransitionInflater;
+import android.util.Base64;
 import android.util.Pair;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 
 import esocial.vallasmobile.R;
@@ -16,6 +20,8 @@ import esocial.vallasmobile.adapter.ImagenesListAdapter;
 import esocial.vallasmobile.app.BaseActivity;
 import esocial.vallasmobile.app.FullScreenImage;
 import esocial.vallasmobile.app.ImagenesListFragment;
+import esocial.vallasmobile.app.VallasApplication;
+import esocial.vallasmobile.app.ordenes.OrdenDetalle;
 import esocial.vallasmobile.listeners.IncidenciasImagenesListener;
 import esocial.vallasmobile.listeners.OrdenesImagenesListener;
 import esocial.vallasmobile.obj.IncidenciaImagen;
@@ -40,11 +46,40 @@ public class IncidenciaImagenesFragment extends ImagenesListFragment implements 
 
     @Override
     public void postImage(String fileName, Bitmap bitmap) {
-        new PostIncidenciaImagenTask((BaseActivity) getActivity(),
-                ((IncidenciaDetalle) getActivity()).getPkIncidencia(),
-                fileName,
-                bitmap,
-                IncidenciaImagenesFragment.this);
+        new DecodeImageTask().execute(fileName, bitmap);
+    }
+
+    public class DecodeImageTask extends AsyncTask<Object, Integer, Boolean> {
+
+        private IncidenciaImagen imagen;
+
+        @Override
+        protected Boolean doInBackground(Object... params) {
+            imagen = new IncidenciaImagen();
+            imagen.fk_incidencia = ((IncidenciaDetalle) getActivity()).getPkIncidencia();
+            imagen.fk_pais = getVallasApplication().getSession().fk_pais;
+            imagen.nombre = (String)params[0];
+
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            ((Bitmap)params[1]).compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+            byte[] byteArray = byteArrayOutputStream.toByteArray();
+            imagen.data = Base64.encodeToString(byteArray, Base64.DEFAULT);
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+            progressDialog.dismiss();
+            Toast.makeText(getActivity(), getString(R.string.imagen_almacenada), Toast.LENGTH_LONG).show();
+
+            //Creamos el servicio
+            if(VallasApplication.sender == null)
+                getVallasApplication().initImageSender(getVallasApplication());
+
+            getVallasApplication().setPendingIncidenciaImage(imagen);
+
+        }
     }
 
 

@@ -6,6 +6,7 @@ package esocial.vallasmobile.tasks;
 
 import android.app.Activity;
 import android.os.AsyncTask;
+import android.os.Build;
 
 import esocial.vallasmobile.R;
 import esocial.vallasmobile.app.VallasApplication;
@@ -30,7 +31,10 @@ public class GetUbicacionesImagenesTask extends AsyncTask<Object, Integer, GetUb
         this.activity = activity;
         this.listener = listener;
 
-        execute(pk_ubicacion);
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
+            executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, pk_ubicacion);
+        else
+            execute(pk_ubicacion);
     }
 
     @Override

@@ -23,6 +23,7 @@ public class GetIncidenciasRequest extends WsRequest {
 
 		List<NameValuePair> params = new ArrayList<NameValuePair>(2);
 		params.add(new BasicNameValuePair("extended", "1"));
+		//params.add(new BasicNameValuePair("codigo_user", context.getSession().codigo));
         params.add(new BasicNameValuePair("codigo_user_asignado", context.getSession().codigo));
         params.add(new BasicNameValuePair("sort", "[estado_incidencia_ASC,fecha_limite_ASC]"));
 		if(!TextUtils.isEmpty(criteria))

@@ -5,11 +5,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 
 import esocial.vallasmobile.R;
+import esocial.vallasmobile.app.VallasApplication;
 import esocial.vallasmobile.obj.Incidencia;
 import esocial.vallasmobile.utils.Dates;
 
@@ -31,7 +33,8 @@ public class IncidenciasAdapter extends RecyclerView.Adapter<IncidenciasAdapter.
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.incidencias_row, null);
+        View view =  LayoutInflater.from(parent.getContext()).inflate(R.layout.incidencias_row,
+                parent, false);
 
         ViewHolder viewHolder = new ViewHolder(view);
         return viewHolder;
@@ -46,14 +49,19 @@ public class IncidenciasAdapter extends RecyclerView.Adapter<IncidenciasAdapter.
         holder.tvFechaLimite.setText(Dates.ConvertSfDataStringToJavaString(item.fecha_limite));
         holder.tvTipoMedio.setText(item.ubicacion.medio.tipo_medio);
         holder.tvPosicion.setText(item.ubicacion.medio.posicion.toString());
+        if(item.codigo_user.equalsIgnoreCase(((VallasApplication)context.getApplicationContext()).getSession().codigo)){
+            holder.ivOwn.setVisibility(View.VISIBLE);
+        }else{
+            holder.ivOwn.setVisibility(View.GONE);
+        }
 
         if (item.estado_incidencia != null) {
             if (item.estado_incidencia.equals(0)) {
                 holder.tvEstado.setText(context.getString(R.string.pendiente));
             } else if (item.estado_incidencia.equals(1)) {
-                holder.tvEstado.setText(context.getString(R.string.en_curso));
+                holder.tvEstado.setText(context.getString(R.string.en_proceso));
             } else if (item.estado_incidencia.equals(2)) {
-                holder.tvEstado.setText(context.getString(R.string.finalizado));
+                holder.tvEstado.setText(context.getString(R.string.cerrada));
             }
         } else {
             holder.tvEstado.setText("-");
@@ -62,12 +70,16 @@ public class IncidenciasAdapter extends RecyclerView.Adapter<IncidenciasAdapter.
         if (item.tipo != null) {
             holder.vTipo.setVisibility(View.VISIBLE);
             if (item.tipo.equals(0)) {
-                holder.vTipo.setBackgroundColor(context.getResources().getColor(R.color.iluminacion));
-            } else if (item.tipo.equals(1)) {
                 holder.vTipo.setBackgroundColor(context.getResources().getColor(R.color.fijacion));
+            } else if (item.tipo.equals(1)) {
+                holder.vTipo.setBackgroundColor(context.getResources().getColor(R.color.monitorizacion));
             } else if (item.tipo.equals(2)) {
                 holder.vTipo.setBackgroundColor(context.getResources().getColor(R.color.instalacion));
             } else if (item.tipo.equals(3)) {
+                holder.vTipo.setBackgroundColor(context.getResources().getColor(R.color.iluminacion));
+            } else if (item.tipo.equals(4)) {
+                holder.vTipo.setBackgroundColor(context.getResources().getColor(R.color.plano));
+            } else if (item.tipo.equals(5)) {
                 holder.vTipo.setBackgroundColor(context.getResources().getColor(R.color.otros));
             }
         } else {
@@ -89,6 +101,7 @@ public class IncidenciasAdapter extends RecyclerView.Adapter<IncidenciasAdapter.
         TextView tvFechaLimite;
         TextView tvPosicion;
         TextView tvTipoMedio;
+        ImageView ivOwn;
         View vTipo;
 
 
@@ -100,6 +113,7 @@ public class IncidenciasAdapter extends RecyclerView.Adapter<IncidenciasAdapter.
             tvFechaLimite = (TextView) view.findViewById(R.id.inc_fecha_limite);
             tvTipoMedio = (TextView) view.findViewById(R.id.inc_tipo_medio);
             tvPosicion = (TextView) view.findViewById(R.id.inc_posicion);
+            ivOwn = (ImageView) view.findViewById(R.id.icon_own);
             view.setOnClickListener(this);
         }
 

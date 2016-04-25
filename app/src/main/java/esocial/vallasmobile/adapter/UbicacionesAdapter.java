@@ -32,7 +32,8 @@ public class UbicacionesAdapter extends RecyclerView.Adapter<UbicacionesAdapter.
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.ubicaciones_row, null);
+        View view =  LayoutInflater.from(parent.getContext()).inflate(R.layout.ubicaciones_row,
+                parent, false);
 
         ViewHolder viewHolder = new ViewHolder(view);
         return viewHolder;

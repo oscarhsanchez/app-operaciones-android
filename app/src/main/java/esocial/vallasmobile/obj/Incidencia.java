@@ -9,12 +9,15 @@ import java.util.ArrayList;
 public class Incidencia implements Serializable {
 
     /*Tipos de incidencias:
-        Iluminacion: Tipo = 0
-        Fijacion: Tipo = 1
+        Fijacion: Tipo = 0
+        Monitorizacion: Tipo = 2
         Instalacion: Tipo = 2
-        Otros: Tipo = 3*/
+        Iluminacion: Tipo = 3
+        Plano: Tipo = 4
+        Otros: Tipo = 5*/
 
-    public static String[] tipos = { "Iluminación", "Fijación", "Instalación", "Otros"};
+    public static String[] tipos = { "Fijación", "Monitorización", "Instalación", "Iluminación",
+            "Plano", "Otros"};
 
     public String pk_incidencia;
     public String fk_pais;

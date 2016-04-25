@@ -7,6 +7,7 @@ package esocial.vallasmobile.tasks;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
+import android.os.Build;
 
 import esocial.vallasmobile.R;
 import esocial.vallasmobile.app.BaseActivity;
@@ -33,7 +34,10 @@ public class PostIncidenciaTask extends AsyncTask<Object, Integer, PostIncidenci
         this.activity = activity;
         this.listener = listener;
 
-        execute(incidencia);
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
+            executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, incidencia);
+        else
+            execute(incidencia);
     }
 
     @Override

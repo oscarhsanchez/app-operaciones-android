@@ -1,6 +1,5 @@
 package esocial.vallasmobile.ws.request;
 
-import android.graphics.Bitmap;
 import android.util.Base64;
 
 import com.google.gson.Gson;
@@ -8,7 +7,6 @@ import com.google.gson.Gson;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 
-import java.io.ByteArrayOutputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,17 +23,7 @@ public class PostUbicacionImageRequest extends WsRequest {
         super(context);
     }
 
-    public <T> T execute(String pk_ubicacion, String nombre, Bitmap bitmap, Class<T> responseClass) {
-
-        UbicacionImagen imagen = new UbicacionImagen();
-        imagen.fk_ubicacion = pk_ubicacion;
-        imagen.fk_pais = context.getSession().fk_pais;
-        imagen.nombre = nombre;
-
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
-        byte[] byteArray = byteArrayOutputStream.toByteArray();
-        imagen.data = Base64.encodeToString(byteArray, Base64.DEFAULT);
+    public <T> T execute(UbicacionImagen imagen, Class<T> responseClass) {
 
         Gson gson = new Gson();
         String jSend = gson.toJson(imagen);

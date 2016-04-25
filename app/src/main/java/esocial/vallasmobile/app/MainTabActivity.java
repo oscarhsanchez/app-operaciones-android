@@ -1,25 +1,33 @@
 package esocial.vallasmobile.app;
 
+import android.Manifest;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import esocial.vallasmobile.R;
 import esocial.vallasmobile.adapter.MainTabPagerAdapter;
 import esocial.vallasmobile.app.incidencias.IncidenciaAdd;
 import esocial.vallasmobile.obj.Incidencia;
+import esocial.vallasmobile.services.LocationService;
 import esocial.vallasmobile.utils.Constants;
 import esocial.vallasmobile.utils.Dialogs;
 
@@ -28,6 +36,8 @@ import esocial.vallasmobile.utils.Dialogs;
  */
 public class MainTabActivity extends BaseActivity {
 
+    private int[] imageResId = {R.drawable.tab_orders_selector,
+            R.drawable.tab_incident_selector,  R.drawable.tab_location_selector};
 
     public static String POSITION = "POSITION";
     public String tabTitles[];
@@ -69,10 +79,28 @@ public class MainTabActivity extends BaseActivity {
 
         tabTitles = new String[]{getString(R.string.orders), getString(R.string.incidents),
                 getString(R.string.locations)};
+
         initToolBar();
         initTabLayout();
         setListeners();
         populateToolBar(0);
+
+        initLocationService();
+    }
+
+
+    private void initLocationService() {
+        //Check permission from location
+        if (Build.VERSION.SDK_INT >= 23 &&
+                ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},
+                    Constants.PERMISSION_LOCATION);
+        }else {
+            startService(new Intent(this, LocationService.class));
+        }
 
     }
 
@@ -89,7 +117,6 @@ public class MainTabActivity extends BaseActivity {
         searchAutoComplete.setHintTextColor(Color.parseColor("#bbffffff"));
         searchAutoComplete.setTextColor(Color.parseColor("#DDFFFFFF"));
         searchAutoComplete.setTextSize(16);
-        // searchAutoComplete.setImeOptions(EditorInfo.IME_ACTION_SEARCH);
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -131,24 +158,16 @@ public class MainTabActivity extends BaseActivity {
     }
 
     private void initTabLayout() {
-        //add tabs
-        for (int i = 0; i < tabTitles.length; i++) {
-            tabLayout.addTab(tabLayout.newTab().setText(tabTitles[i])
-                    .setIcon(MainTabPagerAdapter.imageDefaultResId[i]));
-        }
 
-        adapter = new MainTabPagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount(),
+        adapter = new MainTabPagerAdapter(getSupportFragmentManager(), tabTitles.length,
                 MainTabActivity.this);
         viewPager.setAdapter(adapter);
 
-        // Give the TabLayout the ViewPager
-        tabLayout.setupWithViewPager(viewPager);
-
-        // Iterate over all tabs and set the custom view
-        for (int i = 0; i < tabLayout.getTabCount(); i++) {
-            TabLayout.Tab tab = tabLayout.getTabAt(i);
-            tab.setCustomView(adapter.getTabView(i, i == 0));
+        //add tabs
+        for(int i=0; i<tabTitles.length;i++) {
+            tabLayout.addTab(tabLayout.newTab().setCustomView(customView(i)));
         }
+        tabLayout.setTabTextColors(ContextCompat.getColorStateList(this, R.color.tab_text_selector));
 
 
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
@@ -156,8 +175,6 @@ public class MainTabActivity extends BaseActivity {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 viewPager.setCurrentItem(tab.getPosition());
-                View v = tab.getCustomView();
-                adapter.updateCustomView(v, tab.getPosition(), true);
                 searchView.setQuery("", false);
                 searchView.setIconified(true);
                 searchView.setIconified(true);
@@ -166,8 +183,6 @@ public class MainTabActivity extends BaseActivity {
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
-                View v = tab.getCustomView();
-                adapter.updateCustomView(v, tab.getPosition(), false);
                 lastTabSelected = tab.getPosition();
             }
 
@@ -175,6 +190,15 @@ public class MainTabActivity extends BaseActivity {
             public void onTabReselected(TabLayout.Tab tab) {
             }
         });
+    }
+
+    private View customView(int position){
+        View view = getLayoutInflater().inflate(R.layout.main_tab,null);
+        ImageView iconHome = (ImageView) view.findViewById(R.id.tabImage);
+        TextView textView = (TextView) view.findViewById(R.id.tabText);
+        iconHome.setImageResource(imageResId[position]);
+        textView.setText(tabTitles[position]);
+        return view;
     }
 
     private Integer lastTabSelected = 0;
@@ -258,6 +282,20 @@ public class MainTabActivity extends BaseActivity {
         } else {
             Fragment frag = adapter.getItem(tabLayout.getSelectedTabPosition());
             frag.onActivityResult(requestCode, resultCode, data);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case Constants.PERMISSION_LOCATION:
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    startService(new Intent(this, LocationService.class));
+                } else {
+                    // permission denied
+                }
+                break;
         }
     }
 

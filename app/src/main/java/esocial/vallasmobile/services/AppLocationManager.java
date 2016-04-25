@@ -1,4 +1,4 @@
-package esocial.vallasmobile.listeners;
+package esocial.vallasmobile.services;
 
 /**
  * Created by jesus.martinez on 22/03/2016.
@@ -12,22 +12,24 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
 
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+
 import esocial.vallasmobile.app.VallasApplication;
+import esocial.vallasmobile.listeners.GeoLocalizacionListener;
+import esocial.vallasmobile.obj.GeoLocalizacion;
+import esocial.vallasmobile.tasks.PostGeoLocalizacionTask;
+import esocial.vallasmobile.utils.Constants;
 
 /**
  * Created by jesus.martinez on 22/03/2016.
  */
-public class LocationService implements LocationListener {
-
-    //The minimum distance to change updates in meters
-    private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 10; // 10 meters
-
-    //The minimum time beetwen updates in milliseconds
-    private static final long MIN_TIME_BW_UPDATES = 5000;//1000 * 60 * 1; // 1 minute
+public class AppLocationManager implements LocationListener, GeoLocalizacionListener {
 
     private final static boolean forceNetwork = false;
 
-    private static LocationService instance = null;
+    private static AppLocationManager instance = null;
 
     private LocationManager locationManager;
     public Location location;
@@ -38,15 +40,16 @@ public class LocationService implements LocationListener {
     public boolean isGPSEnabled;
     public boolean locationServiceAvailable;
 
+    public VallasApplication application;
 
     /**
      * Singleton implementation
      *
      * @return
      */
-    public static LocationService getLocationManager(Context context) {
+    public static AppLocationManager getLocationManager(Context context) {
         if (instance == null) {
-            instance = new LocationService(context);
+            instance = new AppLocationManager(context);
         }
         return instance;
     }
@@ -54,9 +57,14 @@ public class LocationService implements LocationListener {
     /**
      * Local constructor
      */
-    private LocationService(Context context) {
-
+    private AppLocationManager(Context context) {
+        application = (VallasApplication)context;
         initLocationService(context);
+    }
+
+    public void stopLocationManager(){
+        // Remove the listener you previously added
+        locationManager.removeUpdates(this);
     }
 
 
@@ -87,8 +95,8 @@ public class LocationService implements LocationListener {
 
                 if (isNetworkEnabled) {
                     locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,
-                            MIN_TIME_BW_UPDATES,
-                            MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
+                            Constants.minTime,
+                            Constants.minDistance, this);
                     location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
 
                     if (locationManager != null) updateCoordinates();
@@ -96,8 +104,8 @@ public class LocationService implements LocationListener {
 
                 if (isGPSEnabled) {
                     locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
-                            MIN_TIME_BW_UPDATES,
-                            MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
+                            Constants.minTime,
+                            Constants.minDistance, this);
 
                     location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 
@@ -119,6 +127,31 @@ public class LocationService implements LocationListener {
     public void onLocationChanged(Location location) {
         this.location = location;
         updateCoordinates();
+
+        if(this.location !=null) {
+            if(VallasApplication.localizaciones == null){
+                VallasApplication.localizaciones = new ArrayList<>();
+            }
+            //Creamos la localizacion
+            GeoLocalizacion localizacion = new GeoLocalizacion(application,
+                    this.location.getLatitude(), this.location.getLongitude());
+            VallasApplication.localizaciones.add(localizacion);
+
+
+            if(VallasApplication.refreshTime!=null) {
+                Calendar cal = Calendar.getInstance();
+                cal.setTime(VallasApplication.refreshTime);
+                cal.add(Calendar.MINUTE, Constants.refreshLocationTime);
+
+                Calendar now = Calendar.getInstance();
+                //Enviamos las localizaciones si ha pasado el tiempo establecido
+                if(cal.before(now)){
+                    new PostGeoLocalizacionTask(application, VallasApplication.localizaciones, this);
+                }
+            }else{
+                new PostGeoLocalizacionTask(application, VallasApplication.localizaciones, this);
+            }
+        }
     }
 
     @Override
@@ -134,5 +167,20 @@ public class LocationService implements LocationListener {
     @Override
     public void onProviderDisabled(String provider) {
 
+    }
+
+    @Override
+    public void onGeoLocalizacionOK() {
+        Log.d("LOCATION SAVED", "USER LOCATION SAVED");
+        VallasApplication.refreshTime = new Date();
+        VallasApplication.localizaciones = null;
+    }
+
+    @Override
+    public void onGeoLocalizacionError(String title, String description) {
+        Log.d("ERROR SAVE LOCATION", description);
+        VallasApplication.refreshTime = null;
+        VallasApplication.localizaciones = null;
+        stopLocationManager();
     }
 }

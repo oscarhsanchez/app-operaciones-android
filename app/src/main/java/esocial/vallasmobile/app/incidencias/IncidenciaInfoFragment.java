@@ -60,19 +60,23 @@ public class IncidenciaInfoFragment extends BaseFragment {
             if (incidencia.estado_incidencia.equals(0)) {
                 etEstado.setText(getString(R.string.pendiente));
             } else if (incidencia.estado_incidencia.equals(1)) {
-                etEstado.setText(getString(R.string.en_curso));
+                etEstado.setText(getString(R.string.en_proceso));
             } else if (incidencia.estado_incidencia.equals(2)) {
-                etEstado.setText(getString(R.string.finalizado));
+                etEstado.setText(getString(R.string.cerrada));
             }
         }
         if (incidencia.tipo != null) {
             if (incidencia.tipo.equals(0)) {
-                etTipo.setText(getString(R.string.iluminacion));
-            } else if (incidencia.tipo.equals(1)) {
                 etTipo.setText(getString(R.string.fijacion));
+            } else if (incidencia.tipo.equals(1)) {
+                etTipo.setText(getString(R.string.monitoreo));
             } else if (incidencia.tipo.equals(2)) {
                 etTipo.setText(getString(R.string.instalacion));
             } else if (incidencia.tipo.equals(3)) {
+                etTipo.setText(getString(R.string.iluminacion));
+            } else if (incidencia.tipo.equals(4)) {
+                etTipo.setText(getString(R.string.plano));
+            } else if (incidencia.tipo.equals(5)) {
                 etTipo.setText(getString(R.string.otros));
             }
         }

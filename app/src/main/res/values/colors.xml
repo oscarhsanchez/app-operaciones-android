@@ -16,8 +16,11 @@
     <color name="text_disabled">#40676a6c</color>
 
     <!--Tipo Ordenes-->
-    <color name="iluminacion">#FDD835</color>
     <color name="fijacion">#8D6E63</color>
+    <color name="monitorizacion">#628AC1</color>
+    <color name="iluminacion">#FFBC4D</color>
     <color name="instalacion">#558B2F</color>
-    <color name="otros">#78909C</color>
+
+    <color name="plano">#F57186</color>
+    <color name="otros">#A8B8BF</color>
 </resources>

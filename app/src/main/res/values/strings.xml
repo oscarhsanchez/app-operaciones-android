@@ -53,6 +53,8 @@
     <string name="slots">Slots</string>
     <string name="posicion_">Posición:</string>
     <string name="categoria">Categoría</string>
+    <string name="campania">Campaña</string>
+    <string name="version">Versión</string>
     <string name="estado">Estado</string>
     <string name="estado_">Estado:</string>
     <string name="referencia">Referencia</string>
@@ -85,12 +87,16 @@
     <string name="fecha_limite_">F. Límite:</string>
     <string name="select_fecha">Selecciona fecha</string>
     <string name="pendiente">Pendiente</string>
-    <string name="en_curso">En curso</string>
-    <string name="finalizado">Finalizado</string>
+    <string name="en_proceso">En proceso</string>
+    <string name="cerrada">Cerrada</string>
+    <string name="pendiente_impresion">Pendiente impresión</string>
     <string name="inventario">Inventario</string>
     <string name="iluminacion">Iluminación</string>
+    <string name="monitoreo">Monitoreo</string>
+    <string name="plano">Plano</string>
     <string name="fijacion">Fijación</string>
     <string name="instalacion">Instalación</string>
+    <string name="imagen_almacenada">Imagen añadida a la cola. La imagen puede tardar unos minutos en estar disponible.</string>
     <string name="selecciona_ubicacion">Selecciona Ubicación</string>
     <string name="selecciona_medio">Selecciona Medio</string>
     <string name="selecciona_medio__">Selecciona medio...</string>

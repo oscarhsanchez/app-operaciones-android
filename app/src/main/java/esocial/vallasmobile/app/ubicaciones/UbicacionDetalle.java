@@ -1,7 +1,6 @@
 package esocial.vallasmobile.app.ubicaciones;
 
 import android.Manifest;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -21,6 +20,7 @@ import android.support.v7.widget.Toolbar;
 import android.transition.Fade;
 import android.transition.Transition;
 import android.view.View;
+import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -30,11 +30,9 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import esocial.vallasmobile.R;
-import esocial.vallasmobile.adapter.MainTabPagerAdapter;
 import esocial.vallasmobile.adapter.UbicacionTabAdapter;
 import esocial.vallasmobile.app.BaseActivity;
 import esocial.vallasmobile.app.VallasApplication;
-import esocial.vallasmobile.listeners.LocationService;
 import esocial.vallasmobile.listeners.UbicacionesModifyListener;
 import esocial.vallasmobile.obj.Ubicacion;
 import esocial.vallasmobile.tasks.PutUbicacionLocationTask;
@@ -99,9 +97,14 @@ public class UbicacionDetalle extends BaseActivity implements OnMapReadyCallback
                     new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},
                     Constants.PERMISSION_LOCATION);
         } else {
+            //Mostramos u ocultamos el boton de settear ubicacion
+            if(getVallasApplication().getSession().bool_permitir_geo_ubicaciones!=null &&
+                    getVallasApplication().getSession().bool_permitir_geo_ubicaciones == 1)
+                fabSetLocation.setVisibility(View.VISIBLE);
+            else
+                fabSetLocation.setVisibility(View.INVISIBLE);
+
             fabGoNavigation.setVisibility(View.VISIBLE);
-            fabSetLocation.setVisibility(View.VISIBLE);
-            LocationService.getLocationManager(getApplicationContext());
         }
 
         initTabLayout();
@@ -110,24 +113,16 @@ public class UbicacionDetalle extends BaseActivity implements OnMapReadyCallback
     }
 
     private void initTabLayout() {
-        //add tabs
-        for (int i = 0; i < tabTitles.length; i++) {
-            tabLayout.addTab(tabLayout.newTab().setText(tabTitles[i])
-                    .setIcon(MainTabPagerAdapter.imageDefaultResId[i]));
-        }
 
-        adapter = new UbicacionTabAdapter(getSupportFragmentManager(), tabLayout.getTabCount(),
+        adapter = new UbicacionTabAdapter(getSupportFragmentManager(), tabTitles.length,
                 UbicacionDetalle.this);
         viewPager.setAdapter(adapter);
 
-        // Give the TabLayout the ViewPager
-        tabLayout.setupWithViewPager(viewPager);
-
-        // Iterate over all tabs and set the custom view
-        for (int i = 0; i < tabLayout.getTabCount(); i++) {
-            TabLayout.Tab tab = tabLayout.getTabAt(i);
-            tab.setCustomView(adapter.getTabView(i, i == 0));
+        //add tabs
+        for(int i=0; i<tabTitles.length;i++) {
+            tabLayout.addTab(tabLayout.newTab().setCustomView(customView(i)));
         }
+        tabLayout.setTabTextColors(ContextCompat.getColorStateList(this, R.color.tab_text_selector));
 
 
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
@@ -135,21 +130,24 @@ public class UbicacionDetalle extends BaseActivity implements OnMapReadyCallback
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 viewPager.setCurrentItem(tab.getPosition());
-                View v = tab.getCustomView();
-                adapter.updateCustomView(v, tab.getPosition(), true);
                 //populateToolBar(tab.getPosition());
             }
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
-                View v = tab.getCustomView();
-                adapter.updateCustomView(v, tab.getPosition(), false);
             }
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
             }
         });
+    }
+
+    private View customView(int position){
+        View view = getLayoutInflater().inflate(R.layout.text_tab,null);
+        TextView textView = (TextView) view.findViewById(R.id.ub_tabText);
+        textView.setText(tabTitles[position]);
+        return view;
     }
 
 
@@ -275,8 +273,13 @@ public class UbicacionDetalle extends BaseActivity implements OnMapReadyCallback
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     // permission was granted
-                    LocationService.getLocationManager(getApplicationContext());
-                    fabSetLocation.setVisibility(View.VISIBLE);
+                    //Mostramos u ocultamos el boton de settear ubicacion
+                    if(getVallasApplication().getSession().bool_permitir_geo_ubicaciones!=null &&
+                            getVallasApplication().getSession().bool_permitir_geo_ubicaciones == 1)
+                        fabSetLocation.setVisibility(View.VISIBLE);
+                    else
+                        fabSetLocation.setVisibility(View.INVISIBLE);
+
                     fabGoNavigation.setVisibility(View.VISIBLE);
                 } else {
                     // permission denied

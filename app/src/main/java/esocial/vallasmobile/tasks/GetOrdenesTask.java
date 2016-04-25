@@ -6,6 +6,8 @@ package esocial.vallasmobile.tasks;
 
 import android.app.Activity;
 import android.os.AsyncTask;
+import android.os.Build;
+import android.provider.MediaStore;
 
 import esocial.vallasmobile.R;
 import esocial.vallasmobile.app.VallasApplication;
@@ -27,7 +29,10 @@ public class GetOrdenesTask extends AsyncTask<Object, Integer, GetOrdenesRespons
         this.activity = activity;
         this.listener = listener;
 
-        execute(criteria);
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
+            executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, criteria);
+        else
+            execute(criteria);
     }
 
     @Override

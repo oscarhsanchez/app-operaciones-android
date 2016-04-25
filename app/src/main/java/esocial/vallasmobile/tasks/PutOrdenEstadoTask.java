@@ -5,6 +5,7 @@ package esocial.vallasmobile.tasks;
  */
 
 import android.os.AsyncTask;
+import android.os.Build;
 
 import esocial.vallasmobile.R;
 import esocial.vallasmobile.app.BaseActivity;
@@ -28,7 +29,10 @@ public class PutOrdenEstadoTask extends AsyncTask<Object, Integer, PutOrdenRespo
         this.activity = activity;
         this.listener = listener;
 
-        execute(pk_ubicacion, estado, observaciones);
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
+            executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, pk_ubicacion, estado, observaciones);
+        else
+            execute(pk_ubicacion, estado, observaciones);
     }
 
     @Override

@@ -47,6 +47,29 @@
 
         </TableRow>
 
+        <TableRow style="@style/data_linear_layout">
+
+            <TextView
+                style="@style/profile_label"
+                android:text="@string/campania" />
+
+            <EditText
+                android:id="@+id/et_orden_campania"
+                style="@style/profile_edittext" />
+
+        </TableRow>
+
+        <TableRow style="@style/data_linear_layout">
+
+            <TextView
+                style="@style/profile_label"
+                android:text="@string/version" />
+
+            <EditText
+                android:id="@+id/et_orden_version"
+                style="@style/profile_edittext" />
+
+        </TableRow>
 
         <TableRow style="@style/data_linear_layout">
 

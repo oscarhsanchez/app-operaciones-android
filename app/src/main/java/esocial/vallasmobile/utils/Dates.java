@@ -152,6 +152,11 @@ public class Dates {
 		return formateo.format(fecha);
 	}
 
+	public static String formatToDBString(Date fecha){
+		SimpleDateFormat formateo = new SimpleDateFormat(Dates.bdFormat);
+		return formateo.format(fecha);
+	}
+
 	public static long ConvertStringToSQLTimestamp(String fecha, String separator){
 
 		//long t = Timestamp.parse(fecha);

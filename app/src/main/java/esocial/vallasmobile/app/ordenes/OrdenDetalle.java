@@ -21,6 +21,7 @@ import android.transition.Transition;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -30,11 +31,9 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import esocial.vallasmobile.R;
-import esocial.vallasmobile.adapter.MainTabPagerAdapter;
 import esocial.vallasmobile.adapter.OrdenesTabAdapter;
 import esocial.vallasmobile.app.BaseActivity;
 import esocial.vallasmobile.app.VallasApplication;
-import esocial.vallasmobile.listeners.LocationService;
 import esocial.vallasmobile.listeners.OrdenesModifyListener;
 import esocial.vallasmobile.obj.Orden;
 import esocial.vallasmobile.tasks.GetOrdenTask;
@@ -98,7 +97,6 @@ public class OrdenDetalle extends BaseActivity implements OnMapReadyCallback, Or
                     Constants.PERMISSION_LOCATION);
         } else {
             fabGoNavigation.setVisibility(View.VISIBLE);
-            LocationService.getLocationManager(getApplicationContext());
         }
 
         initTabLayout();
@@ -107,24 +105,16 @@ public class OrdenDetalle extends BaseActivity implements OnMapReadyCallback, Or
     }
 
     private void initTabLayout() {
-        //add tabs
-        for (int i = 0; i < tabTitles.length; i++) {
-            tabLayout.addTab(tabLayout.newTab().setText(tabTitles[i])
-                    .setIcon(MainTabPagerAdapter.imageDefaultResId[i]));
-        }
 
-        adapter = new OrdenesTabAdapter(getSupportFragmentManager(), tabLayout.getTabCount(),
+        adapter = new OrdenesTabAdapter(getSupportFragmentManager(), tabTitles.length,
                 OrdenDetalle.this);
         viewPager.setAdapter(adapter);
 
-        // Give the TabLayout the ViewPager
-        tabLayout.setupWithViewPager(viewPager);
-
-        // Iterate over all tabs and set the custom view
-        for (int i = 0; i < tabLayout.getTabCount(); i++) {
-            TabLayout.Tab tab = tabLayout.getTabAt(i);
-            tab.setCustomView(adapter.getTabView(i, i == 0));
+        //add tabs
+        for(int i=0; i<tabTitles.length;i++) {
+            tabLayout.addTab(tabLayout.newTab().setCustomView(customView(i)));
         }
+        tabLayout.setTabTextColors(ContextCompat.getColorStateList(this, R.color.tab_text_selector));
 
 
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
@@ -132,14 +122,10 @@ public class OrdenDetalle extends BaseActivity implements OnMapReadyCallback, Or
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 viewPager.setCurrentItem(tab.getPosition());
-                View v = tab.getCustomView();
-                adapter.updateCustomView(v, tab.getPosition(), true);
             }
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
-                View v = tab.getCustomView();
-                adapter.updateCustomView(v, tab.getPosition(), false);
             }
 
             @Override
@@ -148,6 +134,12 @@ public class OrdenDetalle extends BaseActivity implements OnMapReadyCallback, Or
         });
     }
 
+    private View customView(int position){
+        View view = getLayoutInflater().inflate(R.layout.text_tab,null);
+        TextView textView = (TextView) view.findViewById(R.id.ub_tabText);
+        textView.setText(tabTitles[position]);
+        return view;
+    }
 
     public void setListeners() {
         fabGoNavigation.setOnClickListener(new View.OnClickListener() {
@@ -196,7 +188,6 @@ public class OrdenDetalle extends BaseActivity implements OnMapReadyCallback, Or
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     // permission was granted
-                    LocationService.getLocationManager(getApplicationContext());
                     fabGoNavigation.setVisibility(View.VISIBLE);
                 } else {
                     // permission denied
@@ -281,9 +272,9 @@ public class OrdenDetalle extends BaseActivity implements OnMapReadyCallback, Or
                     MenuItem subItem = item.getSubMenu().getItem(j);
                     if (subItem.getTitle().equals(getString(R.string.pendiente))) {
                         subItem.setVisible(!orden.estado_orden.equals(0));
-                    } else if (subItem.getTitle().equals(getString(R.string.en_curso))) {
+                    } else if (subItem.getTitle().equals(getString(R.string.en_proceso))) {
                         subItem.setVisible(!orden.estado_orden.equals(1));
-                    } else if (subItem.getTitle().equals(getString(R.string.finalizado))) {
+                    } else if (subItem.getTitle().equals(getString(R.string.cerrada))) {
                         subItem.setVisible(!orden.estado_orden.equals(2));
                     }
                     SpannableString spanString = new SpannableString(subItem.getTitle().toString());
