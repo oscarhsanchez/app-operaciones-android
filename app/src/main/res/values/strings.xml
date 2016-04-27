@@ -69,6 +69,7 @@
     <string name="otros">Otros</string>
     <string name="saving_image">Guardando imagen...</string>
     <string name="aplicando_cambios">Aplicando cambios...</string>
+    <string name="mostrando_motivos">Mostrando motivos...</string>
     <string name="take_pic">Hacer Foto</string>
     <string name="open_gallery">Abrir Galería</string>
     <string name="location_changed">Localización modificada correctamente</string>
@@ -89,6 +90,7 @@
     <string name="pendiente">Pendiente</string>
     <string name="en_proceso">En proceso</string>
     <string name="cerrada">Cerrada</string>
+    <string name="no_finalizada">No finalizada</string>
     <string name="pendiente_impresion">Pendiente impresión</string>
     <string name="inventario">Inventario</string>
     <string name="iluminacion">Iluminación</string>
@@ -100,7 +102,16 @@
     <string name="selecciona_ubicacion">Selecciona Ubicación</string>
     <string name="selecciona_medio">Selecciona Medio</string>
     <string name="selecciona_medio__">Selecciona medio...</string>
+    <string name="forzando_envio">Forzando envío de imágenes... Esta operación puede tardar varios minutos</string>
 
+    <string name="creadas">Creadas</string>
+    <string name="asignadas">Asignadas</string>
+    <string name="imagenes_enviadas">Imágenes enviadas correctamente</string>
+    <string name="empty_imagenes_pendientes">No hay imágenes pendientes de envío</string>
+    <string name="imagenes_pendientes">Imágenes pendientes</string>
+    <string name="ver_imagenes">Ver imágenes pendientes</string>
+    <string name="busqueda">Búsqueda</string>
+    <string name="forzar_subida">Forzar subida imágenes</string>
     <string name="cambiar_estado">Cambiar estado</string>
     <string name="incidencia_modificada_text">Incidencia modificada correctamente</string>
     <string name="orden_modificada_text">Orden modificada correctamente</string>

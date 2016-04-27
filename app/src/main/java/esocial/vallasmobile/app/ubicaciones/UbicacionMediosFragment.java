@@ -1,6 +1,9 @@
 package esocial.vallasmobile.app.ubicaciones;
 
 import android.os.Bundle;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +16,7 @@ import java.util.ArrayList;
 import esocial.vallasmobile.R;
 import esocial.vallasmobile.adapter.UbicacionesMediosAdapter;
 import esocial.vallasmobile.app.BaseFragment;
+import esocial.vallasmobile.components.SpacesItemDecoration;
 import esocial.vallasmobile.listeners.MediosListener;
 import esocial.vallasmobile.obj.Medio;
 import esocial.vallasmobile.tasks.GetUbicacionesMediosTask;
@@ -23,7 +27,7 @@ import esocial.vallasmobile.utils.Dialogs;
  */
 public class UbicacionMediosFragment extends BaseFragment implements MediosListener {
 
-    private LinearLayout list;
+    private RecyclerView list;
     private TextView emptyText;
     private ProgressBar progressBar;
 
@@ -33,7 +37,7 @@ public class UbicacionMediosFragment extends BaseFragment implements MediosListe
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.ubicaciones_medios, container, false);
-        list = (LinearLayout) v.findViewById(R.id.ub_medios_list);
+        list = (RecyclerView) v.findViewById(R.id.ub_medios_list);
         progressBar = (ProgressBar) v.findViewById(R.id.progressBar);
         emptyText = (TextView) v.findViewById(R.id.empty_ub_medios);
         return v;
@@ -43,6 +47,11 @@ public class UbicacionMediosFragment extends BaseFragment implements MediosListe
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        int spacingInPixels = getResources().getDimensionPixelSize(R.dimen.spacing);
+        list.addItemDecoration(new SpacesItemDecoration(spacingInPixels));
+        list.setLayoutManager(new LinearLayoutManager(getActivity()));
+        list.setItemAnimator(new DefaultItemAnimator());
+
         new GetUbicacionesMediosTask(getActivity(),
                 ((UbicacionDetalle) getActivity()).getPkUbicacion(), this);
     }
@@ -55,11 +64,7 @@ public class UbicacionMediosFragment extends BaseFragment implements MediosListe
             this.medios = medios;
 
             adapter = new UbicacionesMediosAdapter(getActivity(), this.medios);
-            list.removeAllViews();
-            for (int i = 0; i < adapter.getCount(); i++) {
-                View v = adapter.getView(i, null, null);
-                list.addView(v);
-            }
+            list.setAdapter(adapter);
 
             if (this.medios.size() == 0) {
                 emptyText.setVisibility(View.VISIBLE);

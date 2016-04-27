@@ -73,10 +73,6 @@ public class IncidenciaImagenesFragment extends ImagenesListFragment implements 
             progressDialog.dismiss();
             Toast.makeText(getActivity(), getString(R.string.imagen_almacenada), Toast.LENGTH_LONG).show();
 
-            //Creamos el servicio
-            if(VallasApplication.sender == null)
-                getVallasApplication().initImageSender(getVallasApplication());
-
             getVallasApplication().setPendingIncidenciaImage(imagen);
 
         }

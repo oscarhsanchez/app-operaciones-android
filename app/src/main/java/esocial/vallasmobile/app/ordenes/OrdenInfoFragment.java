@@ -67,6 +67,10 @@ public class OrdenInfoFragment extends BaseFragment {
                 etEstado.setText(getString(R.string.en_proceso));
             } else if (orden.estado_orden.equals(2)) {
                 etEstado.setText(getString(R.string.cerrada));
+            } else if (orden.estado_orden.equals(3)) {
+                etEstado.setText(getString(R.string.pendiente_impresion));
+            } else if (orden.estado_orden.equals(4)) {
+                etEstado.setText(getString(R.string.no_finalizada));
             }
         }
         if (orden.tipo != null) {
@@ -99,7 +103,7 @@ public class OrdenInfoFragment extends BaseFragment {
         etUbicacion.setText(orden.ubicacion.ubicacion);
         etLatitud.setText(orden.ubicacion.latitud.toString());
         etLongitud.setText(orden.ubicacion.longitud.toString());
-        etTipoMedio.setText(orden.ubicacion.medio.tipo_medio);
+        etTipoMedio.setText(orden.ubicacion.medio.subtipo != null ? orden.ubicacion.medio.subtipo.descripcion : "");
         etTipoInv.setText(orden.ubicacion.medio.estatus_inventario);
         etMedioPos.setText(orden.ubicacion.medio.posicion.toString());
         etMedioSlots.setText(orden.ubicacion.medio.slots.toString());

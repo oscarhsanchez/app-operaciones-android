@@ -47,12 +47,12 @@ public class PutOrdenEstadoTask extends AsyncTask<Object, Integer, PutOrdenRespo
     protected void onPostExecute(PutOrdenResponse response) {
         if (response != null) {
             if (!response.failed()) {
-                listener.onPutOrdenOK();
+                listener.onPutOrdenEstadoOK();
             } else {
-                listener.onPutOrdenError("Error " + response.error.code, response.error.description);
+                listener.onPutOrdenEstadoError("Error " + response.error.code, response.error.description);
             }
         } else {
-            listener.onPutOrdenError(activity.getString(R.string.opps), activity.getString(R.string.check_connection));
+            listener.onPutOrdenEstadoError(activity.getString(R.string.opps), activity.getString(R.string.check_connection));
         }
     }
 }

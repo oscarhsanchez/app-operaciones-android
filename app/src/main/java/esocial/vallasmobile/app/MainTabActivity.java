@@ -17,17 +17,25 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import esocial.vallasmobile.R;
 import esocial.vallasmobile.adapter.MainTabPagerAdapter;
 import esocial.vallasmobile.app.incidencias.IncidenciaAdd;
+import esocial.vallasmobile.app.ordenes.OrdenComentarioCierre;
+import esocial.vallasmobile.app.ordenes.OrdenDetalle;
 import esocial.vallasmobile.obj.Incidencia;
 import esocial.vallasmobile.services.LocationService;
+import esocial.vallasmobile.tasks.PutOrdenEstadoTask;
 import esocial.vallasmobile.utils.Constants;
 import esocial.vallasmobile.utils.Dialogs;
 
@@ -51,6 +59,8 @@ public class MainTabActivity extends BaseActivity {
 
     private OnUbicacionesFragmentInteractionListener ubicacionesListener;
     private OnIncidenciasFragmentListener incidenciasListener;
+    private OnIncidenciasTabFragmentListener incidenciasAsignadasListener;
+    private OnIncidenciasTabFragmentListener incidenciasCreadasListener;
     private OnOrdenesFragmentInteractionListener ordenesListener;
 
 
@@ -86,8 +96,8 @@ public class MainTabActivity extends BaseActivity {
         populateToolBar(0);
 
         initLocationService();
+        initEnvioImagenesService();
     }
-
 
     private void initLocationService() {
         //Check permission from location
@@ -104,6 +114,11 @@ public class MainTabActivity extends BaseActivity {
 
     }
 
+    private void initEnvioImagenesService() {
+        //Creamos el servicio
+        if(VallasApplication.sender == null)
+            getVallasApplication().initImageSender(false);
+    }
 
     private void initToolBar() {
         setSupportActionBar(toolbar);
@@ -124,7 +139,8 @@ public class MainTabActivity extends BaseActivity {
                 if (tabLayout.getSelectedTabPosition() == 0) {//Ordenes
                     ordenesListener.onSearch(searchAutoComplete.getText().toString());
                 } else if (tabLayout.getSelectedTabPosition() == 1) {//Incidencias
-                    incidenciasListener.onSearch(searchAutoComplete.getText().toString());
+                    incidenciasAsignadasListener.onSearch(searchAutoComplete.getText().toString());
+                    incidenciasCreadasListener.onSearch(searchAutoComplete.getText().toString());
                 }
                 if (tabLayout.getSelectedTabPosition() == 2) {//Ubicaciones
                     ubicacionesListener.onSearch(searchAutoComplete.getText().toString());
@@ -146,7 +162,8 @@ public class MainTabActivity extends BaseActivity {
                         ordenesListener.onSearch("");
                     }
                     if (lastTabSelected == 1 || tabLayout.getSelectedTabPosition() == 1) {//Incidencias
-                        incidenciasListener.onSearch("");
+                        incidenciasAsignadasListener.onSearch("");
+                        incidenciasCreadasListener.onSearch("");
                     }
                     if (lastTabSelected == 2 || tabLayout.getSelectedTabPosition() == 2) {//Ubicaciones
                         ubicacionesListener.onSearch("");
@@ -307,6 +324,14 @@ public class MainTabActivity extends BaseActivity {
         incidenciasListener = listener;
     }
 
+    public void setIncidenciasAsignadasListener(OnIncidenciasTabFragmentListener listener) {
+        incidenciasAsignadasListener = listener;
+    }
+
+    public void setIncidenciasCreadasListener(OnIncidenciasTabFragmentListener listener) {
+        incidenciasCreadasListener = listener;
+    }
+
     public void setOrdenesListener(OnOrdenesFragmentInteractionListener listener) {
         ordenesListener = listener;
     }
@@ -320,9 +345,47 @@ public class MainTabActivity extends BaseActivity {
         void onSearch(String criteria);
     }
 
-    public interface OnIncidenciasFragmentListener {
+    public interface OnIncidenciasTabFragmentListener {
         void onSearch(String criteria);
+    }
 
+    public interface OnIncidenciasFragmentListener {
         void onAddIncidencia(Incidencia incidencia);
+    }
+
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        for (int i = 0; i < menu.size(); i++) {
+            MenuItem item = menu.getItem(i);
+            SpannableString spanString = new SpannableString(item.getTitle().toString());
+            spanString.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.text_gray)),
+                    0, spanString.length(), 0); //fix the color to text_gray
+            item.setTitle(spanString);
+        }
+
+        return true;
+    }
+
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(VallasApplication.sender!=null && VallasApplication.sender.getImagesCount()>0){
+            switch (item.getItemId()) {
+                case R.id.main_ver:
+                    Intent intent = new Intent(this, ImagenesPendientesActivity.class);
+                    startActivity(intent);
+                    break;
+                case R.id.main_forzar:
+                    Toast.makeText(this, getString(R.string.forzando_envio), Toast.LENGTH_LONG).show();
+                    getVallasApplication().forzarImageSender();
+                    break;
+                default:
+                    return super.onOptionsItemSelected(item);
+            }
+        }else{
+            Dialogs.showAlertDialog(this, null, getString(R.string.empty_imagenes_pendientes));
+            return super.onOptionsItemSelected(item);
+        }
+
+        return true;
     }
 }

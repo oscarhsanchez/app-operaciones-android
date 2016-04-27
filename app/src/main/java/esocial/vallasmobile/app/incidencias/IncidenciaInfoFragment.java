@@ -97,7 +97,7 @@ public class IncidenciaInfoFragment extends BaseFragment {
         etUbicacion.setText(incidencia.ubicacion.ubicacion);
         etLatitud.setText(String.valueOf(incidencia.ubicacion.latitud));
         etLongitud.setText(String.valueOf(incidencia.ubicacion.longitud));
-        etTipoMedio.setText(incidencia.ubicacion.medio.tipo_medio);
+        etTipoMedio.setText(incidencia.ubicacion.medio.subtipo != null ? incidencia.ubicacion.medio.subtipo.descripcion : "");
         etTipoInv.setText(incidencia.ubicacion.medio.estatus_inventario);
         etMedioPos.setText(String.valueOf(incidencia.ubicacion.medio.posicion));
         etMedioSlots.setText(String.valueOf(incidencia.ubicacion.medio.slots));

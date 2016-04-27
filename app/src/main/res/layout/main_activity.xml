@@ -19,7 +19,6 @@
             android:layout_height="?attr/actionBarSize"
             android:layout_alignParentTop="true"
             android:background="@color/colorPrimary"
-            android:elevation="1dp"
             android:minHeight="?attr/actionBarSize">
 
             <RelativeLayout
@@ -40,8 +39,8 @@
                     android:layout_height="match_parent"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:imeOptions="actionSearch"
                     android:background="@color/colorPrimary"
+                    android:imeOptions="actionSearch"
                     android:maxWidth="1000dp" />
 
 
@@ -54,20 +53,18 @@
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/id_toolbar_container"
-        android:elevation="1dp">
+        android:layout_below="@id/id_toolbar_container">
 
         <android.support.design.widget.AppBarLayout
             android:id="@+id/id_appbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:elevation="1dp">
+            android:layout_height="wrap_content">
 
             <android.support.design.widget.CollapsingToolbarLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:elevation="1dp"
-                app:layout_scrollFlags="scroll|enterAlways">
+                app:layout_scrollFlags="scroll|enterAlways"
+                android:elevation="5dp">
 
                 <android.support.design.widget.TabLayout
                     android:id="@+id/tab_layout"
@@ -75,7 +72,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@android:color/white"
-                    android:elevation="1dp" />
+                    android:layout_marginBottom="1dp"/>
 
             </android.support.design.widget.CollapsingToolbarLayout>
         </android.support.design.widget.AppBarLayout>
@@ -90,16 +87,16 @@
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fab_add_incidencia"
             style="@style/FloatingActionButtonStyle"
+            android:layout_gravity="bottom|right"
             android:src="@drawable/icon_add"
-            app:pressedTranslationZ="12dp"
+            android:visibility="gone"
+            app:backgroundTint="#795548"
+            app:fabSize="normal"
             app:layout_anchor="@+id/pager"
             app:layout_anchorGravity="bottom|right|end"
-            android:layout_gravity="bottom|right"
-            app:fabSize="normal"
-            app:backgroundTint="#795548"
-            app:rippleColor="#9f7160"
-            android:visibility="gone"
-            app:layout_behavior="esocial.vallasmobile.components.FABScrollBehavior"/>
+            app:layout_behavior="esocial.vallasmobile.components.FABScrollBehavior"
+            app:pressedTranslationZ="12dp"
+            app:rippleColor="#9f7160" />
 
     </android.support.design.widget.CoordinatorLayout>
 </RelativeLayout>

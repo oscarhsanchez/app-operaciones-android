@@ -46,7 +46,7 @@ public class OrdenesAdapter extends RecyclerView.Adapter<OrdenesAdapter.ViewHold
 
         holder.tvUbicacion.setText(item.ubicacion.ubicacion);
         holder.tvFechaLimite.setText(Dates.ConvertSfDataStringToJavaString(item.fecha_limite));
-        holder.tvTipoMedio.setText(item.ubicacion.medio.tipo_medio);
+        holder.tvTipoMedio.setText(item.ubicacion.medio.subtipo != null ? item.ubicacion.medio.subtipo.descripcion : "");
         holder.tvPosicion.setText(item.ubicacion.medio.posicion.toString());
 
         if (item.estado_orden != null) {
@@ -58,6 +58,10 @@ public class OrdenesAdapter extends RecyclerView.Adapter<OrdenesAdapter.ViewHold
                 holder.tvEstado.setText(context.getString(R.string.en_proceso));
             } else if (item.estado_orden.equals(2)) {
                 holder.tvEstado.setText(context.getString(R.string.cerrada));
+            } else if (item.estado_orden.equals(3)) {
+                holder.tvEstado.setText(context.getString(R.string.pendiente_impresion));
+            } else if (item.estado_orden.equals(4)) {
+                holder.tvEstado.setText(context.getString(R.string.no_finalizada));
             }
         } else {
             holder.tvEstado.setText("-");

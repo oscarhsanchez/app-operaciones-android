@@ -4,6 +4,7 @@ package esocial.vallasmobile.tasks;
  * Created by jesus.martinez on 21/03/2016.
  */
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Build;
 
@@ -20,11 +21,11 @@ import esocial.vallasmobile.ws.response.PostOrderImageResponse;
  */
 public class PostOrdenImagenTask extends AsyncTask<Object, Integer, PostOrderImageResponse> {
 
-    private VallasApplication application;
+    private Context application;
     private OrdenesImagenesListener listener;
 
 
-    public PostOrdenImagenTask(VallasApplication activity, OrdenImagen eSend,
+    public PostOrdenImagenTask(Context activity, OrdenImagen eSend,
                                OrdenesImagenesListener listener) {
         this.application = activity;
         this.listener = listener;
@@ -37,7 +38,7 @@ public class PostOrdenImagenTask extends AsyncTask<Object, Integer, PostOrderIma
 
     @Override
     protected PostOrderImageResponse doInBackground(Object... params) {
-        PostOrdenImageRequest request = new PostOrdenImageRequest(application);
+        PostOrdenImageRequest request = new PostOrdenImageRequest((VallasApplication) application.getApplicationContext());
         PostOrderImageResponse response = request.execute((OrdenImagen) params[0], PostOrderImageResponse.class);
 
         return response;

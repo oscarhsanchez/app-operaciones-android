@@ -44,16 +44,10 @@ public class IncidenciasAdapter extends RecyclerView.Adapter<IncidenciasAdapter.
     public void onBindViewHolder(ViewHolder holder, int position) {
         Incidencia item = values.get(position);
 
-
         holder.tvUbicacion.setText(item.ubicacion.ubicacion);
         holder.tvFechaLimite.setText(Dates.ConvertSfDataStringToJavaString(item.fecha_limite));
-        holder.tvTipoMedio.setText(item.ubicacion.medio.tipo_medio);
+        holder.tvTipoMedio.setText(item.ubicacion.medio.subtipo != null ? item.ubicacion.medio.subtipo.descripcion : "");
         holder.tvPosicion.setText(item.ubicacion.medio.posicion.toString());
-        if(item.codigo_user.equalsIgnoreCase(((VallasApplication)context.getApplicationContext()).getSession().codigo)){
-            holder.ivOwn.setVisibility(View.VISIBLE);
-        }else{
-            holder.ivOwn.setVisibility(View.GONE);
-        }
 
         if (item.estado_incidencia != null) {
             if (item.estado_incidencia.equals(0)) {
@@ -101,7 +95,6 @@ public class IncidenciasAdapter extends RecyclerView.Adapter<IncidenciasAdapter.
         TextView tvFechaLimite;
         TextView tvPosicion;
         TextView tvTipoMedio;
-        ImageView ivOwn;
         View vTipo;
 
 
@@ -113,7 +106,6 @@ public class IncidenciasAdapter extends RecyclerView.Adapter<IncidenciasAdapter.
             tvFechaLimite = (TextView) view.findViewById(R.id.inc_fecha_limite);
             tvTipoMedio = (TextView) view.findViewById(R.id.inc_tipo_medio);
             tvPosicion = (TextView) view.findViewById(R.id.inc_posicion);
-            ivOwn = (ImageView) view.findViewById(R.id.icon_own);
             view.setOnClickListener(this);
         }
 

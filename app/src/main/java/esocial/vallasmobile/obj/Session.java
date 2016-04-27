@@ -11,6 +11,5 @@ public class Session {
 	public String renew_token;
 	public String phone_id;
 	public String ip;
-	public Integer bool_permitir_geo_ubicaciones;
 
 }

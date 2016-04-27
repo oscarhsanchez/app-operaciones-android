@@ -9,6 +9,7 @@ import android.support.v7.view.ContextThemeWrapper;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.ArrayAdapter;
 
 
 import java.util.ArrayList;
@@ -102,8 +103,25 @@ public class Dialogs {
         progressDialog.setIndeterminate(true);
         progressDialog.setCancelable(cancelable);
 
-        return  progressDialog;
+        return progressDialog;
     }
 
 
+    public static void showNewListDialog(final Context context, final String title,
+                                         CharSequence[] arrays, Boolean status,
+                                         final DialogInterface.OnClickListener buttonListener) {
+
+
+        AlertDialog.Builder builderSingle = new AlertDialog.Builder(context);
+        builderSingle.setTitle(title);
+        builderSingle.setNegativeButton(context.getString(R.string.cancel), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builderSingle.setCancelable(status);
+        builderSingle.setItems(arrays, buttonListener);
+        builderSingle.show();
+    }
 }

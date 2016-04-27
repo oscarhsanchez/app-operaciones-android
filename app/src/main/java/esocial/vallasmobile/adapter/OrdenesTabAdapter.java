@@ -1,18 +1,12 @@
 package esocial.vallasmobile.adapter;
 
-import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.TextView;
 
-import esocial.vallasmobile.R;
 import esocial.vallasmobile.app.BaseFragment;
-import esocial.vallasmobile.app.ordenes.OrdenDetalle;
-import esocial.vallasmobile.app.ordenes.OrdenInfoFragment;
 import esocial.vallasmobile.app.ordenes.OrdenImagenesFragment;
+import esocial.vallasmobile.app.ordenes.OrdenInfoFragment;
 
 /**
  * Created by jesus.martinez on 04/01/2016.
@@ -21,13 +15,11 @@ public class OrdenesTabAdapter extends FragmentStatePagerAdapter {
 
 
     int mNumOfTabs;
-    OrdenDetalle ctx;
     BaseFragment tab1, tab2;
 
 
-    public OrdenesTabAdapter(FragmentManager fm, int NumOfTabs, OrdenDetalle ctx) {
+    public OrdenesTabAdapter(FragmentManager fm, int NumOfTabs) {
         super(fm);
-        this.ctx = ctx;
         this.mNumOfTabs = NumOfTabs;
     }
 

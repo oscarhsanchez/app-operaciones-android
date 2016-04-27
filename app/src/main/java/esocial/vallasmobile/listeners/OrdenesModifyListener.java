@@ -7,8 +7,11 @@ import esocial.vallasmobile.obj.Orden;
  */
 public interface OrdenesModifyListener {
 
-    void onPutOrdenOK();
-    void onPutOrdenError(String title, String description);
+    void onPutOrdenEstadoOK();
+    void onPutOrdenEstadoError(String title, String description);
+
+    void onPutOrdenMotivoOK();
+    void onPutOrdenMotivoError(String title, String description);
 
     void onGetOrdenOK(Orden orden);
     void onGetOrdenError(String title, String description);

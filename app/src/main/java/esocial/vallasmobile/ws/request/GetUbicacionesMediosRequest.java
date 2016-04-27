@@ -21,6 +21,7 @@ public class GetUbicacionesMediosRequest extends WsRequest {
 
 		List<NameValuePair> params = new ArrayList<NameValuePair>(2);
         params.add(new BasicNameValuePair("estado", "1"));
+		params.add(new BasicNameValuePair("extended", "1"));
 		params.add(new BasicNameValuePair("fk_ubicacion", pk_ubicacion));
 
 		return super.executeGetDefaultHeaders(Constants.MEDIO, params, responseClass);

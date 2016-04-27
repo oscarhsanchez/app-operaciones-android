@@ -18,6 +18,7 @@ public class Constants {
     public static String LOGIN = "login";
     public static String ORDENES = "ordenes";
     public static String ORDENES_IMAGES = "ordenes/imagenes";
+    public static String ORDENES_MOTIVOS = "ordenes/motivos";
 
     public static String INCIDENCIAS = "incidencias";
     public static String INCIDENCIAS_IMAGES = "incidencias/imagenes";
@@ -34,6 +35,8 @@ public class Constants {
     //--------------------------------SHARED PREFERENCES---------------------------//
 
     public static String SESSION = "session";
+    public static String USERGEO = "userGeo";
+    public static String GEOPERMISSION = "geoPermission";
     public static String REFRESH_ORDENES = "refreshOrdenes";
     public static String REFRESH_INCIDENCIAS = "refreshIncidencias";
 
@@ -51,4 +54,5 @@ public class Constants {
     public static final int REQUEST_SELECT_MEDIO = 1005;
     public static final int REQUEST_CHANGE_ORDEN_STATUS = 1006;
     public static final int REQUEST_CHANGE_INCIDENCIA_STATUS = 1007;
+    public static final int REQUEST_ORDEN_STATUS_NO_FINALIZADA = 1008;
 }

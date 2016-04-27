@@ -66,6 +66,7 @@ public class IncidenciaAdd extends BaseActivity {
         etObservaciones = (EditText) findViewById(R.id.et_observaciones);
         spnTipo = (Spinner) findViewById(R.id.spn_tipo);
 
+
         fillSpinner();
         setListeners();
     }
@@ -75,6 +76,18 @@ public class IncidenciaAdd extends BaseActivity {
         ArrayAdapter<String> spnAdapter = new ArrayAdapter<>(this,
                 R.layout.simple_spinner_item, Incidencia.tipos);
         spnTipo.setAdapter(spnAdapter);
+
+        //Si viene con tipo y medio, lo seleccionamos y deshabilitamos
+        Bundle extras = getIntent().getExtras();
+        if (extras != null && extras.containsKey("tipo")) {
+            spnTipo.setSelection(extras.getInt("tipo", 0));
+            spnTipo.setEnabled(false);
+
+            selectedMedio = (Medio) extras.getSerializable("medio");
+            tvMedio.setText(selectedMedio.tipo_medio + ", " + selectedMedio.posicion);
+            tvMedio.setEnabled(false);
+        }
+
     }
 
     private void setListeners() {
@@ -117,7 +130,7 @@ public class IncidenciaAdd extends BaseActivity {
         inc.codigo_user = getVallasApplication().getSession().codigo;
         inc.fk_medio = selectedMedio.pk_medio;
         inc.estado = 1;
-        inc.estado_incidencia = 1;
+        inc.estado_incidencia = 0;//Pendiente
         inc.fk_pais = getVallasApplication().getSession().fk_pais;
 
         Intent intent = new Intent();

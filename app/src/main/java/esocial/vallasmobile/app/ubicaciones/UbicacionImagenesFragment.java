@@ -69,11 +69,6 @@ public class UbicacionImagenesFragment extends ImagenesListFragment implements U
         protected void onPostExecute(Boolean aBoolean) {
             progressDialog.dismiss();
             Toast.makeText(getActivity(), getString(R.string.imagen_almacenada), Toast.LENGTH_LONG).show();
-
-            //Creamos el servicio
-            if(VallasApplication.sender == null)
-                getVallasApplication().initImageSender(getVallasApplication());
-
             getVallasApplication().setPendingUbicacionImage(imagen);
         }
     }

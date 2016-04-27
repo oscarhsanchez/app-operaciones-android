@@ -25,4 +25,10 @@ public class BaseActivity extends AppCompatActivity {
         return (VallasApplication) getApplicationContext();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        VallasApplication.context = this;
+    }
 }

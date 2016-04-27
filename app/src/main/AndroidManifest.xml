@@ -73,6 +73,11 @@
             android:windowSoftInputMode="stateHidden" />
 
         <activity
+            android:name=".app.ImagenesPendientesActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+
+        <activity
             android:name=".app.ordenes.OrdenComentarioCierre"
             android:screenOrientation="portrait"
             android:theme="@style/AppDialog"

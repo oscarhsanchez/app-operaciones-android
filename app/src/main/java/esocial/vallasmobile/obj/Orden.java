@@ -12,6 +12,7 @@ public class Orden implements Serializable {
     public String fk_pais;
     public String fk_propuesta;
     public String fk_medio;
+    public String fk_motivo;
     public String codigo_user;
     public Integer tipo;
     public Integer estado_orden;

@@ -9,4 +9,6 @@ import esocial.vallasmobile.ws.WsResponse;
 public class PostLoginResponse extends WsResponse {
 
     public esocial.vallasmobile.obj.Session Session;
+    public Integer user_geo;
+    public Integer location_geo_permission;
 }

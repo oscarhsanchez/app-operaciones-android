@@ -58,11 +58,11 @@ public class AppLocationManager implements LocationListener, GeoLocalizacionList
      * Local constructor
      */
     private AppLocationManager(Context context) {
-        application = (VallasApplication)context;
+        application = (VallasApplication) context;
         initLocationService(context);
     }
 
-    public void stopLocationManager(){
+    public void stopLocationManager() {
         // Remove the listener you previously added
         locationManager.removeUpdates(this);
     }
@@ -118,8 +118,8 @@ public class AppLocationManager implements LocationListener, GeoLocalizacionList
         }
     }
 
-    private void updateCoordinates(){
-        if(location!=null)
+    private void updateCoordinates() {
+        if (location != null)
             VallasApplication.currentLocation = location;
     }
 
@@ -128,28 +128,31 @@ public class AppLocationManager implements LocationListener, GeoLocalizacionList
         this.location = location;
         updateCoordinates();
 
-        if(this.location !=null) {
-            if(VallasApplication.localizaciones == null){
-                VallasApplication.localizaciones = new ArrayList<>();
-            }
-            //Creamos la localizacion
-            GeoLocalizacion localizacion = new GeoLocalizacion(application,
-                    this.location.getLatitude(), this.location.getLongitude());
-            VallasApplication.localizaciones.add(localizacion);
+        //Solo mandamos localizacion si tiene activado user_geo
+        if (application.getUserGeo()) {
+            if (this.location != null) {
+                if (VallasApplication.localizaciones == null) {
+                    VallasApplication.localizaciones = new ArrayList<>();
+                }
+                //Creamos la localizacion
+                GeoLocalizacion localizacion = new GeoLocalizacion(application,
+                        this.location.getLatitude(), this.location.getLongitude());
+                VallasApplication.localizaciones.add(localizacion);
 
 
-            if(VallasApplication.refreshTime!=null) {
-                Calendar cal = Calendar.getInstance();
-                cal.setTime(VallasApplication.refreshTime);
-                cal.add(Calendar.MINUTE, Constants.refreshLocationTime);
+                if (VallasApplication.refreshTime != null) {
+                    Calendar cal = Calendar.getInstance();
+                    cal.setTime(VallasApplication.refreshTime);
+                    cal.add(Calendar.MINUTE, Constants.refreshLocationTime);
 
-                Calendar now = Calendar.getInstance();
-                //Enviamos las localizaciones si ha pasado el tiempo establecido
-                if(cal.before(now)){
+                    Calendar now = Calendar.getInstance();
+                    //Enviamos las localizaciones si ha pasado el tiempo establecido
+                    if (cal.before(now)) {
+                        new PostGeoLocalizacionTask(application, VallasApplication.localizaciones, this);
+                    }
+                } else {
                     new PostGeoLocalizacionTask(application, VallasApplication.localizaciones, this);
                 }
-            }else{
-                new PostGeoLocalizacionTask(application, VallasApplication.localizaciones, this);
             }
         }
     }
@@ -171,7 +174,11 @@ public class AppLocationManager implements LocationListener, GeoLocalizacionList
 
     @Override
     public void onGeoLocalizacionOK() {
+        Log.d("LOCATION SAVED", "----------------------------------------------");
+        Log.d("LOCATION SAVED", "----------------------------------------------");
         Log.d("LOCATION SAVED", "USER LOCATION SAVED");
+        Log.d("LOCATION SAVED", "----------------------------------------------");
+        Log.d("LOCATION SAVED", "----------------------------------------------");
         VallasApplication.refreshTime = new Date();
         VallasApplication.localizaciones = null;
     }

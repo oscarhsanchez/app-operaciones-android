@@ -1,0 +1,13 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/main_ver"
+        android:title="@string/ver_imagenes"
+        app:showAsAction="collapseActionView" />
+
+    <item
+        android:id="@+id/main_forzar"
+        android:title="@string/forzar_subida"
+        app:showAsAction="collapseActionView" />
+</menu>

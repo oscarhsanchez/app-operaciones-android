@@ -24,7 +24,7 @@ public class GetOrdenesRequest extends WsRequest {
 		List<NameValuePair> params = new ArrayList<NameValuePair>(2);
 		params.add(new BasicNameValuePair("extended", "1"));
 		params.add(new BasicNameValuePair("codigo_user", context.getSession().codigo));
-        params.add(new BasicNameValuePair("sort", "[estado_orden_ASC,fecha_limite_ASC]"));
+        params.add(new BasicNameValuePair("sort", "[fecha_limite_ASC]"));
 		if(!TextUtils.isEmpty(criteria))
 			params.add(new BasicNameValuePair("ubicacion", criteria.replace(" ", "%20")));
 

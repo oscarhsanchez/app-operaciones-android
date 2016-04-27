@@ -56,6 +56,10 @@ public class LoginTask extends AsyncTask<Object, Integer, PostLoginResponse> {
         if (response != null) {
             if (!response.failed()) {
                 activity.getVallasApplication().setSession(response.Session);
+                activity.getVallasApplication().setLocationGeoPermission(response.location_geo_permission !=null
+                        && response.location_geo_permission == 1);
+                activity.getVallasApplication().setUserGeo(response.user_geo !=null
+                        && response.user_geo == 1);
                 listener.onLoginOK();
             } else {
                 listener.onLoginError("Error " + response.error.code, response.error.description);

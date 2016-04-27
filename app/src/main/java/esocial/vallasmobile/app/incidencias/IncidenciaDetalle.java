@@ -15,6 +15,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.text.SpannableString;
+import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
 import android.transition.Fade;
 import android.transition.Transition;
@@ -265,7 +266,8 @@ public class IncidenciaDetalle extends BaseActivity implements OnMapReadyCallbac
 
     public boolean onCreateOptionsMenu(Menu menu) {
         //Mostramos el menu unicamente si es el usuario asignado
-        if(incidencia.codigo_user_asignado.equalsIgnoreCase(getVallasApplication().getSession().codigo)) {
+        if(!TextUtils.isEmpty(incidencia.codigo_user_asignado) &&
+                incidencia.codigo_user_asignado.equalsIgnoreCase(getVallasApplication().getSession().codigo)) {
             getMenuInflater().inflate(R.menu.menu_orden, menu);
             for (int i = 0; i < menu.size(); i++) {
                 MenuItem item = menu.getItem(i);

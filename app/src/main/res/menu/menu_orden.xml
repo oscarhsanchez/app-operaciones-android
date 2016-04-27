@@ -20,9 +20,20 @@
                 app:showAsAction="withText" />
 
             <item
+                android:id="@+id/menu_pendiente_imp"
+                android:title="@string/pendiente_impresion"
+                app:showAsAction="withText" />
+
+            <item
+                android:id="@+id/menu_no_finalizado"
+                android:title="@string/no_finalizada"
+                app:showAsAction="withText" />
+
+            <item
                 android:id="@+id/menu_finalizado"
                 android:title="@string/cerrada"
                 app:showAsAction="withText" />
+
         </menu>
     </item>
 </menu>

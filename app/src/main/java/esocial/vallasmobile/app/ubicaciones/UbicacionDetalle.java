@@ -97,9 +97,8 @@ public class UbicacionDetalle extends BaseActivity implements OnMapReadyCallback
                     new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},
                     Constants.PERMISSION_LOCATION);
         } else {
-            //Mostramos u ocultamos el boton de settear ubicacion
-            if(getVallasApplication().getSession().bool_permitir_geo_ubicaciones!=null &&
-                    getVallasApplication().getSession().bool_permitir_geo_ubicaciones == 1)
+            //Permitimos modificar ubicacion dependiendo de geo_permission
+            if(getVallasApplication().getLocationGeoPermission())
                 fabSetLocation.setVisibility(View.VISIBLE);
             else
                 fabSetLocation.setVisibility(View.INVISIBLE);
@@ -274,8 +273,7 @@ public class UbicacionDetalle extends BaseActivity implements OnMapReadyCallback
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     // permission was granted
                     //Mostramos u ocultamos el boton de settear ubicacion
-                    if(getVallasApplication().getSession().bool_permitir_geo_ubicaciones!=null &&
-                            getVallasApplication().getSession().bool_permitir_geo_ubicaciones == 1)
+                    if(getVallasApplication().getLocationGeoPermission())
                         fabSetLocation.setVisibility(View.VISIBLE);
                     else
                         fabSetLocation.setVisibility(View.INVISIBLE);

@@ -10,7 +10,7 @@ public class Incidencia implements Serializable {
 
     /*Tipos de incidencias:
         Fijacion: Tipo = 0
-        Monitorizacion: Tipo = 2
+        Monitorizacion: Tipo = 1
         Instalacion: Tipo = 2
         Iluminacion: Tipo = 3
         Plano: Tipo = 4

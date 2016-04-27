@@ -4,6 +4,7 @@ import android.util.Log;
 
 import java.util.ArrayList;
 
+import esocial.vallasmobile.R;
 import esocial.vallasmobile.app.VallasApplication;
 import esocial.vallasmobile.listeners.IncidenciasImagenesListener;
 import esocial.vallasmobile.listeners.OrdenesImagenesListener;
@@ -12,6 +13,7 @@ import esocial.vallasmobile.obj.IncidenciaImagen;
 import esocial.vallasmobile.obj.OrdenImagen;
 import esocial.vallasmobile.obj.UbicacionImagen;
 import esocial.vallasmobile.utils.Constants;
+import esocial.vallasmobile.utils.Dialogs;
 
 /**
  * Created by jesus.martinez on 25/04/2016.
@@ -19,13 +21,26 @@ import esocial.vallasmobile.utils.Constants;
 public class ImageSender implements OrdenesImagenesListener, IncidenciasImagenesListener, UbicacionesImagenesListener {
 
     ArrayList<Object> images;
-    VallasApplication application;
     int count = 0;
     int i = 0;
+    boolean showMessage = false;
 
-    public ImageSender(VallasApplication application) {
-        this.application = application;
+    public ImageSender() {
         images = new ArrayList<>();
+    }
+
+    public ArrayList<Object> getImages(){
+        if(images!=null)
+            return images;
+        else
+            return null;
+    }
+
+    public int getImagesCount(){
+        if(images!=null)
+            return images.size();
+        else
+            return 0;
     }
 
     public void addImage(IncidenciaImagen image) {
@@ -40,20 +55,21 @@ public class ImageSender implements OrdenesImagenesListener, IncidenciasImagenes
         images.add(image);
     }
 
-    public void sendImages() {
+    public void sendImages(Boolean showMessage) {
         count = images.size();
         i = 0;
+        this.showMessage = showMessage;
         sendImage();
     }
 
     public void sendImage() {
         if (count > 0) {
             if (images.get(i) instanceof OrdenImagen) {
-                new PostOrdenImagenTask(application, (OrdenImagen)images.get(i), this);
+                new PostOrdenImagenTask(VallasApplication.context, (OrdenImagen)images.get(i), this);
             } else if (images.get(i) instanceof IncidenciaImagen) {
-                new PostIncidenciaImagenTask(application, (IncidenciaImagen)images.get(i), this);
+                new PostIncidenciaImagenTask(VallasApplication.context, (IncidenciaImagen)images.get(i), this);
             } else if (images.get(i) instanceof UbicacionImagen) {
-                new PostUbicacionImagenTask(application, (UbicacionImagen)images.get(i), this);
+                new PostUbicacionImagenTask(VallasApplication.context, (UbicacionImagen)images.get(i), this);
             }
         }
     }
@@ -105,6 +121,11 @@ public class ImageSender implements OrdenesImagenesListener, IncidenciasImagenes
         count--;
         images.remove(i);
         if (count == 0) {
+            if(showMessage) {
+                Dialogs.showAlertDialog(VallasApplication.context, null,
+                        VallasApplication.context.getString(R.string.imagenes_enviadas));
+                showMessage = false;
+            }
             if(Constants.isDebug)
                 Log.d("ENVIO DE IMAGENES", "COMPLETADO EL ENVIO DE IMAGENES EN BACKGROUND");
         }else{

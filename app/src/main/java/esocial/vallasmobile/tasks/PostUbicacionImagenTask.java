@@ -4,6 +4,7 @@ package esocial.vallasmobile.tasks;
  * Created by jesus.martinez on 21/03/2016.
  */
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -24,11 +25,11 @@ import esocial.vallasmobile.ws.response.PostUbicacionImageResponse;
  */
 public class PostUbicacionImagenTask extends AsyncTask<Object, Integer, PostUbicacionImageResponse> {
 
-    private VallasApplication application;
+    private Context application;
     private UbicacionesImagenesListener listener;
 
 
-    public PostUbicacionImagenTask(VallasApplication application, UbicacionImagen eSend,
+    public PostUbicacionImagenTask(Context application, UbicacionImagen eSend,
                                    UbicacionesImagenesListener listener) {
         this.application = application;
         this.listener = listener;
@@ -41,7 +42,7 @@ public class PostUbicacionImagenTask extends AsyncTask<Object, Integer, PostUbic
 
     @Override
     protected PostUbicacionImageResponse doInBackground(Object... params) {
-        PostUbicacionImageRequest request = new PostUbicacionImageRequest(application);
+        PostUbicacionImageRequest request = new PostUbicacionImageRequest((VallasApplication) application.getApplicationContext());
         PostUbicacionImageResponse response = request.execute((UbicacionImagen)params[0], PostUbicacionImageResponse.class);
 
         return response;

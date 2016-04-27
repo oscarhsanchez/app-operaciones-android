@@ -1,137 +1,170 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/MyCardViewStyle"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="#FFFFFF"
-    android:orientation="vertical"
-    android:paddingBottom="10dp">
+    android:layout_height="wrap_content">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="2">
 
-    <View android:layout_width="match_parent" android:layout_height="5dp"
-        android:background="#f2f2f2"/>
-
-
-    <TableRow android:layout_marginBottom="3dp" android:layout_marginTop="10dp"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin">
-
-        <TextView
-            style="@style/TableRow"
-            android:text="Tipo Medio:" />
-
-        <TextView
-            android:id="@+id/medio_tipo_medio"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="@dimen/dp15"
-            android:gravity="left|center"
-            android:textColor="@color/colorPrimaryDark"
-            android:textSize="@dimen/sp14" />
-
-        <TextView
-            style="@style/TableRow"
-            android:text="Inventario:"/>
-
-        <TextView
-            android:id="@+id/medio_estatus_inv"
+        <TableLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:gravity="left|center"
-            android:ellipsize="end"
-            android:singleLine="true"
-            android:textColor="@color/colorPrimaryDark"
-            android:textSize="@dimen/sp14" />
+            android:background="#FFFFFF"
+            android:orientation="vertical"
+            android:paddingBottom="10dp"
+            android:paddingLeft="10dp">
 
-    </TableRow>
+            <TableRow
+                android:layout_marginBottom="3dp"
+                android:layout_marginTop="10dp">
 
-    <TableRow android:layout_marginBottom="3dp"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin">
+                <TextView
+                    style="@style/TableRow"
+                    android:text="Tipo Medio:" />
 
-        <TextView
-            style="@style/TableRow"
-            android:text="@string/posicion_" />
+                <TextView
+                    android:id="@+id/medio_tipo_medio"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="left|center"
+                    android:singleLine="true"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="@dimen/sp14" />
 
-        <TextView
-            android:id="@+id/medio_posicion"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="left|center"
-            android:layout_marginRight="@dimen/dp15"
-            android:textColor="@color/colorPrimaryDark"
-            android:textSize="@dimen/sp14" />
 
-        <TextView
-            style="@style/TableRow"
-            android:text="Slots:"/>
+            </TableRow>
 
-        <TextView
-            android:id="@+id/medio_slots"
+            <TableRow
+                android:layout_marginBottom="3dp">
+
+                <TextView
+                    style="@style/TableRow"
+                    android:text="@string/posicion_" />
+
+                <TextView
+                    android:id="@+id/medio_posicion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="left|center"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="@dimen/sp14" />
+
+
+            </TableRow>
+
+            <TableRow>
+
+                <TextView
+                    style="@style/TableRow"
+                    android:text="Coste:" />
+
+                <TextView
+                    android:id="@+id/medio_coste"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="left|center"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="@dimen/sp14" />
+
+
+            </TableRow>
+
+        </TableLayout>
+
+        <TableLayout
             android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:gravity="left|center"
-            android:textColor="@color/colorPrimaryDark"
-            android:textSize="@dimen/sp14" />
+            android:background="#FFFFFF"
+            android:orientation="vertical"
+            android:paddingBottom="10dp"
+            android:paddingRight="10dp">
 
-    </TableRow>
+            <TableRow
+                android:layout_marginBottom="3dp"
+                android:layout_marginTop="10dp">
 
-    <TableRow
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin">
+                <TextView
+                    style="@style/TableRow"
+                    android:text="Inventario:" />
 
-        <TextView
-            style="@style/TableRow"
-            android:text="Coste:" />
+                <TextView
+                    android:id="@+id/medio_estatus_inv"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ellipsize="end"
+                    android:gravity="left|center"
+                    android:singleLine="true"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="@dimen/sp14" />
 
-        <TextView
-            android:id="@+id/medio_coste"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="left|center"
-            android:layout_marginRight="@dimen/dp15"
-            android:textColor="@color/colorPrimaryDark"
-            android:textSize="@dimen/sp14" />
+            </TableRow>
 
-        <TextView
-            style="@style/TableRow"
-            android:text="" />
+            <TableRow
+                android:layout_marginBottom="3dp">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="left|center"
-            android:orientation="horizontal">
+                <TextView
+                    style="@style/TableRow"
+                    android:text="Slots:" />
 
-            <ImageView
-                android:id="@+id/medio_iluminacion"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_marginRight="@dimen/dp20"
-                android:layout_weight="0"
-                android:gravity="left|center"
-                android:scaleType="fitCenter"
-                android:src="@drawable/icon_bulb_on" />
+                <TextView
+                    android:id="@+id/medio_slots"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="left|center"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="@dimen/sp14" />
+            </TableRow>
 
-            <ImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_weight="0"
-                android:gravity="left|center"
-                android:scaleType="fitCenter"
-                android:src="@drawable/icon_eye" />
+            <TableRow>
 
-            <ImageView
-                android:id="@+id/medio_visibilidad"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_weight="0"
-                android:gravity="left|center"
-                android:scaleType="fitCenter"
-                android:src="@drawable/icon_minus" />
-        </LinearLayout>
+                <TextView
+                    style="@style/TableRow"
+                    android:text="" />
 
-    </TableRow>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="left|center"
+                    android:orientation="horizontal">
 
-</TableLayout>
+                    <ImageView
+                        android:id="@+id/medio_iluminacion"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_marginRight="@dimen/dp20"
+                        android:layout_weight="0"
+                        android:gravity="left|center"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/icon_bulb_on" />
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_weight="0"
+                        android:gravity="left|center"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/icon_eye" />
+
+                    <ImageView
+                        android:id="@+id/medio_visibilidad"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_weight="0"
+                        android:gravity="left|center"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/icon_minus" />
+                </LinearLayout>
+
+            </TableRow>
+        </TableLayout>
+    </LinearLayout>
+</android.support.v7.widget.CardView>

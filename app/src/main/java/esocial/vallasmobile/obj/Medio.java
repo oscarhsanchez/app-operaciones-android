@@ -23,4 +23,5 @@ public class Medio implements Serializable{
     public String token;
     public String created_at;
     public String updated_at;
+    public Subtipo subtipo;
 }

@@ -1,6 +1,7 @@
 package esocial.vallasmobile.obj;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import esocial.vallasmobile.app.VallasApplication;
@@ -19,7 +20,9 @@ public class GeoLocalizacion implements Serializable {
 
     public GeoLocalizacion (VallasApplication context, Double latitud, Double longitud){
         fk_user = context.getSession().fk_user;
-        fecha = Dates.formatToDBString(new Date());
+        Date now = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        fecha = sdf.format(now);
         this.latitud = latitud;
         this.longitud = longitud;
     }
