@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -15,6 +16,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.AppCompatImageButton;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.text.SpannableString;
@@ -55,6 +57,7 @@ public class MainTabActivity extends BaseActivity {
     private SearchView searchView;
     private ViewPager viewPager;
     private MainTabPagerAdapter adapter;
+    private AppCompatImageButton btnFilterLocation;
     private TabLayout tabLayout;
 
     private OnUbicacionesFragmentInteractionListener ubicacionesListener;
@@ -85,6 +88,7 @@ public class MainTabActivity extends BaseActivity {
         viewPager = (ViewPager) findViewById(R.id.pager);
         tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         fabAddIncidencia = (FloatingActionButton) findViewById(R.id.fab_add_incidencia);
+        btnFilterLocation = (AppCompatImageButton) findViewById(R.id.action_search_location);
         viewPager.setOffscreenPageLimit(3);
 
         tabTitles = new String[]{getString(R.string.orders), getString(R.string.incidents),
@@ -122,7 +126,6 @@ public class MainTabActivity extends BaseActivity {
 
     private void initToolBar() {
         setSupportActionBar(toolbar);
-        toolbar.setContentInsetsAbsolute(10, 0);
 
         SearchManager searchManager = (SearchManager) this.getSystemService(Context.SEARCH_SERVICE);
         searchView = (SearchView) findViewById(R.id.action_search);
@@ -137,10 +140,10 @@ public class MainTabActivity extends BaseActivity {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 if (tabLayout.getSelectedTabPosition() == 0) {//Ordenes
-                    ordenesListener.onSearch(searchAutoComplete.getText().toString());
+                    ordenesListener.onSearch(searchAutoComplete.getText().toString(), false);
                 } else if (tabLayout.getSelectedTabPosition() == 1) {//Incidencias
-                    incidenciasAsignadasListener.onSearch(searchAutoComplete.getText().toString());
-                    incidenciasCreadasListener.onSearch(searchAutoComplete.getText().toString());
+                    incidenciasAsignadasListener.onSearch(searchAutoComplete.getText().toString(), false);
+                    incidenciasCreadasListener.onSearch(searchAutoComplete.getText().toString(), false);
                 }
                 if (tabLayout.getSelectedTabPosition() == 2) {//Ubicaciones
                     ubicacionesListener.onSearch(searchAutoComplete.getText().toString());
@@ -159,11 +162,11 @@ public class MainTabActivity extends BaseActivity {
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus) {
                     if (lastTabSelected == 0 || tabLayout.getSelectedTabPosition() == 0) {//Ordenes
-                        ordenesListener.onSearch("");
+                        ordenesListener.onSearch("", false);
                     }
                     if (lastTabSelected == 1 || tabLayout.getSelectedTabPosition() == 1) {//Incidencias
-                        incidenciasAsignadasListener.onSearch("");
-                        incidenciasCreadasListener.onSearch("");
+                        incidenciasAsignadasListener.onSearch("", false);
+                        incidenciasCreadasListener.onSearch("", false);
                     }
                     if (lastTabSelected == 2 || tabLayout.getSelectedTabPosition() == 2) {//Ubicaciones
                         ubicacionesListener.onSearch("");
@@ -229,46 +232,72 @@ public class MainTabActivity extends BaseActivity {
                 startActivityForResult(intent, Constants.REQUEST_ADD_INCIDENCIA);
             }
         });
+
+        btnFilterLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (tabLayout.getSelectedTabPosition() == 0) {//Ordenes
+                    ordenesListener.onSearch("", true);
+                }
+                if (tabLayout.getSelectedTabPosition() == 1) {//Incidencias
+                    incidenciasAsignadasListener.onSearch("", true);
+                    incidenciasCreadasListener.onSearch("", true);
+                }
+                if (tabLayout.getSelectedTabPosition() == 2) {//Ubicaciones
+                    ubicacionesListener.onSearch("");
+                }
+            }
+        });
     }
 
 
     private void populateToolBar(int position) {
         switch (position) {
             case 0:
-                hideFABIncidencia();
+                showView(btnFilterLocation, R.anim.fade_in, 200);
+                hideView(fabAddIncidencia, R.anim.fab_exit, 300);
                 break;
             case 1:
-                showFABIncidencia();
+                showView(btnFilterLocation, R.anim.fade_in, 200);
+                showView(fabAddIncidencia, R.anim.fab_enter, 300);
                 break;
             case 2:
-                hideFABIncidencia();
+                hideView(btnFilterLocation, R.anim.fade_out, 200);
+                hideView(fabAddIncidencia, R.anim.fab_exit, 300);
                 break;
         }
     }
 
-    private void showFABIncidencia() {
-        fabAddIncidencia.setVisibility(View.VISIBLE);
-        Animation anim = AnimationUtils.loadAnimation(this, R.anim.fab_enter);
-        fabAddIncidencia.startAnimation(anim);
+
+    private void showView(final View v, int animation, int duration) {
+        if(v.getVisibility() == View.GONE) {
+            v.setVisibility(View.VISIBLE);
+            Animation anim = AnimationUtils.loadAnimation(this, animation);
+            anim.setDuration(duration);
+            v.startAnimation(anim);
+        }
     }
 
-    private void hideFABIncidencia() {
-        Animation anim = AnimationUtils.loadAnimation(this, R.anim.fab_exit);
-        anim.setAnimationListener(new Animation.AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {
-            }
+    private void hideView(final View v, int animation, int duration) {
+        if(v.getVisibility() == View.VISIBLE) {
+            Animation anim = AnimationUtils.loadAnimation(this, animation);
+            anim.setDuration(duration);
+            anim.setAnimationListener(new Animation.AnimationListener() {
+                @Override
+                public void onAnimationStart(Animation animation) {
+                }
 
-            @Override
-            public void onAnimationEnd(Animation animation) {
-                fabAddIncidencia.setVisibility(View.INVISIBLE);
-            }
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                    v.setVisibility(View.GONE);
+                }
 
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-            }
-        });
-        fabAddIncidencia.startAnimation(anim);
+                @Override
+                public void onAnimationRepeat(Animation animation) {
+                }
+            });
+            v.startAnimation(anim);
+        }
     }
 
 
@@ -338,7 +367,7 @@ public class MainTabActivity extends BaseActivity {
 
 
     public interface OnOrdenesFragmentInteractionListener {
-        void onSearch(String criteria);
+        void onSearch(String criteria, boolean location);
     }
 
     public interface OnUbicacionesFragmentInteractionListener {
@@ -346,7 +375,7 @@ public class MainTabActivity extends BaseActivity {
     }
 
     public interface OnIncidenciasTabFragmentListener {
-        void onSearch(String criteria);
+        void onSearch(String criteria, boolean location);
     }
 
     public interface OnIncidenciasFragmentListener {

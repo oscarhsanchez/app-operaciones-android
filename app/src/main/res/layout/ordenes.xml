@@ -50,4 +50,10 @@
         errorview:ev_subtitleColor="@color/text_gray"
         errorview:ev_titleColor="@color/text_gray" />
 
+    <include layout="@layout/filtro_ubicacion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_centerHorizontal="true"/>
+
 </RelativeLayout>

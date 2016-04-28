@@ -1,14 +1,17 @@
 package esocial.vallasmobile.app.ordenes;
 
 import android.content.Intent;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.AppCompatImageButton;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -17,6 +20,7 @@ import esocial.vallasmobile.R;
 import esocial.vallasmobile.adapter.OrdenesAdapter;
 import esocial.vallasmobile.app.BaseFragment;
 import esocial.vallasmobile.app.MainTabActivity;
+import esocial.vallasmobile.app.VallasApplication;
 import esocial.vallasmobile.components.SpacesItemDecoration;
 import esocial.vallasmobile.listeners.OrdenesListener;
 import esocial.vallasmobile.obj.Orden;
@@ -35,10 +39,13 @@ public class OrdenesFragment extends BaseFragment implements OrdenesListener,
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private TextView emptyText;
     private ErrorView errorView;
+    private LinearLayout filtroUbicacion;
+    private AppCompatImageButton btnRemoveFilter;
 
     private OrdenesAdapter adapter;
     private ArrayList<Orden> ordenes;
 
+    private Boolean searchByLocation = false;
     private String criteria = "";
 
     @Override
@@ -49,6 +56,8 @@ public class OrdenesFragment extends BaseFragment implements OrdenesListener,
         errorView = (ErrorView) v.findViewById(R.id.order_error_view);
         list = (RecyclerView) v.findViewById(R.id.order_list);
         emptyText = (TextView) v.findViewById(R.id.empty_orders);
+        filtroUbicacion = (LinearLayout) v.findViewById(R.id.filtroUbicacion);
+        btnRemoveFilter = (AppCompatImageButton) v.findViewById(R.id.btn_remove_filter);
 
         return v;
     }
@@ -75,7 +84,9 @@ public class OrdenesFragment extends BaseFragment implements OrdenesListener,
         });
 
         setListener();
-        new GetOrdenesTask(getActivity(), criteria, this);
+        new GetOrdenesTask(getActivity(), criteria,
+                searchByLocation ? VallasApplication.currentLocation : null,
+                this);
     }
 
     @Override
@@ -95,6 +106,16 @@ public class OrdenesFragment extends BaseFragment implements OrdenesListener,
             }
 
         });
+
+        btnRemoveFilter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                searchByLocation = false;
+                filtroUbicacion.setVisibility(View.GONE);
+                list.setPadding(10, 0, 10, 0);
+                loadOrdenes();
+            }
+        });
     }
 
     private void loadOrdenes(){
@@ -104,7 +125,9 @@ public class OrdenesFragment extends BaseFragment implements OrdenesListener,
         errorView.setVisibility(View.GONE);
         mSwipeRefreshLayout.setRefreshing(true);
 
-        new GetOrdenesTask(getActivity(), criteria, OrdenesFragment.this);
+        new GetOrdenesTask(getActivity(), criteria,
+                searchByLocation ? VallasApplication.currentLocation : null,
+                OrdenesFragment.this);
     }
 
     ErrorView.RetryListener listener = new ErrorView.RetryListener() {
@@ -152,8 +175,16 @@ public class OrdenesFragment extends BaseFragment implements OrdenesListener,
 
     //-------------MainTabListener--------------//
     @Override
-    public void onSearch(String criteria) {
+    public void onSearch(String criteria, boolean location) {
         this.criteria = criteria;
+        searchByLocation = location;
+        if(searchByLocation) {
+            filtroUbicacion.setVisibility(View.VISIBLE);
+            list.setPadding(10, getResources().getDimensionPixelSize(R.dimen.vertical_list_filter_pad), 10, 0);
+        }else {
+            filtroUbicacion.setVisibility(View.GONE);
+            list.setPadding(10, 0, 10, 0);
+        }
         loadOrdenes();
     }
 }

@@ -5,6 +5,7 @@ package esocial.vallasmobile.tasks;
  */
 
 import android.app.Activity;
+import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.provider.MediaStore;
@@ -25,20 +26,21 @@ public class GetOrdenesTask extends AsyncTask<Object, Integer, GetOrdenesRespons
     private OrdenesListener listener;
 
 
-    public GetOrdenesTask(Activity activity, String criteria, OrdenesListener listener) {
+    public GetOrdenesTask(Activity activity, String criteria, Location location, OrdenesListener listener) {
         this.activity = activity;
         this.listener = listener;
 
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
-            executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, criteria);
+            executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, criteria, location);
         else
-            execute(criteria);
+            execute(criteria, location);
     }
 
     @Override
     protected GetOrdenesResponse doInBackground(Object... params) {
         GetOrdenesRequest request = new GetOrdenesRequest((VallasApplication) activity.getApplicationContext());
-        GetOrdenesResponse response = request.execute((String) params[0], GetOrdenesResponse.class);
+        GetOrdenesResponse response = request.execute((String) params[0], (Location) params[1],
+                GetOrdenesResponse.class);
 
         return response;
     }

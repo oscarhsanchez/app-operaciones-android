@@ -33,6 +33,17 @@
                     android:scaleType="fitCenter"
                     android:src="@drawable/logo_white" />
 
+                <android.support.v7.widget.AppCompatImageButton
+                    android:id="@+id/action_search_location"
+                    android:layout_width="40dp"
+                    android:layout_height="match_parent"
+                    android:padding="7dp"
+                    android:background="?android:selectableItemBackground"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/icon_geo_fence"/>
+
                 <android.support.v7.widget.SearchView
                     android:id="@+id/action_search"
                     android:layout_width="wrap_content"

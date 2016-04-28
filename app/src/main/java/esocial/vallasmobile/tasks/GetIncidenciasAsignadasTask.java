@@ -5,6 +5,7 @@ package esocial.vallasmobile.tasks;
  */
 
 import android.app.Activity;
+import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Build;
 
@@ -25,20 +26,22 @@ public class GetIncidenciasAsignadasTask extends AsyncTask<Object, Integer, GetI
     private IncidenciasAsignadasListener listener;
 
 
-    public GetIncidenciasAsignadasTask(Activity activity, String criteria, IncidenciasAsignadasListener listener) {
+    public GetIncidenciasAsignadasTask(Activity activity, String criteria, Location location,
+                                       IncidenciasAsignadasListener listener) {
         this.activity = activity;
         this.listener = listener;
 
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
-            executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, criteria);
+            executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, criteria, location);
         else
-            execute(criteria);
+            execute(criteria, location);
     }
 
     @Override
     protected GetIncidenciasResponse doInBackground(Object... params) {
-        GetIncidenciasAsignadasRequest request = new GetIncidenciasAsignadasRequest((VallasApplication) activity.getApplicationContext());
-        GetIncidenciasResponse response = request.execute((String) params[0], GetIncidenciasResponse.class);
+        GetIncidenciasAsignadasRequest request = new GetIncidenciasAsignadasRequest(
+                (VallasApplication) activity.getApplicationContext());
+        GetIncidenciasResponse response = request.execute((String) params[0],(Location) params[1], GetIncidenciasResponse.class);
 
         return response;
     }

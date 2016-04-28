@@ -1,14 +1,17 @@
 package esocial.vallasmobile.app.incidencias;
 
 import android.content.Intent;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.AppCompatImageButton;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -17,6 +20,7 @@ import esocial.vallasmobile.R;
 import esocial.vallasmobile.adapter.IncidenciasAdapter;
 import esocial.vallasmobile.app.BaseFragment;
 import esocial.vallasmobile.app.MainTabActivity;
+import esocial.vallasmobile.app.VallasApplication;
 import esocial.vallasmobile.components.SpacesItemDecoration;
 import esocial.vallasmobile.listeners.IncidenciasCreadasListener;
 import esocial.vallasmobile.obj.Incidencia;
@@ -34,10 +38,13 @@ public class IncidenciasCreadasFragment extends BaseFragment implements Incidenc
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private TextView emptyText;
     private ErrorView errorView;
+    private LinearLayout filtroUbicacion;
+    private AppCompatImageButton btnRemoveFilter;
 
     private IncidenciasAdapter adapter;
     private ArrayList<Incidencia> incidencias;
     private String criteria = "";
+    private Boolean searchByLocation = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -47,6 +54,8 @@ public class IncidenciasCreadasFragment extends BaseFragment implements Incidenc
         errorView = (ErrorView) v.findViewById(R.id.incident_error_view);
         list = (RecyclerView) v.findViewById(R.id.incident_list);
         emptyText = (TextView) v.findViewById(R.id.empty_incidents);
+        filtroUbicacion = (LinearLayout) v.findViewById(R.id.filtroUbicacion);
+        btnRemoveFilter = (AppCompatImageButton) v.findViewById(R.id.btn_remove_filter);
 
         return v;
     }
@@ -73,7 +82,9 @@ public class IncidenciasCreadasFragment extends BaseFragment implements Incidenc
         });
         setListeners();
 
-        new GetIncidenciasCreadasTask(getActivity(), criteria, this);
+        new GetIncidenciasCreadasTask(getActivity(), criteria,
+                searchByLocation ? VallasApplication.currentLocation : null,
+                this);
     }
 
     private void setListeners(){
@@ -83,6 +94,16 @@ public class IncidenciasCreadasFragment extends BaseFragment implements Incidenc
                 loadIncidencias();
             }
 
+        });
+
+        btnRemoveFilter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                searchByLocation = false;
+                filtroUbicacion.setVisibility(View.GONE);
+                list.setPadding(10, 0, 10, 0);
+                loadIncidencias();
+            }
         });
     }
 
@@ -102,7 +123,9 @@ public class IncidenciasCreadasFragment extends BaseFragment implements Incidenc
         errorView.setVisibility(View.GONE);
         mSwipeRefreshLayout.setRefreshing(true);
 
-        new GetIncidenciasCreadasTask(getActivity(), criteria, IncidenciasCreadasFragment.this);
+        new GetIncidenciasCreadasTask(getActivity(), criteria,
+                searchByLocation ? VallasApplication.currentLocation : null,
+                IncidenciasCreadasFragment.this);
     }
 
     ErrorView.RetryListener listener = new ErrorView.RetryListener() {
@@ -149,8 +172,16 @@ public class IncidenciasCreadasFragment extends BaseFragment implements Incidenc
 
     //-------------MainTabListener--------------//
     @Override
-    public void onSearch(String criteria) {
+    public void onSearch(String criteria, boolean location) {
         this.criteria = criteria;
+        searchByLocation = location;
+        if(searchByLocation) {
+            filtroUbicacion.setVisibility(View.VISIBLE);
+            list.setPadding(10, 40, 10, 0);
+        }else {
+            filtroUbicacion.setVisibility(View.GONE);
+            list.setPadding(10, 0, 10, 0);
+        }
         loadIncidencias();
     }
 
