@@ -177,7 +177,7 @@ public class IncidenciasAsignadasFragment extends BaseFragment implements Incide
         searchByLocation = location;
         if(searchByLocation) {
             filtroUbicacion.setVisibility(View.VISIBLE);
-            list.setPadding(10, 40, 10, 0);
+            list.setPadding(10, getResources().getDimensionPixelSize(R.dimen.vertical_list_filter_pad), 10, 0);
         }else {
             filtroUbicacion.setVisibility(View.GONE);
             list.setPadding(10, 0, 10, 0);
