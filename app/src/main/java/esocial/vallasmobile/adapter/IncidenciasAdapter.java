@@ -111,7 +111,7 @@ public class IncidenciasAdapter extends RecyclerView.Adapter<IncidenciasAdapter.
 
         @Override
         public void onClick(View v) {
-            mItemClickListener.onItemClick(v, getPosition());
+            mItemClickListener.onItemClick(v, getAdapterPosition());
         }
     }
 

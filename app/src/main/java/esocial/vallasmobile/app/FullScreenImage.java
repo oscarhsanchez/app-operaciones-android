@@ -32,12 +32,15 @@ public class FullScreenImage extends BaseActivity {
 
 
         Bundle extras = getIntent().getExtras();
-        if(extras!=null){
+        if (extras != null) {
             url = extras.getString("url");
-            data = ((Imagen)VallasApplication.sender.getImages().get(extras.getInt("imagePosition"))).data;
+            //Viene de imagenes pendientes
+            if (extras.containsKey("imagePosition"))
+                data = ((Imagen) VallasApplication.sender.getImages().get(extras.getInt("imagePosition"))).data;
+
         }
 
-        if(!TextUtils.isEmpty(url)) {
+        if (!TextUtils.isEmpty(url)) {
             Picasso.with(this)
                     .load(url)
                     .error(R.drawable.logo_orange)
@@ -52,7 +55,7 @@ public class FullScreenImage extends BaseActivity {
 
                         }
                     });
-        }else if(!TextUtils.isEmpty(data)){
+        } else if (!TextUtils.isEmpty(data)) {
             byte[] imageAsBytes = Base64.decode(data.getBytes(), Base64.DEFAULT);
             image.setImageBitmap(BitmapFactory.decodeByteArray(imageAsBytes, 0, imageAsBytes.length));
         }

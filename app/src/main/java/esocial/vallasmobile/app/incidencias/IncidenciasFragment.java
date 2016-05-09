@@ -64,8 +64,6 @@ public class IncidenciasFragment extends BaseFragment implements MainTabActivity
                 tabTitles.length);
         viewPager.setAdapter(adapter);
 
-        viewPager.setAdapter(adapter);
-
         //add tabs
         for (int i = 0; i < tabTitles.length; i++) {
             tabLayout.addTab(tabLayout.newTab().setCustomView(customView(i)));

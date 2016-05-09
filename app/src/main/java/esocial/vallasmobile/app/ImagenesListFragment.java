@@ -3,6 +3,7 @@ package esocial.vallasmobile.app;
 import android.Manifest;
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -13,6 +14,7 @@ import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
@@ -21,6 +23,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -111,6 +114,10 @@ public abstract class ImagenesListFragment extends BaseFragment {
             public void onClick(DialogInterface dialog, int which) {
                 if (which == 0) {
                     Intent takePicture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    ContentValues values = new ContentValues();
+                    values.put(MediaStore.Images.Media.TITLE, "Image_"+System.currentTimeMillis());
+                    mCapturedImageURI = getContext().getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+                    takePicture.putExtra(MediaStore.EXTRA_OUTPUT, mCapturedImageURI);
                     getActivity().startActivityForResult(takePicture, Constants.REQUEST_CAMERA);
 
                 } else if (which == 1) {
@@ -123,6 +130,8 @@ public abstract class ImagenesListFragment extends BaseFragment {
         });
         getImageFrom.show();
     }
+
+    Uri mCapturedImageURI;
 
     public abstract void getImages();
 
@@ -146,8 +155,9 @@ public abstract class ImagenesListFragment extends BaseFragment {
                 imgDecodableString = cursor.getString(columnIndex);
                 cursor.close();
             } else if (requestCode == Constants.REQUEST_CAMERA) {
-                Uri imageUri = data.getData();
-                imgDecodableString = ImageUtils.getRealPathFromUri(getActivity(), imageUri);
+                imgDecodableString = ImageUtils.getRealPathFromUri(getActivity(), mCapturedImageURI);
+                /*Uri imageUri = data.getData();
+                imgDecodableString = ImageUtils.getRealPathFromUri(getActivity(), imageUri);*/
             }
 
             File f = new File(imgDecodableString);
@@ -176,5 +186,32 @@ public abstract class ImagenesListFragment extends BaseFragment {
         }
     }
 
+    public String photoFileName = "photo.jpg";
 
+    // Returns the Uri for a photo stored on disk given the fileName
+    public Uri getPhotoFileUri(String fileName) {
+        // Only continue if the SD Card is mounted
+        if (isExternalStorageAvailable()) {
+            // Get safe storage directory for photos
+            // Use `getExternalFilesDir` on Context to access package-specific directories.
+            // This way, we don't need to request external read/write runtime permissions.
+            File mediaStorageDir = new File(
+                    Environment.getExternalStorageDirectory().toString(), "VallasApp");
+
+            // Create the storage directory if it does not exist
+            if (!mediaStorageDir.exists() && !mediaStorageDir.mkdirs()){
+                Log.d("VallasApp", "failed to create directory");
+            }
+
+            // Return the file target for the photo based on filename
+            return Uri.fromFile(new File(mediaStorageDir.getPath() + File.separator + fileName));
+        }
+        return null;
+    }
+
+    // Returns true if external storage for photos is available
+    private boolean isExternalStorageAvailable() {
+        String state = Environment.getExternalStorageState();
+        return state.equals(Environment.MEDIA_MOUNTED);
+    }
 }
