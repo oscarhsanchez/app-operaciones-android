@@ -44,6 +44,7 @@ public class OrdenesAdapter extends RecyclerView.Adapter<OrdenesAdapter.ViewHold
     public void onBindViewHolder(ViewHolder holder, int position) {
         Orden item = values.get(position);
 
+        holder.tvCodigo.setText(item.ubicacion.pk_ubicacion);
         holder.tvUbicacion.setText(item.ubicacion.ubicacion);
         holder.tvFechaLimite.setText(Dates.ConvertSfDataStringToJavaString(item.fecha_limite));
         holder.tvTipoMedio.setText(item.ubicacion.medio.subtipo != null ? item.ubicacion.medio.subtipo.descripcion : "");
@@ -92,6 +93,7 @@ public class OrdenesAdapter extends RecyclerView.Adapter<OrdenesAdapter.ViewHold
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
+        TextView tvCodigo;
         TextView tvUbicacion;
         TextView tvEstado;
         TextView tvFechaLimite;
@@ -108,6 +110,7 @@ public class OrdenesAdapter extends RecyclerView.Adapter<OrdenesAdapter.ViewHold
             tvFechaLimite = (TextView) view.findViewById(R.id.or_fecha_limite);
             tvTipoMedio = (TextView) view.findViewById(R.id.or_tipo_medio);
             tvPosicion = (TextView) view.findViewById(R.id.or_posicion);
+            tvCodigo = (TextView) view.findViewById(R.id.or_cod_ub);
             view.setOnClickListener(this);
         }
 

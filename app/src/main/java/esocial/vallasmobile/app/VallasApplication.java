@@ -8,19 +8,27 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.location.Location;
 import android.preference.PreferenceManager;
+import android.text.TextUtils;
 
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.Date;
 
+import esocial.vallasmobile.app.incidencias.IncidenciaDetalle;
+import esocial.vallasmobile.app.ordenes.OrdenDetalle;
+import esocial.vallasmobile.listeners.OrdenesModifyListener;
 import esocial.vallasmobile.obj.GeoLocalizacion;
 import esocial.vallasmobile.obj.IncidenciaImagen;
+import esocial.vallasmobile.obj.Motivo;
 import esocial.vallasmobile.obj.OrdenImagen;
 import esocial.vallasmobile.obj.Session;
 import esocial.vallasmobile.obj.UbicacionImagen;
 import esocial.vallasmobile.services.SendImagesService;
 import esocial.vallasmobile.tasks.ImageSender;
+import esocial.vallasmobile.tasks.PutIncidenciaEstadoTask;
+import esocial.vallasmobile.tasks.PutOrdenEstadoTask;
+import esocial.vallasmobile.tasks.PutOrdenMotivoTask;
 import esocial.vallasmobile.utils.Constants;
 
 /**
@@ -37,6 +45,7 @@ public class VallasApplication extends Application {
     public static Location currentLocation;
 
     public static ArrayList<GeoLocalizacion> localizaciones;
+    public static ArrayList<Motivo> motivosCierre;
     public static Date refreshTime;
 
     public static ImageSender sender;
@@ -157,6 +166,22 @@ public class VallasApplication extends Application {
     public void forzarImageSender(){
         stopImageSender();
         initImageSender(true);
+    }
+
+    public void sendCambioEstadoOrden(String pk_orden_trabajo, Integer estado,String observaciones,
+                                      String pk_motivo){
+
+        if(TextUtils.isEmpty(pk_motivo)) {
+            new PutOrdenEstadoTask(this, pk_orden_trabajo, estado, observaciones);
+        }else{
+            new PutOrdenMotivoTask(this, pk_orden_trabajo, pk_motivo);
+        }
+    }
+
+    public void sendCambioEstadoIncidencia(String pk_incidencia, Integer estado, String observaciones,
+                                      String pk_motivo){
+
+        new PutIncidenciaEstadoTask(this, pk_incidencia, estado, observaciones);
     }
 
     public void setPendingOrdenImage(OrdenImagen imagen){

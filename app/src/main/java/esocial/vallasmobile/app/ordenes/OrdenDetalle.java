@@ -22,6 +22,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -218,28 +219,6 @@ public class OrdenDetalle extends BaseActivity implements OnMapReadyCallback, Or
 
 
     @Override
-    public void onPutOrdenEstadoOK() {
-        new GetOrdenTask(this, orden.pk_orden_trabajo, this);
-    }
-
-    @Override
-    public void onPutOrdenEstadoError(String title, String description) {
-        progressDialog.dismiss();
-        Dialogs.showAlertDialog(this, title, description);
-    }
-
-    @Override
-    public void onPutOrdenMotivoOK() {
-        new GetOrdenTask(this, orden.pk_orden_trabajo, this);
-    }
-
-    @Override
-    public void onPutOrdenMotivoError(String title, String description) {
-        progressDialog.dismiss();
-        Dialogs.showAlertDialog(this, title, description);
-    }
-
-    @Override
     public void onGetOrdenOK(final Orden ordenModificada) {
         progressDialog.dismiss();
         getVallasApplication().setRefreshOrdenes(true);
@@ -269,20 +248,9 @@ public class OrdenDetalle extends BaseActivity implements OnMapReadyCallback, Or
     @Override
     public void onGetOrdenesMotivoOK(final ArrayList<Motivo> motivos) {
         progressDialog.dismiss();
-        CharSequence[] array = new CharSequence[motivos.size()];
-        for(int i=0; i<array.length;i++){
-            array[i] = motivos.get(i).descripcion;
-        }
+        VallasApplication.motivosCierre = motivos;
 
-        Dialogs.showNewListDialog(this, "Selecciona motivo", array, false,
-                new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                motivoSelected = motivos.get(which);
-                dialog.dismiss();
-                createIncidencia();
-            }
-        });
+        openMotivoDialog(motivos);
     }
 
     @Override
@@ -300,7 +268,10 @@ public class OrdenDetalle extends BaseActivity implements OnMapReadyCallback, Or
 
     @Override
     public void onAddIncidenciaOK() {
-        new PutOrdenMotivoTask(this, orden.pk_orden_trabajo, motivoSelected.pk_motivo, this);
+        progressDialog.dismiss();
+        Toast.makeText(OrdenDetalle.this, getString(R.string.modificando_estado), Toast.LENGTH_LONG).show();
+        getVallasApplication().sendCambioEstadoOrden(orden.pk_orden_trabajo, changedStatus,"",
+                motivoSelected.pk_motivo);
     }
 
     @Override
@@ -309,13 +280,30 @@ public class OrdenDetalle extends BaseActivity implements OnMapReadyCallback, Or
         Dialogs.showAlertDialog(this, title, description);
     }
 
+    private void openMotivoDialog(final ArrayList<Motivo> motivos){
+        CharSequence[] array = new CharSequence[motivos.size()];
+        for(int i=0; i< array.length;i++){
+            array[i] = motivos.get(i).descripcion;
+        }
+
+        Dialogs.showNewListDialog(this, "Selecciona motivo", array, false,
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        motivoSelected = motivos.get(which);
+                        dialog.dismiss();
+                        createIncidencia();
+                    }
+                });
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(requestCode == Constants.REQUEST_CHANGE_ORDEN_STATUS && resultCode == RESULT_OK){
-            progressDialog = Dialogs.newProgressDialog(OrdenDetalle.this, getString(R.string.aplicando_cambios), false);
-            progressDialog.show();
-            new PutOrdenEstadoTask(OrdenDetalle.this, orden.pk_orden_trabajo, changedStatus,
-                    data.getStringExtra("observaciones_cierre"), OrdenDetalle.this);
+
+            Toast.makeText(OrdenDetalle.this, getString(R.string.modificando_estado), Toast.LENGTH_LONG).show();
+            getVallasApplication().sendCambioEstadoOrden(orden.pk_orden_trabajo, changedStatus,
+                    data.getStringExtra("observaciones_cierre"), null);
 
         }else if(requestCode == Constants.REQUEST_ADD_INCIDENCIA && resultCode == RESULT_OK){
             progressDialog = Dialogs.newProgressDialog(OrdenDetalle.this, getString(R.string.aplicando_cambios), false);
@@ -379,34 +367,28 @@ public class OrdenDetalle extends BaseActivity implements OnMapReadyCallback, Or
                 break;
             case R.id.menu_pendiente:
                 changedStatus = 0;
-                progressDialog = Dialogs.newProgressDialog(OrdenDetalle.this, getString(R.string.aplicando_cambios), false);
-                progressDialog.show();
-
-                new PutOrdenEstadoTask(OrdenDetalle.this, orden.pk_orden_trabajo, changedStatus, "",
-                        OrdenDetalle.this);
+                Toast.makeText(OrdenDetalle.this, getString(R.string.modificando_estado), Toast.LENGTH_LONG).show();
+                getVallasApplication().sendCambioEstadoOrden(orden.pk_orden_trabajo, changedStatus,"", null);
                 break;
             case R.id.menu_encurso:
                 changedStatus = 1;
-                progressDialog = Dialogs.newProgressDialog(OrdenDetalle.this, getString(R.string.aplicando_cambios), false);
-                progressDialog.show();
-
-                new PutOrdenEstadoTask(OrdenDetalle.this, orden.pk_orden_trabajo, changedStatus, "",
-                        OrdenDetalle.this);
+                Toast.makeText(OrdenDetalle.this, getString(R.string.modificando_estado), Toast.LENGTH_LONG).show();
+                getVallasApplication().sendCambioEstadoOrden(orden.pk_orden_trabajo, changedStatus,"", null);
                 break;
             case R.id.menu_pendiente_imp:
                 changedStatus = 3;
-                progressDialog = Dialogs.newProgressDialog(OrdenDetalle.this, getString(R.string.aplicando_cambios), false);
-                progressDialog.show();
-
-                new PutOrdenEstadoTask(OrdenDetalle.this, orden.pk_orden_trabajo, changedStatus, "",
-                        OrdenDetalle.this);
+                Toast.makeText(OrdenDetalle.this, getString(R.string.modificando_estado), Toast.LENGTH_LONG).show();
+                getVallasApplication().sendCambioEstadoOrden(orden.pk_orden_trabajo, changedStatus,"", null);
                 break;
             case R.id.menu_no_finalizado:
                 changedStatus = 4;
-                progressDialog = Dialogs.newProgressDialog(OrdenDetalle.this, getString(R.string.mostrando_motivos), false);
-                progressDialog.show();
-
-                new GetOrdenesMotivosTask(this, this);
+                if(VallasApplication.motivosCierre==null) {
+                    progressDialog = Dialogs.newProgressDialog(OrdenDetalle.this, getString(R.string.mostrando_motivos), false);
+                    progressDialog.show();
+                    new GetOrdenesMotivosTask(this, this);
+                }else{
+                    openMotivoDialog(VallasApplication.motivosCierre);
+                }
                 break;
             case R.id.menu_finalizado:
                 changedStatus = 2;

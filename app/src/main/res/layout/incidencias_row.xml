@@ -53,6 +53,34 @@
 
             </TableRow>
 
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_column="0"
+                    android:layout_marginRight="10dp"
+                    android:layout_weight="0"
+                    android:gravity="left|center"
+                    android:text="@string/codigo_"
+                    android:textColor="@color/text_black"
+                    android:textSize="@dimen/sp14" />
+
+                <TextView
+                    android:id="@+id/inc_cod_ub"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="left|center"
+                    android:textColor="@color/text_gray_alpha"
+                    android:textSize="@dimen/sp14" />
+
+            </TableRow>
+
+
             <TableRow>
 
                 <TextView

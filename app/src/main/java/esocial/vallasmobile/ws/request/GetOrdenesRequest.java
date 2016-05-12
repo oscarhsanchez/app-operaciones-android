@@ -20,7 +20,7 @@ public class GetOrdenesRequest extends WsRequest {
 		super(context);
 	}
 
-	public <T> T execute(String criteria, Location location, Class<T> responseClass) {
+	public <T> T execute(String criteria, Location location, String estado_orden, Class<T> responseClass) {
 
 		List<NameValuePair> params = new ArrayList<NameValuePair>(2);
 		params.add(new BasicNameValuePair("extended", "1"));
@@ -28,10 +28,12 @@ public class GetOrdenesRequest extends WsRequest {
 			params.add(new BasicNameValuePair("latitud", String.valueOf(location.getLatitude())));
 			params.add(new BasicNameValuePair("longitud", String.valueOf(location.getLongitude())));
 		}
+
+		params.add(new BasicNameValuePair("estado_orden", estado_orden));
 		params.add(new BasicNameValuePair("codigo_user", context.getSession().codigo));
         params.add(new BasicNameValuePair("sort", "[fecha_limite_ASC]"));
 		if(!TextUtils.isEmpty(criteria))
-			params.add(new BasicNameValuePair("ubicacion", criteria.replace(" ", "%20")));
+			params.add(new BasicNameValuePair("search", criteria.replace(" ", "%20")));
 
 		return super.executeGetDefaultHeaders(Constants.ORDENES, params, responseClass);
 	}

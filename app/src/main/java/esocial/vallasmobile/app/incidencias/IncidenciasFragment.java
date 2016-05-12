@@ -4,18 +4,14 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-
 import esocial.vallasmobile.R;
 import esocial.vallasmobile.adapter.IncidenciasMainTabAdapter;
-import esocial.vallasmobile.adapter.OrdenesTabAdapter;
 import esocial.vallasmobile.app.BaseFragment;
 import esocial.vallasmobile.app.MainTabActivity;
 import esocial.vallasmobile.listeners.IncidenciasListener;

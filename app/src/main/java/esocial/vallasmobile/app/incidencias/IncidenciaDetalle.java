@@ -1,7 +1,6 @@
 package esocial.vallasmobile.app.incidencias;
 
 import android.Manifest;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -23,6 +22,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -36,18 +36,14 @@ import esocial.vallasmobile.adapter.IncidenciasTabAdapter;
 import esocial.vallasmobile.app.BaseActivity;
 import esocial.vallasmobile.app.VallasApplication;
 import esocial.vallasmobile.app.ordenes.OrdenComentarioCierre;
-import esocial.vallasmobile.listeners.IncidenciasModifyListener;
 import esocial.vallasmobile.obj.Incidencia;
-import esocial.vallasmobile.tasks.GetIncidenciaTask;
-import esocial.vallasmobile.tasks.PutIncidenciaEstadoTask;
 import esocial.vallasmobile.utils.Constants;
-import esocial.vallasmobile.utils.Dialogs;
 
 
 /**
  * Created by jesus.martinez on 28/03/2016.
  */
-public class IncidenciaDetalle extends BaseActivity implements OnMapReadyCallback, IncidenciasModifyListener {
+public class IncidenciaDetalle extends BaseActivity implements OnMapReadyCallback {
 
     public String tabTitles[];
 
@@ -208,50 +204,14 @@ public class IncidenciaDetalle extends BaseActivity implements OnMapReadyCallbac
         return incidencia;
     }
 
-    @Override
-    public void onPutIncidenciaOK() {
-        new GetIncidenciaTask(this, incidencia.pk_incidencia, this);
-    }
-
-    @Override
-    public void onPutIncidenciaError(String title, String description) {
-        progressDialog.dismiss();
-        Dialogs.showAlertDialog(this, title, description);
-    }
-
-    @Override
-    public void onGetIncidenciaOK(final Incidencia incidencia) {
-        progressDialog.dismiss();
-        getVallasApplication().setRefreshIncidencias(true);
-
-        Dialogs.newAlertDialog(this, getString(R.string.incidencia_modificada),
-                getString(R.string.incidencia_modificada_text), getString(R.string.accept),
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                        Intent intent = new Intent(IncidenciaDetalle.this, IncidenciaDetalle.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        intent.putExtra("incidencia", incidencia);
-                        startActivity(intent);
-                    }
-                }).show();
-    }
-
-    @Override
-    public void onGetIncidenciaError(String title, String description) {
-        progressDialog.dismiss();
-        Dialogs.showAlertDialog(this, title, description);
-    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(requestCode == Constants.REQUEST_CHANGE_INCIDENCIA_STATUS && resultCode == RESULT_OK){
-            progressDialog = Dialogs.newProgressDialog(IncidenciaDetalle.this, getString(R.string.aplicando_cambios), false);
-            progressDialog.show();
+            Toast.makeText(IncidenciaDetalle.this, getString(R.string.modificando_estado), Toast.LENGTH_LONG).show();
+            getVallasApplication().sendCambioEstadoIncidencia(incidencia.pk_incidencia, changedStatus,
+                    data.getStringExtra("observaciones_cierre"), null);
 
-            new PutIncidenciaEstadoTask(IncidenciaDetalle.this, incidencia.pk_incidencia, changedStatus,
-                    data.getStringExtra("observaciones_cierre"), IncidenciaDetalle.this);
         }else {
             Fragment frag = adapter.getItem(tabLayout.getSelectedTabPosition());
             frag.onActivityResult(requestCode, resultCode, data);
@@ -322,11 +282,9 @@ public class IncidenciaDetalle extends BaseActivity implements OnMapReadyCallbac
                 Intent intent = new Intent(IncidenciaDetalle.this, OrdenComentarioCierre.class);
                 startActivityForResult(intent, Constants.REQUEST_CHANGE_INCIDENCIA_STATUS);
             }else {
-                progressDialog = Dialogs.newProgressDialog(IncidenciaDetalle.this, getString(R.string.aplicando_cambios), false);
-                progressDialog.show();
 
-                new PutIncidenciaEstadoTask(IncidenciaDetalle.this, incidencia.pk_incidencia, changedStatus, "",
-                        IncidenciaDetalle.this);
+                Toast.makeText(IncidenciaDetalle.this, getString(R.string.modificando_estado), Toast.LENGTH_LONG).show();
+                getVallasApplication().sendCambioEstadoIncidencia(incidencia.pk_incidencia, changedStatus,"", null);
             }
         }
 

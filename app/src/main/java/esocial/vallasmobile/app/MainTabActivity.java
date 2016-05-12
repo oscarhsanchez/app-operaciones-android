@@ -7,7 +7,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
-import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -33,11 +32,8 @@ import android.widget.Toast;
 import esocial.vallasmobile.R;
 import esocial.vallasmobile.adapter.MainTabPagerAdapter;
 import esocial.vallasmobile.app.incidencias.IncidenciaAdd;
-import esocial.vallasmobile.app.ordenes.OrdenComentarioCierre;
-import esocial.vallasmobile.app.ordenes.OrdenDetalle;
 import esocial.vallasmobile.obj.Incidencia;
 import esocial.vallasmobile.services.LocationService;
-import esocial.vallasmobile.tasks.PutOrdenEstadoTask;
 import esocial.vallasmobile.utils.Constants;
 import esocial.vallasmobile.utils.Dialogs;
 
@@ -64,7 +60,8 @@ public class MainTabActivity extends BaseActivity {
     private OnIncidenciasFragmentListener incidenciasListener;
     private OnIncidenciasTabFragmentListener incidenciasAsignadasListener;
     private OnIncidenciasTabFragmentListener incidenciasCreadasListener;
-    private OnOrdenesFragmentInteractionListener ordenesListener;
+    private OnOrdenesTabFragmentListener ordenesPendientesListener;
+    private OnOrdenesTabFragmentListener ordenesCerradasListener;
 
 
     @Override
@@ -140,8 +137,10 @@ public class MainTabActivity extends BaseActivity {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 if (tabLayout.getSelectedTabPosition() == 0) {//Ordenes
-                    ordenesListener.onSearch(searchAutoComplete.getText().toString(), false);
-                } else if (tabLayout.getSelectedTabPosition() == 1) {//Incidencias
+                    ordenesPendientesListener.onSearch(searchAutoComplete.getText().toString(), false);
+                    ordenesCerradasListener.onSearch(searchAutoComplete.getText().toString(), false);
+                }
+                if (tabLayout.getSelectedTabPosition() == 1) {//Incidencias
                     incidenciasAsignadasListener.onSearch(searchAutoComplete.getText().toString(), false);
                     incidenciasCreadasListener.onSearch(searchAutoComplete.getText().toString(), false);
                 }
@@ -162,7 +161,8 @@ public class MainTabActivity extends BaseActivity {
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus) {
                     if (lastTabSelected == 0 || tabLayout.getSelectedTabPosition() == 0) {//Ordenes
-                        ordenesListener.onSearch("", false);
+                        ordenesPendientesListener.onSearch("", false);
+                        ordenesCerradasListener.onSearch("", false);
                     }
                     if (lastTabSelected == 1 || tabLayout.getSelectedTabPosition() == 1) {//Incidencias
                         incidenciasAsignadasListener.onSearch("", false);
@@ -237,7 +237,8 @@ public class MainTabActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 if (tabLayout.getSelectedTabPosition() == 0) {//Ordenes
-                    ordenesListener.onSearch("", true);
+                    ordenesPendientesListener.onSearch("", true);
+                    ordenesCerradasListener.onSearch("", true);
                 }
                 if (tabLayout.getSelectedTabPosition() == 1) {//Incidencias
                     incidenciasAsignadasListener.onSearch("", true);
@@ -361,12 +362,15 @@ public class MainTabActivity extends BaseActivity {
         incidenciasCreadasListener = listener;
     }
 
-    public void setOrdenesListener(OnOrdenesFragmentInteractionListener listener) {
-        ordenesListener = listener;
+    public void setOrdenesPendientesListener(OnOrdenesTabFragmentListener listener) {
+        ordenesPendientesListener = listener;
     }
 
+    public void setOrdenesCerradasListener(OnOrdenesTabFragmentListener listener) {
+        ordenesCerradasListener = listener;
+    }
 
-    public interface OnOrdenesFragmentInteractionListener {
+    public interface OnOrdenesTabFragmentListener {
         void onSearch(String criteria, boolean location);
     }
 

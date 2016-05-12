@@ -47,6 +47,7 @@
     <string name="basic_data">Datos Básicos</string>
     <string name="ubicacion">Ubicación</string>
     <string name="ubicacion_">Ubicación:</string>
+    <string name="codigo_">Código:</string>
     <string name="tipo_">Tipo:</string>
     <string name="tipo_medio_">Tipo Medio:</string>
     <string name="posicion">Posición</string>
@@ -90,6 +91,7 @@
     <string name="pendiente">Pendiente</string>
     <string name="en_proceso">En proceso</string>
     <string name="cerrada">Cerrada</string>
+    <string name="cerradas">Cerradas</string>
     <string name="no_finalizada">No finalizada</string>
     <string name="pendiente_impresion">Pendiente impresión</string>
     <string name="inventario">Inventario</string>
@@ -117,4 +119,5 @@
     <string name="orden_modificada_text">Orden modificada correctamente</string>
     <string name="incidencia_modificada">Incidencia modificada</string>
     <string name="orden_modificada">Orden modificada</string>
+    <string name="modificando_estado">Se ha enviado la petición de cambio de estado. Esta operación puede tardar unos minutos</string>
 </resources>

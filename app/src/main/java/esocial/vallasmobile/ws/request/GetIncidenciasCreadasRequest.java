@@ -31,7 +31,7 @@ public class GetIncidenciasCreadasRequest extends WsRequest {
         params.add(new BasicNameValuePair("codigo_user", context.getSession().codigo));
         params.add(new BasicNameValuePair("sort", "[fecha_limite_ASC]"));
 		if(!TextUtils.isEmpty(criteria))
-			params.add(new BasicNameValuePair("ubicacion", criteria.replace(" ", "%20")));
+			params.add(new BasicNameValuePair("search", criteria.replace(" ", "%20")));
 
 		return super.executeGetDefaultHeaders(Constants.INCIDENCIAS, params, responseClass);
 	}

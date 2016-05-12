@@ -6,6 +6,8 @@ package esocial.vallasmobile.tasks;
 
 import android.os.AsyncTask;
 import android.os.Build;
+import android.util.Log;
+import android.widget.Toast;
 
 import esocial.vallasmobile.R;
 import esocial.vallasmobile.app.BaseActivity;
@@ -20,14 +22,11 @@ import esocial.vallasmobile.ws.response.PutOrdenResponse;
  */
 public class PutOrdenMotivoTask extends AsyncTask<Object, Integer, PutOrdenResponse> {
 
-    private BaseActivity activity;
-    private OrdenesModifyListener listener;
+    private VallasApplication activity;
 
 
-    public PutOrdenMotivoTask(BaseActivity activity, String pk_orden, String pk_motivo,
-                              OrdenesModifyListener listener) {
+    public PutOrdenMotivoTask(VallasApplication activity, String pk_orden, String pk_motivo) {
         this.activity = activity;
-        this.listener = listener;
 
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
             executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, pk_orden, pk_motivo);
@@ -37,7 +36,7 @@ public class PutOrdenMotivoTask extends AsyncTask<Object, Integer, PutOrdenRespo
 
     @Override
     protected PutOrdenResponse doInBackground(Object... params) {
-        PutOrdenMotivoRequest request = new PutOrdenMotivoRequest((VallasApplication) activity.getApplicationContext());
+        PutOrdenMotivoRequest request = new PutOrdenMotivoRequest(activity);
         PutOrdenResponse response = request.execute((String) params[0], (String) params[1],
                 PutOrdenResponse.class);
 
@@ -47,12 +46,17 @@ public class PutOrdenMotivoTask extends AsyncTask<Object, Integer, PutOrdenRespo
     protected void onPostExecute(PutOrdenResponse response) {
         if (response != null) {
             if (!response.failed()) {
-                listener.onPutOrdenMotivoOK();
+                Log.d("PUT ORDEN MOTIVO TASK", "RESPONSE OK");
             } else {
-                listener.onPutOrdenMotivoError("Error " + response.error.code, response.error.description);
+                Log.d("PUT ORDEN MOTIVO TASK", "Error " + response.error.code + " --Descripcion:"+ response.error.description);
+                Toast.makeText(VallasApplication.context, "Error " + response.error.code +
+                        " al cambiar estado de la orden", Toast.LENGTH_LONG).show();
             }
         } else {
-            listener.onPutOrdenMotivoError(activity.getString(R.string.opps), activity.getString(R.string.check_connection));
+            Log.d("PUT ORDEN MOTIVO TASK", "Error " +activity.getString(R.string.opps) +
+                    " --Descripcion:"+ activity.getString(R.string.check_connection));
+            Toast.makeText(VallasApplication.context, "Error inesperado" +
+                    " al cambiar estado de la orden", Toast.LENGTH_LONG).show();
         }
     }
 }

@@ -43,6 +43,7 @@ public class UbicacionesAdapter extends RecyclerView.Adapter<UbicacionesAdapter.
     public void onBindViewHolder(ViewHolder holder, int position) {
         Ubicacion item = values.get(position);
 
+        holder.tvCodigo.setText(item.pk_ubicacion);
         holder.tvUbicacion.setText(item.ubicacion);
         holder.tvEstatus.setText(item.estatus);
         holder.tvCategoria.setText(item.categoria);
@@ -91,12 +92,14 @@ public class UbicacionesAdapter extends RecyclerView.Adapter<UbicacionesAdapter.
         TextView tvUbicacion;
         TextView tvEstatus;
         TextView tvCategoria;
+        TextView tvCodigo;
         ImageView ivTranseuntes;
         ImageView ivVehicular;
 
 
         public ViewHolder(View view) {
             super(view);
+            tvCodigo = (TextView) view.findViewById(R.id.ub_cod);
             tvUbicacion = (TextView) view.findViewById(R.id.ub_direccion);
             tvEstatus = (TextView) view.findViewById(R.id.ub_estatus);
             tvCategoria = (TextView) view.findViewById(R.id.ub_categoria);

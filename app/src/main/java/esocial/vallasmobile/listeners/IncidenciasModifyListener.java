@@ -7,9 +7,6 @@ import esocial.vallasmobile.obj.Incidencia;
  */
 public interface IncidenciasModifyListener {
 
-    void onPutIncidenciaOK();
-    void onPutIncidenciaError(String title, String description);
-
     void onGetIncidenciaOK(Incidencia incidencia);
     void onGetIncidenciaError(String title, String description);
 }

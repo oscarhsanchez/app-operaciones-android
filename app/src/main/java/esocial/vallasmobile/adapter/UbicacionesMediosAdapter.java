@@ -106,7 +106,8 @@ public class UbicacionesMediosAdapter extends RecyclerView.Adapter<UbicacionesMe
 
         @Override
         public void onClick(View v) {
-            mItemClickListener.onItemClick(v, getPosition());
+            if(mItemClickListener!=null)
+                mItemClickListener.onItemClick(v, getPosition());
         }
     }
 

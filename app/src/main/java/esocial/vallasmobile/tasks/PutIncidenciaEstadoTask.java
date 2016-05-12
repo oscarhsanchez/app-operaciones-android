@@ -6,16 +6,13 @@ package esocial.vallasmobile.tasks;
 
 import android.os.AsyncTask;
 import android.os.Build;
+import android.util.Log;
+import android.widget.Toast;
 
 import esocial.vallasmobile.R;
-import esocial.vallasmobile.app.BaseActivity;
 import esocial.vallasmobile.app.VallasApplication;
-import esocial.vallasmobile.listeners.IncidenciasModifyListener;
-import esocial.vallasmobile.listeners.OrdenesModifyListener;
 import esocial.vallasmobile.ws.request.PutIncidenciaRequest;
-import esocial.vallasmobile.ws.request.PutOrdenRequest;
 import esocial.vallasmobile.ws.response.PutIncidenciaResponse;
-import esocial.vallasmobile.ws.response.PutOrdenResponse;
 
 
 /**
@@ -23,14 +20,12 @@ import esocial.vallasmobile.ws.response.PutOrdenResponse;
  */
 public class PutIncidenciaEstadoTask extends AsyncTask<Object, Integer, PutIncidenciaResponse> {
 
-    private BaseActivity activity;
-    private IncidenciasModifyListener listener;
+    private VallasApplication activity;
 
 
-    public PutIncidenciaEstadoTask(BaseActivity activity, String pk_incidencia, Integer estado,
-                                   String observaciones, IncidenciasModifyListener listener) {
+    public PutIncidenciaEstadoTask(VallasApplication activity, String pk_incidencia, Integer estado,
+                                   String observaciones) {
         this.activity = activity;
-        this.listener = listener;
 
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
             executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, pk_incidencia, estado, observaciones);
@@ -50,12 +45,17 @@ public class PutIncidenciaEstadoTask extends AsyncTask<Object, Integer, PutIncid
     protected void onPostExecute(PutIncidenciaResponse response) {
         if (response != null) {
             if (!response.failed()) {
-                listener.onPutIncidenciaOK();
+                Log.d("PUT INCIDENCIA ESTADO", "RESPONSE OK");
             } else {
-                listener.onPutIncidenciaError("Error " + response.error.code, response.error.description);
+                Log.d("PUT INCIDENCIA ESTADO", "Error " + response.error.code + " --Descripcion:"+ response.error.description);
+                Toast.makeText(VallasApplication.context, "Error " + response.error.code +
+                        " al cambiar estado de la orden", Toast.LENGTH_LONG).show();
             }
         } else {
-            listener.onPutIncidenciaError(activity.getString(R.string.opps), activity.getString(R.string.check_connection));
+            Log.d("PUT INCIDENCIA ESTADO", "Error " +activity.getString(R.string.opps) +
+                    " --Descripcion:"+ activity.getString(R.string.check_connection));
+            Toast.makeText(VallasApplication.context, "Error inesperado" +
+                    " al cambiar estado de la orden", Toast.LENGTH_LONG).show();
         }
     }
 }

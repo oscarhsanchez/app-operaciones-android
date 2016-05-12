@@ -26,21 +26,22 @@ public class GetOrdenesTask extends AsyncTask<Object, Integer, GetOrdenesRespons
     private OrdenesListener listener;
 
 
-    public GetOrdenesTask(Activity activity, String criteria, Location location, OrdenesListener listener) {
+    public GetOrdenesTask(Activity activity, String criteria, Location location, String estado_orden,
+                          OrdenesListener listener) {
         this.activity = activity;
         this.listener = listener;
 
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
-            executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, criteria, location);
+            executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, criteria, location, estado_orden);
         else
-            execute(criteria, location);
+            execute(criteria, location, estado_orden);
     }
 
     @Override
     protected GetOrdenesResponse doInBackground(Object... params) {
         GetOrdenesRequest request = new GetOrdenesRequest((VallasApplication) activity.getApplicationContext());
         GetOrdenesResponse response = request.execute((String) params[0], (Location) params[1],
-                GetOrdenesResponse.class);
+                (String) params[2], GetOrdenesResponse.class);
 
         return response;
     }

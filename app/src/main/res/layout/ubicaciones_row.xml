@@ -23,11 +23,35 @@
             android:textColor="#000"
             android:textSize="@dimen/sp16" />
 
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="1"
+                android:layout_marginRight="10dp"
+                android:layout_weight="0"
+                android:gravity="left|center"
+                android:text="Código:"
+                android:textColor="@color/text_gray"
+                android:textSize="@dimen/sp14" />
+
+            <TextView
+                android:id="@+id/ub_cod"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="left|center"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="@dimen/sp14" />
+
+        </TableRow>
 
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="3dp"
             android:orientation="horizontal">
 
             <TextView
@@ -46,6 +70,33 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="@dimen/dp20"
+                android:gravity="left|center"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="@dimen/sp14" />
+
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="1"
+                android:layout_marginRight="10dp"
+                android:layout_weight="0"
+                android:gravity="left|center"
+                android:text="Estado:"
+                android:textColor="@color/text_gray"
+                android:textSize="@dimen/sp14" />
+
+            <TextView
+                android:id="@+id/ub_estatus"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:gravity="left|center"
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="@dimen/sp14" />
@@ -97,31 +148,6 @@
                     android:scaleType="fitCenter"
                     android:src="@drawable/icon_minus" />
             </LinearLayout>
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_column="1"
-                android:layout_marginRight="10dp"
-                android:layout_weight="0"
-                android:gravity="left|center"
-                android:text="Estado:"
-                android:textColor="@color/text_gray"
-                android:textSize="@dimen/sp14" />
-
-            <TextView
-                android:id="@+id/ub_estatus"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="left|center"
-                android:textColor="@color/colorPrimaryDark"
-                android:textSize="@dimen/sp14" />
 
         </TableRow>
     </TableLayout>

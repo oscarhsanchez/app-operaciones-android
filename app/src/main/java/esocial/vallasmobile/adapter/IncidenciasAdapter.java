@@ -44,6 +44,8 @@ public class IncidenciasAdapter extends RecyclerView.Adapter<IncidenciasAdapter.
     public void onBindViewHolder(ViewHolder holder, int position) {
         Incidencia item = values.get(position);
 
+
+        holder.tvCodigo.setText(item.ubicacion.pk_ubicacion);
         holder.tvUbicacion.setText(item.ubicacion.ubicacion);
         holder.tvFechaLimite.setText(Dates.ConvertSfDataStringToJavaString(item.fecha_limite));
         holder.tvTipoMedio.setText(item.ubicacion.medio.subtipo != null ? item.ubicacion.medio.subtipo.descripcion : "");
@@ -90,6 +92,7 @@ public class IncidenciasAdapter extends RecyclerView.Adapter<IncidenciasAdapter.
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
+        TextView tvCodigo;
         TextView tvUbicacion;
         TextView tvEstado;
         TextView tvFechaLimite;
@@ -106,6 +109,7 @@ public class IncidenciasAdapter extends RecyclerView.Adapter<IncidenciasAdapter.
             tvFechaLimite = (TextView) view.findViewById(R.id.inc_fecha_limite);
             tvTipoMedio = (TextView) view.findViewById(R.id.inc_tipo_medio);
             tvPosicion = (TextView) view.findViewById(R.id.inc_posicion);
+            tvCodigo = (TextView) view.findViewById(R.id.inc_cod_ub);
             view.setOnClickListener(this);
         }
 
