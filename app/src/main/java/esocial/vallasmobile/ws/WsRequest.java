@@ -269,6 +269,7 @@ public class WsRequest {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
+			return null;
 		}
 
 		return response;

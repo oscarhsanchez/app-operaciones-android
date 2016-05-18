@@ -10,8 +10,10 @@ import android.location.Location;
 import android.preference.PreferenceManager;
 import android.text.TextUtils;
 
+import com.crashlytics.android.Crashlytics;
 import com.google.gson.Gson;
 
+import io.fabric.sdk.android.Fabric;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -54,6 +56,7 @@ public class VallasApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        Fabric.with(this, new Crashlytics());
 
         prefsEditor = PreferenceManager.getDefaultSharedPreferences(this).edit();
     }

@@ -24,6 +24,7 @@ public class ImageSender implements OrdenesImagenesListener, IncidenciasImagenes
     int count = 0;
     int i = 0;
     boolean showMessage = false;
+    boolean isRunning = false;
 
     public ImageSender() {
         images = new ArrayList<>();
@@ -56,6 +57,9 @@ public class ImageSender implements OrdenesImagenesListener, IncidenciasImagenes
     }
 
     public void sendImages(Boolean showMessage) {
+        if(isRunning) return;
+        isRunning = true;
+
         count = images.size();
         i = 0;
         this.showMessage = showMessage;
@@ -121,6 +125,8 @@ public class ImageSender implements OrdenesImagenesListener, IncidenciasImagenes
         count--;
         images.remove(i);
         if (count == 0) {
+            isRunning = false;
+
             if(showMessage) {
                 Dialogs.showAlertDialog(VallasApplication.context, null,
                         VallasApplication.context.getString(R.string.imagenes_enviadas));
@@ -129,7 +135,10 @@ public class ImageSender implements OrdenesImagenesListener, IncidenciasImagenes
             if(Constants.isDebug)
                 Log.d("ENVIO DE IMAGENES", "COMPLETADO EL ENVIO DE IMAGENES EN BACKGROUND");
         }else{
-            sendImage();
+            if(count-i != 0)
+                sendImage();
+            else
+                isRunning = false;
         }
     }
 
