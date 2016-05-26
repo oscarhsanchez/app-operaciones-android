@@ -56,6 +56,7 @@ public class VallasApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+
         Fabric.with(this, new Crashlytics());
 
         prefsEditor = PreferenceManager.getDefaultSharedPreferences(this).edit();

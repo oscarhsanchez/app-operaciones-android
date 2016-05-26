@@ -34,6 +34,7 @@ import android.widget.Toast;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import esocial.vallasmobile.R;
 import esocial.vallasmobile.adapter.ImagenesListAdapter;
@@ -135,7 +136,7 @@ public abstract class ImagenesListFragment extends BaseFragment {
 
     public abstract void getImages();
 
-    public abstract void postImage(String fileName, Bitmap bitmap);
+    public abstract void postImage(String time, Bitmap bitmap);
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -156,12 +157,7 @@ public abstract class ImagenesListFragment extends BaseFragment {
                 cursor.close();
             } else if (requestCode == Constants.REQUEST_CAMERA) {
                 imgDecodableString = ImageUtils.getRealPathFromUri(getActivity(), mCapturedImageURI);
-                /*Uri imageUri = data.getData();
-                imgDecodableString = ImageUtils.getRealPathFromUri(getActivity(), imageUri);*/
             }
-
-            File f = new File(imgDecodableString);
-            String imageName = f.getName();
 
             progressDialog = Dialogs.newProgressDialog(getActivity(), getString(R.string.saving_image), false);
             progressDialog.show();
@@ -170,7 +166,15 @@ public abstract class ImagenesListFragment extends BaseFragment {
             Bitmap bitmap = ImageUtils.decodeSampledBitmapFromFile(imgDecodableString, 500, 500);
             bitmap = ImageUtils.getImageRotated(imgDecodableString, bitmap);
 
-            postImage(imageName, bitmap);
+            Calendar now = Calendar.getInstance();
+            String year = String.format("%02d",now.get(Calendar.YEAR));
+            String month = String.format("%02d",now.get(Calendar.MONTH) + 1); // Note: zero based!
+            String day = String.format("%02d",now.get(Calendar.DAY_OF_MONTH));
+            String hour = String.format("%02d",now.get(Calendar.HOUR_OF_DAY));
+            String minute = String.format("%02d",now.get(Calendar.MINUTE));
+            String second = String.format("%02d",now.get(Calendar.SECOND));
+
+            postImage(year+month+day+hour+minute+second, bitmap);
         }
     }
 

@@ -19,13 +19,11 @@ import esocial.vallasmobile.utils.Dates;
 public class OrdenesAdapter extends RecyclerView.Adapter<OrdenesAdapter.ViewHolder> {
 
 
-    private LayoutInflater inflater;
     private ArrayList<Orden> values;
     private Context context;
     private OnItemClickListener mItemClickListener;
 
     public OrdenesAdapter(Context context, ArrayList<Orden> values) {
-        inflater = LayoutInflater.from(context);
         this.context = context;
         this.values = values;
     }

@@ -18,13 +18,11 @@ import esocial.vallasmobile.obj.Ubicacion;
 public class UbicacionesAdapter extends RecyclerView.Adapter<UbicacionesAdapter.ViewHolder> {
 
 
-    private LayoutInflater inflater;
     private ArrayList<Ubicacion> values;
     private Context context;
     private OnItemClickListener mItemClickListener;
 
     public UbicacionesAdapter(Context context, ArrayList<Ubicacion> values) {
-        inflater = LayoutInflater.from(context);
         this.context = context;
         this.values = values;
     }

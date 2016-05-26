@@ -23,13 +23,11 @@ import esocial.vallasmobile.utils.Text;
 public class UbicacionesMediosAdapter extends RecyclerView.Adapter<UbicacionesMediosAdapter.ViewHolder> {
 
 
-    private LayoutInflater inflater;
     private ArrayList<Medio> values;
     private Context context;
     private OnItemClickListener mItemClickListener;
 
     public UbicacionesMediosAdapter(Context context, ArrayList<Medio> values) {
-        inflater = LayoutInflater.from(context);
         this.context = context;
         this.values = values;
     }

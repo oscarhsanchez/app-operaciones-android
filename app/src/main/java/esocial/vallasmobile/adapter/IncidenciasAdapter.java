@@ -19,13 +19,11 @@ import esocial.vallasmobile.utils.Dates;
 public class IncidenciasAdapter extends RecyclerView.Adapter<IncidenciasAdapter.ViewHolder> {
 
 
-    private LayoutInflater inflater;
     private ArrayList<Incidencia> values;
     private Context context;
     private OnItemClickListener mItemClickListener;
 
     public IncidenciasAdapter(Context context, ArrayList<Incidencia> values) {
-        inflater = LayoutInflater.from(context);
         this.context = context;
         this.values = values;
     }

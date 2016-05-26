@@ -7,6 +7,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.transition.TransitionInflater;
 import android.util.Base64;
+import android.util.Log;
 import android.util.Pair;
 import android.view.View;
 import android.widget.ImageView;
@@ -21,6 +22,7 @@ import esocial.vallasmobile.app.BaseActivity;
 import esocial.vallasmobile.app.FullScreenImage;
 import esocial.vallasmobile.app.ImagenesListFragment;
 import esocial.vallasmobile.app.VallasApplication;
+import esocial.vallasmobile.app.ordenes.OrdenDetalle;
 import esocial.vallasmobile.listeners.UbicacionesImagenesListener;
 import esocial.vallasmobile.obj.UbicacionImagen;
 import esocial.vallasmobile.tasks.GetUbicacionesImagenesTask;
@@ -42,8 +44,9 @@ public class UbicacionImagenesFragment extends ImagenesListFragment implements U
     }
 
     @Override
-    public void postImage(String fileName, Bitmap bitmap) {
-       new DecodeImageTask().execute(fileName, bitmap);
+    public void postImage(String time, Bitmap bitmap) {
+        String fileName = ((UbicacionDetalle) getActivity()).getUbicacion().pk_ubicacion + "_"+ time;
+        new DecodeImageTask().execute(fileName, bitmap);
     }
 
     public class DecodeImageTask extends AsyncTask<Object, Integer, Boolean> {
@@ -57,10 +60,22 @@ public class UbicacionImagenesFragment extends ImagenesListFragment implements U
             imagen.fk_pais = getVallasApplication().getSession().fk_pais;
             imagen.nombre = (String)params[0];
 
-            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-            ((Bitmap)params[1]).compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
-            byte[] byteArray = byteArrayOutputStream.toByteArray();
-            imagen.data = Base64.encodeToString(byteArray, Base64.DEFAULT);
+            ByteArrayOutputStream baos;
+            byte[] byteArray;
+
+            try {
+                baos = new ByteArrayOutputStream();
+                ((Bitmap) params[1]).compress(Bitmap.CompressFormat.PNG, 100, baos);
+                byteArray = baos.toByteArray();
+                imagen.data = Base64.encodeToString(byteArray, Base64.DEFAULT);
+
+            }catch(OutOfMemoryError e){
+                baos = new  ByteArrayOutputStream();
+                ((Bitmap) params[1]).compress(Bitmap.CompressFormat.PNG, 50, baos);
+                byteArray = baos.toByteArray();
+                imagen.data = Base64.encodeToString(byteArray, Base64.DEFAULT);
+                Log.e("EWN", "Out of memory error catched");
+            }
 
             return null;
         }

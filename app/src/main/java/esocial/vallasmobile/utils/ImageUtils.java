@@ -48,7 +48,7 @@ public class ImageUtils {
         return inSampleSize;
     }
 
-    public static Bitmap decodeSampledBitmapFromFile(String file,  int reqWidth, int reqHeight) {
+    public static Bitmap decodeSampledBitmapFromFile(String file, int reqWidth, int reqHeight) {
 
         // First decode with inJustDecodeBounds=true to check dimensions
         final BitmapFactory.Options options = new BitmapFactory.Options();

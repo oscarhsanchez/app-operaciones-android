@@ -6,19 +6,16 @@ import android.util.Log;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.methods.HttpPut;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.protocol.HTTP;
-import org.apache.http.util.EntityUtils;
 
+import java.io.BufferedInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,66 +42,11 @@ public class WsRequest {
 		this.context = context;
 	}
 
-	public WsResponse execute(String accept, String contentType, Integer requestType, String jsonAction, String parameters, Boolean addSessionToken, Boolean addSessionCookie, List<NameValuePair> headers) throws Exception {
-
-		if (!Utils.checkInternetConnection(context)){
-			Log.i("WsRequest", jsonAction + " - Sin conexion");
-			return null;
-		}
-
-		Log.i("WsRequest", jsonAction);
-
-		HttpClient httpClient = new DefaultHttpClient();
-		StringEntity entity = null;
-		if (parameters != null) entity = new StringEntity(parameters);
-		HttpResponse httpResp = null;
-
-		switch(requestType){
-		case REQUEST_TYPE_POST:
-			HttpPost post = new HttpPost(Constants.MAIN + jsonAction);
-			post.addHeader("Content-type", contentType);
-			if (!TextUtils.isEmpty(accept)) post.setHeader("Accept", accept);
-			if (headers != null) {
-				for (NameValuePair pair : headers) {
-					post.addHeader(pair.getName(), pair.getValue());
-				}
-			}
-			post.setEntity(entity);
-			httpResp = httpClient.execute(post);
-			break;
-		case REQUEST_TYPE_PUT:
-			HttpPut put = new HttpPut(Constants.MAIN + jsonAction);
-			put.addHeader("Content-type", contentType);
-			if (!TextUtils.isEmpty(accept)) put.setHeader("Accept", accept);
-			if (headers != null) {
-				for (NameValuePair pair : headers) {
-					put.addHeader(pair.getName(), pair.getValue());
-				}
-			}
-			put.setEntity(entity);
-			httpResp = httpClient.execute(put);
-			break;
-		}
-
-		String strResponse = EntityUtils.toString(httpResp.getEntity());
-
-		Log.v("WsRequest response", strResponse);
-		Log.v("WsRequest", "--------------------------------------------------------------------------------");
-		Log.v("WsRequest", "--------------------------------------------------------------------------------");
-
-		int statusCode = httpResp.getStatusLine().getStatusCode();
-
-		WsResponse wsResponse = new WsResponse(statusCode, strResponse);
-
-		Log.i("WsRequest", jsonAction + " - Terminado");
-
-		return wsResponse;
-
-	}
 
 	/**
 	 * Constructs a WsResponse object and calls the webservice to know the string response that will be
 	 * deserialized later.
+	 *
 	 * @param accept
 	 * @param contentType
 	 * @param requestType
@@ -118,101 +60,111 @@ public class WsRequest {
 	 */
 	public WsResponse execute(String accept, String contentType, Integer requestType, String jsonAction, List<NameValuePair> parameters, Boolean addSessionToken, Boolean addSessionCookie, List<NameValuePair> headers) throws Exception {
 
-		if (!Utils.checkInternetConnection(context)){
+		if (!Utils.checkInternetConnection(context)) {
 			Log.i("WsRequest", jsonAction + " - Sin conexion");
 			return null;
 		}
 
 		Log.i("WsRequest", jsonAction);
 
-		HttpClient httpClient = new DefaultHttpClient();
-		UrlEncodedFormEntity entity = null;
-		if (parameters != null) entity = new UrlEncodedFormEntity(parameters, HTTP.UTF_8);
-		HttpResponse httpResp = null;
+		URL url;
+		HttpURLConnection conn = null;
+		String param = "";
+		for (int i = 0; i < parameters.size(); i++) {
+			NameValuePair pair = parameters.get(i);
+			param += TextUtils.isEmpty(param) ? "" : "&";
+			param += pair.getName() + "=" + pair.getValue();
+		}
+		byte[] postData = param.getBytes(Charset.forName("UTF-8"));
+		int postDataLength = postData.length;
 
-		switch(requestType){
-		case REQUEST_TYPE_POST:
-			HttpPost post = new HttpPost(Constants.MAIN + jsonAction);
-			post.addHeader("Content-type", contentType);
-			if (!TextUtils.isEmpty(accept)) post.setHeader("Accept", accept);
-			if (headers != null) {
-				for (NameValuePair pair : headers) {
-					post.addHeader(pair.getName(), pair.getValue());
-				}
-			}
-			post.setEntity(entity);
-			httpResp = httpClient.execute(post);
-			break;
-		case REQUEST_TYPE_GET:
+		switch (requestType) {
+			case REQUEST_TYPE_POST:
+				url = new URL(Constants.MAIN + jsonAction);
+				conn = (HttpURLConnection) url.openConnection();
+				conn.setRequestMethod("POST");
+				break;
 
-			String param = "";
-			for (int i=0; i<parameters.size(); i++){
-				NameValuePair pair = parameters.get(i);
-				param += TextUtils.isEmpty(param) ? "" : "&";
-				param += pair.getName() + "=" + pair.getValue();
-			}
+			case REQUEST_TYPE_GET:
+				if (!TextUtils.isEmpty(param)) param = "?" + param;
+				url = new URL(Constants.MAIN + jsonAction + param);
+				conn = (HttpURLConnection) url.openConnection();
+				conn.setRequestMethod("GET");
+				conn.setRequestProperty("Content-Type", contentType);
+				break;
 
-			if (!TextUtils.isEmpty(param)) param = "?" + param;
+			case REQUEST_TYPE_PUT:
+				url = new URL(Constants.MAIN + jsonAction);
+				conn = (HttpURLConnection) url.openConnection();
+				conn.setRequestMethod("PUT");
+				break;
 
-			HttpGet get = new HttpGet(Constants.MAIN + jsonAction + param);
-			get.addHeader("Content-type", contentType);
-			get.addHeader("Accept", accept);
-			if (headers != null) {
-				for (NameValuePair pair : headers) {
-					get.addHeader(pair.getName(), pair.getValue());
-				}
-			}
-			httpResp = httpClient.execute(get);
-			break;
-		case REQUEST_TYPE_PUT:
-			HttpPut put = new HttpPut(Constants.MAIN + jsonAction);
-			put.addHeader("Content-type", contentType);
-			put.addHeader("Accept", accept);
-			if (headers != null) {
-				for (NameValuePair pair : headers) {
-					put.addHeader(pair.getName(), pair.getValue());
-				}
-			}
-			put.setEntity(entity);
-			httpResp = httpClient.execute(put);
-			break;
-		case REQUEST_TYPE_PATCH:
-			HttpPatch patch = new HttpPatch(Constants.MAIN + jsonAction);
-			patch.addHeader("Content-type", contentType);
-			patch.addHeader("Accept", accept);
-			if (headers != null) {
-				for (NameValuePair pair : headers) {
-					patch.addHeader(pair.getName(), pair.getValue());
-				}
-			}
-			patch.setEntity(entity);
-			httpResp = httpClient.execute(patch);
-			break;
-		case REQUEST_TYPE_DELETE:
-			HttpDelete delete = new HttpDelete(Constants.MAIN + jsonAction);
-			delete.addHeader("Content-type", contentType);
-			delete.addHeader("Accept", accept);
-			if (headers != null) {
-				for (NameValuePair pair : headers) {
-					delete.addHeader(pair.getName(), pair.getValue());
-				}
-			}
-			delete.setEntity(entity);
-			httpResp = httpClient.execute(delete);
-			break;
+			case REQUEST_TYPE_PATCH:
+				url = new URL(Constants.MAIN + jsonAction);
+				conn = (HttpURLConnection) url.openConnection();
+				conn.setRequestMethod("PATCH");
+				break;
+
+			case REQUEST_TYPE_DELETE:
+				url = new URL(Constants.MAIN + jsonAction);
+				conn = (HttpURLConnection) url.openConnection();
+				conn.setRequestMethod("DELETE");
+				break;
 		}
 
-		String strResponse = EntityUtils.toString(httpResp.getEntity());
+		//Add headers
+		if (headers != null && headers.size() > 0) {
+            for(NameValuePair pair : headers){
+                conn.setRequestProperty(pair.getName(), pair.getValue());
+            }
+        }
+		if (!TextUtils.isEmpty(accept))
+			conn.setRequestProperty("Accept", accept);
+
+		if (requestType != REQUEST_TYPE_GET) {
+			conn.setUseCaches(false);
+			conn.setDoInput(true);
+			conn.setDoOutput(true);
+			conn.setRequestProperty("Content-Type", contentType);
+			conn.setRequestProperty("Content-Length", Integer.toString(postDataLength));
+
+			DataOutputStream wr = null;
+
+			try {
+				wr = new DataOutputStream(conn.getOutputStream());
+				wr.write(postData);
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			} finally {
+				if (wr != null)
+					try {
+						wr.close();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+			}
+		}
+
+		// read the response
+		InputStream in;
+		int statusCode = conn.getResponseCode();
+		if(statusCode == 500){
+			in = conn.getErrorStream();
+		}else{
+			in = new BufferedInputStream(conn.getInputStream());
+		}
+		String strResponse = org.apache.commons.io.IOUtils.toString(in, "UTF-8");
 
 		Log.v("WsRequest response", strResponse);
 		Log.v("WsRequest", "--------------------------------------------------------------------------------");
 		Log.v("WsRequest", "--------------------------------------------------------------------------------");
 
-		int statusCode = httpResp.getStatusLine().getStatusCode();
-
 		WsResponse wsResponse = new WsResponse(statusCode, strResponse);
 
 		Log.i("WsRequest", jsonAction + " - Terminado");
+
+		conn.disconnect();
 
 		return wsResponse;
 
