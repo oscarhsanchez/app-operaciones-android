@@ -11,6 +11,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'io.fabric'
 
 repositories {
+    mavenCentral()
     maven { url 'https://maven.fabric.io/public' }
 }
 
@@ -24,8 +25,8 @@ android {
         applicationId "esocial.vallasmobile"
         minSdkVersion 16
         targetSdkVersion 23
-        versionCode 100
-        versionName "1.0.0"
+        versionCode 104
+        versionName "1.0.4"
     }
     buildTypes {
         release {
@@ -45,6 +46,7 @@ dependencies {
     compile 'com.google.code.gson:gson:2.4'
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.github.xiprox.errorview:library:2.+'
+    compile group: 'commons-io', name: 'commons-io', version: '2.0.1'
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile('com.crashlytics.sdk.android:crashlytics:2.5.5@aar') {
         transitive = true;

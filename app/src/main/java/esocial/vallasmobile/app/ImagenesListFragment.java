@@ -136,7 +136,7 @@ public abstract class ImagenesListFragment extends BaseFragment {
 
     public abstract void getImages();
 
-    public abstract void postImage(String time, Bitmap bitmap);
+    public abstract void postImage(String time, byte[] bitmap);
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -163,8 +163,10 @@ public abstract class ImagenesListFragment extends BaseFragment {
             progressDialog.show();
 
 
-            Bitmap bitmap = ImageUtils.decodeSampledBitmapFromFile(imgDecodableString, 500, 500);
-            bitmap = ImageUtils.getImageRotated(imgDecodableString, bitmap);
+            byte [] byteArray = ImageUtils.compressImage(imgDecodableString);
+
+           /* Bitmap bitmap = ImageUtils.decodeSampledBitmapFromFile(imgDecodableString, 500, 500);
+            bitmap = ImageUtils.getImageRotated(imgDecodableString, bitmap);*/
 
             Calendar now = Calendar.getInstance();
             String year = String.format("%02d",now.get(Calendar.YEAR));
@@ -174,7 +176,7 @@ public abstract class ImagenesListFragment extends BaseFragment {
             String minute = String.format("%02d",now.get(Calendar.MINUTE));
             String second = String.format("%02d",now.get(Calendar.SECOND));
 
-            postImage(year+month+day+hour+minute+second, bitmap);
+            postImage(year+month+day+hour+minute+second, byteArray);
         }
     }
 

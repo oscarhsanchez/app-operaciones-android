@@ -49,8 +49,8 @@ public class OrdenImagenesFragment extends ImagenesListFragment implements Orden
     }
 
     @Override
-    public void postImage(String time, Bitmap bitmap) {
-        String fileName = ((OrdenDetalle) getActivity()).getOrden().ubicacion.medio.pk_medio +"_"+ time;
+    public void postImage(String time, byte[] bitmap) {
+        String fileName = ((OrdenDetalle) getActivity()).getOrden().ubicacion.medio.pk_medio +"_"+ time+".jpg";
         new DecodeImageTask().execute(fileName, bitmap);
     }
 
@@ -64,23 +64,7 @@ public class OrdenImagenesFragment extends ImagenesListFragment implements Orden
             imagen.fk_orden_trabajo = ((OrdenDetalle) getActivity()).getPkOrden();
             imagen.fk_pais = getVallasApplication().getSession().fk_pais;
             imagen.nombre = (String)params[0];
-
-            ByteArrayOutputStream baos;
-            byte[] byteArray;
-
-            try {
-                baos = new ByteArrayOutputStream();
-                ((Bitmap) params[1]).compress(Bitmap.CompressFormat.PNG, 100, baos);
-                byteArray = baos.toByteArray();
-                imagen.data = Base64.encodeToString(byteArray, Base64.DEFAULT);
-
-            }catch(OutOfMemoryError e){
-                baos = new  ByteArrayOutputStream();
-                ((Bitmap) params[1]).compress(Bitmap.CompressFormat.PNG, 50, baos);
-                byteArray = baos.toByteArray();
-                imagen.data = Base64.encodeToString(byteArray, Base64.DEFAULT);
-                Log.e("EWN", "Out of memory error catched");
-            }
+            imagen.data = Base64.encodeToString((byte[]) params[1], Base64.DEFAULT);
 
             return null;
         }

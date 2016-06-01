@@ -1,31 +1,48 @@
 package esocial.vallasmobile.utils;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.res.Resources;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.media.ExifInterface;
-import android.net.Uri;
-import android.provider.MediaStore;
+import android.os.AsyncTask;
+import android.os.Environment;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 
 /**
- * Created by jesus.martinez on 22/03/2016.
+ * Created by jesus.martinez on 30/05/2016.
  */
-public class ImageUtils {
+public class ImageCompression extends AsyncTask<String, Void, String> {
 
-    private static final float maxHeight = 600.0f;
-    private static final float maxWidth = 600.0f;
+    private Context context;
+    private static final float maxHeight = 1280.0f;
+    private static final float maxWidth = 1280.0f;
 
-    public static byte[] compressImage(String imagePath) {
+
+    public ImageCompression(Context context){
+        this.context=context;
+    }
+
+    @Override
+    protected String doInBackground(String... strings) {
+        if(strings.length == 0 || strings[0] == null)
+            return null;
+
+        return compressImage(strings[0]);
+    }
+
+    protected void onPostExecute(String imagePath){
+        // imagePath is path of new compressed image.
+    }
+
+
+    public String compressImage(String imagePath) {
         Bitmap scaledBitmap = null;
 
         BitmapFactory.Options options = new BitmapFactory.Options();
@@ -34,6 +51,7 @@ public class ImageUtils {
 
         int actualHeight = options.outHeight;
         int actualWidth = options.outWidth;
+
         float imgRatio = (float) actualWidth / (float) actualHeight;
         float maxRatio = maxWidth / maxHeight;
 
@@ -53,7 +71,7 @@ public class ImageUtils {
             }
         }
 
-        options.inSampleSize = ImageUtils.calculateInSampleSize(options, actualWidth, actualHeight);
+        options.inSampleSize = calculateInSampleSize(options, actualWidth, actualHeight);
         options.inJustDecodeBounds = false;
         options.inDither = false;
         options.inPurgeable = true;
@@ -67,7 +85,7 @@ public class ImageUtils {
 
         }
         try {
-            scaledBitmap = Bitmap.createBitmap(actualWidth, actualHeight, Bitmap.Config.ARGB_8888);
+            scaledBitmap = Bitmap.createBitmap(actualWidth, actualHeight, Bitmap.Config.RGB_565);
         } catch (OutOfMemoryError exception) {
             exception.printStackTrace();
         }
@@ -83,6 +101,11 @@ public class ImageUtils {
         Canvas canvas = new Canvas(scaledBitmap);
         canvas.setMatrix(scaleMatrix);
         canvas.drawBitmap(bmp, middleX - bmp.getWidth() / 2, middleY - bmp.getHeight() / 2, new Paint(Paint.FILTER_BITMAP_FLAG));
+
+        if(bmp!=null)
+        {
+            bmp.recycle();
+        }
 
         ExifInterface exif;
         try {
@@ -100,9 +123,19 @@ public class ImageUtils {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
-        scaledBitmap.compress(Bitmap.CompressFormat.JPEG, 85, out);
-        return out.toByteArray();
+        FileOutputStream out = null;
+        String filepath = getFilename();
+        try {
+            out = new FileOutputStream(filepath);
+
+            //write the compressed bitmap at the destination specified by filename.
+            scaledBitmap.compress(Bitmap.CompressFormat.JPEG, 80, out);
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        return filepath;
     }
 
     public static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {
@@ -125,98 +158,21 @@ public class ImageUtils {
         return inSampleSize;
     }
 
+    public String getFilename() {
+        File mediaStorageDir = new File(Environment.getExternalStorageDirectory()
+                + "/Android/data/"
+                + context.getApplicationContext().getPackageName()
+                + "/Files/Compressed");
 
-    public static Bitmap decodeSampledBitmapFromFile(String file, int reqWidth, int reqHeight) {
-
-        // First decode with inJustDecodeBounds=true to check dimensions
-        final BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inJustDecodeBounds = true;
-        BitmapFactory.decodeFile(file, options);
-
-        // Calculate inSampleSize
-        options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
-
-        // Decode bitmap with inSampleSize set
-        options.inJustDecodeBounds = false;
-        return BitmapFactory.decodeFile(file, options);
-    }
-
-
-    public static String getRealPathFromUri(Context context, Uri contentUri) {
-        Cursor cursor = null;
-        try {
-            String[] proj = {MediaStore.Images.Media.DATA};
-            cursor = context.getContentResolver().query(contentUri, proj, null, null, null);
-            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-            cursor.moveToFirst();
-            return cursor.getString(column_index);
-        } finally {
-            if (cursor != null) {
-                cursor.close();
-            }
-        }
-    }
-
-    public String getRealPathFromURI(Activity activity, Uri contentUri)
-    {
-        try
-        {
-            String[] proj = {MediaStore.Images.Media.DATA};
-            Cursor cursor = activity.managedQuery(contentUri, proj, null, null, null);
-            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-            cursor.moveToFirst();
-            return cursor.getString(column_index);
-        }
-        catch (Exception e)
-        {
-            return contentUri.getPath();
-        }
-    }
-
-    /**
-     * Comprueba la orientacion de la imagen y la rota.
-     *
-     * @param filePath
-     * @param bitmap
-     * @return bitmap rotado
-     */
-
-    public static Bitmap getImageRotated(String filePath, Bitmap bitmap){
-        ExifInterface ei;
-        try {
-            ei = new ExifInterface(filePath);
-
-            int orientation = ei.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_UNDEFINED);
-
-            switch (orientation) {
-                case ExifInterface.ORIENTATION_ROTATE_90:
-                    return ImageUtils.rotateImage(bitmap, 90);
-                case ExifInterface.ORIENTATION_ROTATE_180:
-                    return ImageUtils.rotateImage(bitmap, 180);
-                case ExifInterface.ORIENTATION_ROTATE_270:
-                    return ImageUtils.rotateImage(bitmap, 270);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
+        // Create the storage directory if it does not exist
+        if (! mediaStorageDir.exists()){
+            mediaStorageDir.mkdirs();
         }
 
-        return bitmap;
+        String mImageName="IMG_"+ String.valueOf(System.currentTimeMillis()) +".jpg";
+        String uriString = (mediaStorageDir.getAbsolutePath() + "/"+ mImageName);;
+        return uriString;
+
     }
 
-    /**
-     * Rota la imagen los grados indicados
-     *
-     * @param source
-     * @param angle
-     * @return bitmap rotado
-     */
-    public static Bitmap rotateImage(Bitmap source, float angle) {
-        Bitmap retVal;
-
-        Matrix matrix = new Matrix();
-        matrix.postRotate(angle);
-        retVal = Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(), matrix, true);
-
-        return retVal;
-    }
 }

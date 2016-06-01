@@ -75,6 +75,8 @@ public class ImageSender implements OrdenesImagenesListener, IncidenciasImagenes
             } else if (images.get(i) instanceof UbicacionImagen) {
                 new PostUbicacionImagenTask(VallasApplication.context, (UbicacionImagen)images.get(i), this);
             }
+        }else{
+            isRunning = false;
         }
     }
 
@@ -89,6 +91,8 @@ public class ImageSender implements OrdenesImagenesListener, IncidenciasImagenes
         if (count != 0) {
             i++;
             sendImage();
+        }else{
+            isRunning = false;
         }
     }
 
@@ -103,6 +107,8 @@ public class ImageSender implements OrdenesImagenesListener, IncidenciasImagenes
         if (count != 0) {
             i++;
             sendImage();
+        }else{
+            isRunning = false;
         }
     }
 
@@ -117,6 +123,8 @@ public class ImageSender implements OrdenesImagenesListener, IncidenciasImagenes
         if (count != 0) {
             i++;
             sendImage();
+        }else{
+            isRunning = false;
         }
     }
 

@@ -24,6 +24,7 @@ public class GetIncidenciasAsignadasRequest extends WsRequest {
 
 		List<NameValuePair> params = new ArrayList<NameValuePair>(2);
 		params.add(new BasicNameValuePair("extended", "1"));
+		params.add(new BasicNameValuePair("estado", "1"));
 		if(location!=null) {
 			params.add(new BasicNameValuePair("latitud", String.valueOf(location.getLatitude())));
 			params.add(new BasicNameValuePair("longitud", String.valueOf(location.getLongitude())));
