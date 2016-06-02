@@ -44,13 +44,9 @@ import esocial.vallasmobile.listeners.OrdenesMotivoListener;
 import esocial.vallasmobile.obj.Incidencia;
 import esocial.vallasmobile.obj.Motivo;
 import esocial.vallasmobile.obj.Orden;
-import esocial.vallasmobile.tasks.GetOrdenTask;
 import esocial.vallasmobile.tasks.GetOrdenesMotivosTask;
 import esocial.vallasmobile.tasks.PostIncidenciaTask;
-import esocial.vallasmobile.tasks.PutOrdenEstadoTask;
-import esocial.vallasmobile.tasks.PutOrdenMotivoTask;
 import esocial.vallasmobile.utils.Constants;
-import esocial.vallasmobile.utils.Dates;
 import esocial.vallasmobile.utils.Dialogs;
 
 
@@ -221,7 +217,8 @@ public class OrdenDetalle extends BaseActivity implements OnMapReadyCallback, Or
     @Override
     public void onGetOrdenOK(final Orden ordenModificada) {
         progressDialog.dismiss();
-        getVallasApplication().setRefreshOrdenes(true);
+        getVallasApplication().setRefreshOrdenesPendientes(true);
+        getVallasApplication().setRefreshOrdenesCerradas(true);
 
         Dialogs.newAlertDialog(this, getString(R.string.orden_modificada),
                 getString(R.string.orden_modificada_text), getString(R.string.accept),
@@ -304,6 +301,11 @@ public class OrdenDetalle extends BaseActivity implements OnMapReadyCallback, Or
             Toast.makeText(OrdenDetalle.this, getString(R.string.modificando_estado), Toast.LENGTH_LONG).show();
             getVallasApplication().sendCambioEstadoOrden(orden.pk_orden_trabajo, changedStatus,
                     data.getStringExtra("observaciones_cierre"), null);
+
+
+            getVallasApplication().setRefreshOrdenesPendientes(true);
+            getVallasApplication().setRefreshOrdenesCerradas(true);
+            finish();
 
         }else if(requestCode == Constants.REQUEST_ADD_INCIDENCIA && resultCode == RESULT_OK){
             progressDialog = Dialogs.newProgressDialog(OrdenDetalle.this, getString(R.string.aplicando_cambios), false);

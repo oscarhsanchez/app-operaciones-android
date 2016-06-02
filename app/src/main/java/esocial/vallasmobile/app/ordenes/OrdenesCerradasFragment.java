@@ -91,8 +91,8 @@ public class OrdenesCerradasFragment extends BaseFragment implements OrdenesList
     @Override
     public void onResume() {
         super.onResume();
-        if(getVallasApplication().getRefreshOrdenes()) {
-            getVallasApplication().setRefreshOrdenes(false);
+        if(getVallasApplication().getRefreshOrdenesCerradas()) {
+            getVallasApplication().setRefreshOrdenesCerradas(false);
             loadOrdenes();
         }
     }

@@ -37,8 +37,10 @@ public class Constants {
     public static String SESSION = "session";
     public static String USERGEO = "userGeo";
     public static String GEOPERMISSION = "geoPermission";
-    public static String REFRESH_ORDENES = "refreshOrdenes";
-    public static String REFRESH_INCIDENCIAS = "refreshIncidencias";
+    public static String REFRESH_ORDENES_PENDIENTES = "refreshOrdenesPendientes";
+    public static String REFRESH_ORDENES_CERRADAS = "refreshOrdenesCerradas";
+    public static String REFRESH_INCIDENCIAS_ASIGNADAS = "refreshIncidenciasAsignadas";
+    public static String REFRESH_INCIDENCIAS_CREADAS = "refreshIncidenciasCreadas";
 
     //--------------------------------PERMISSION--------------------------------------//
 

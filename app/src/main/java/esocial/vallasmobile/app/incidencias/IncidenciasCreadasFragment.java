@@ -1,7 +1,6 @@
 package esocial.vallasmobile.app.incidencias;
 
 import android.content.Intent;
-import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.AppCompatImageButton;
@@ -110,8 +109,8 @@ public class IncidenciasCreadasFragment extends BaseFragment implements Incidenc
     @Override
     public void onResume() {
         super.onResume();
-        if(getVallasApplication().getRefreshIncidencias()) {
-            getVallasApplication().setRefreshIncidencias(false);
+        if(getVallasApplication().getRefreshIncidenciasCreadas()) {
+            getVallasApplication().setRefreshIncidenciasCreadas(false);
             loadIncidencias();
         }
     }

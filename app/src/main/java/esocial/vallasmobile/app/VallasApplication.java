@@ -17,9 +17,6 @@ import io.fabric.sdk.android.Fabric;
 import java.util.ArrayList;
 import java.util.Date;
 
-import esocial.vallasmobile.app.incidencias.IncidenciaDetalle;
-import esocial.vallasmobile.app.ordenes.OrdenDetalle;
-import esocial.vallasmobile.listeners.OrdenesModifyListener;
 import esocial.vallasmobile.obj.GeoLocalizacion;
 import esocial.vallasmobile.obj.IncidenciaImagen;
 import esocial.vallasmobile.obj.Motivo;
@@ -41,8 +38,10 @@ public class VallasApplication extends Application {
     private Session session;
     private Boolean location_geo_permission;
     private Boolean user_geo;
-    private Boolean refreshOrdenes;
-    private Boolean refreshIncidencias;
+    private Boolean refreshOrdenesPendientes;
+    private Boolean refreshOrdenesCerradas;
+    private Boolean refreshIncidenciasAsignadas;
+    private Boolean refreshIncidenciasCreadas;
     private SharedPreferences.Editor prefsEditor;
     public static Location currentLocation;
 
@@ -112,36 +111,68 @@ public class VallasApplication extends Application {
         this.location_geo_permission = geoPermission;
     }
 
-    public Boolean getRefreshOrdenes() {
-        if (refreshOrdenes == null) {
+    public Boolean getRefreshOrdenesPendientes() {
+        if (refreshOrdenesPendientes == null) {
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-            refreshOrdenes = prefs.getBoolean(Constants.REFRESH_ORDENES, false);
+            refreshOrdenesPendientes = prefs.getBoolean(Constants.REFRESH_ORDENES_PENDIENTES, false);
         }
-        return refreshOrdenes;
+        return refreshOrdenesPendientes;
     }
 
-    public void setRefreshOrdenes(Boolean refreshOrdenes) {
-        if (refreshOrdenes != null) {
-            prefsEditor.putBoolean(Constants.REFRESH_ORDENES, refreshOrdenes);
+    public void setRefreshOrdenesPendientes(Boolean refreshOrdenesPendientes) {
+        if (refreshOrdenesPendientes != null) {
+            prefsEditor.putBoolean(Constants.REFRESH_ORDENES_PENDIENTES, refreshOrdenesPendientes);
             prefsEditor.apply();
         }
-        this.refreshOrdenes = refreshOrdenes;
+        this.refreshOrdenesPendientes = refreshOrdenesPendientes;
     }
 
-    public Boolean getRefreshIncidencias() {
-        if (refreshIncidencias == null) {
+    public Boolean getRefreshOrdenesCerradas() {
+        if (refreshOrdenesCerradas == null) {
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-            refreshIncidencias = prefs.getBoolean(Constants.REFRESH_INCIDENCIAS, false);
+            refreshOrdenesCerradas = prefs.getBoolean(Constants.REFRESH_ORDENES_CERRADAS, false);
         }
-        return refreshIncidencias;
+        return refreshOrdenesCerradas;
     }
 
-    public void setRefreshIncidencias(Boolean refreshIncidencias) {
-        if (refreshIncidencias != null) {
-            prefsEditor.putBoolean(Constants.REFRESH_INCIDENCIAS, refreshIncidencias);
+    public void setRefreshOrdenesCerradas(Boolean refreshOrdenesCerradas) {
+        if (refreshOrdenesCerradas != null) {
+            prefsEditor.putBoolean(Constants.REFRESH_ORDENES_CERRADAS, refreshOrdenesCerradas);
             prefsEditor.apply();
         }
-        this.refreshIncidencias = refreshIncidencias;
+        this.refreshOrdenesCerradas = refreshOrdenesCerradas;
+    }
+
+    public Boolean getRefreshIncidenciasAsignadas() {
+        if (refreshIncidenciasAsignadas == null) {
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+            refreshIncidenciasAsignadas = prefs.getBoolean(Constants.REFRESH_INCIDENCIAS_ASIGNADAS, false);
+        }
+        return refreshIncidenciasAsignadas;
+    }
+
+    public Boolean getRefreshIncidenciasCreadas() {
+        if (refreshIncidenciasCreadas == null) {
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+            refreshIncidenciasCreadas = prefs.getBoolean(Constants.REFRESH_INCIDENCIAS_CREADAS, false);
+        }
+        return refreshIncidenciasCreadas;
+    }
+
+    public void setRefreshIncidenciasCreadas(Boolean refreshIncidenciasCreadas) {
+        if (refreshIncidenciasCreadas != null) {
+            prefsEditor.putBoolean(Constants.REFRESH_INCIDENCIAS_CREADAS, refreshIncidenciasCreadas);
+            prefsEditor.apply();
+        }
+        this.refreshIncidenciasCreadas = refreshIncidenciasCreadas;
+    }
+
+    public void setRefreshIncidenciasAsignadas(Boolean refreshIncidenciasAsignadas) {
+        if (refreshIncidenciasAsignadas != null) {
+            prefsEditor.putBoolean(Constants.REFRESH_INCIDENCIAS_ASIGNADAS, refreshIncidenciasAsignadas);
+            prefsEditor.apply();
+        }
+        this.refreshIncidenciasAsignadas = refreshIncidenciasAsignadas;
     }
 
     //endregion

@@ -212,6 +212,10 @@ public class IncidenciaDetalle extends BaseActivity implements OnMapReadyCallbac
             getVallasApplication().sendCambioEstadoIncidencia(incidencia.pk_incidencia, changedStatus,
                     data.getStringExtra("observaciones_cierre"), null);
 
+            getVallasApplication().setRefreshIncidenciasAsignadas(true);
+            getVallasApplication().setRefreshIncidenciasCreadas(true);
+            finish();
+
         }else {
             Fragment frag = adapter.getItem(tabLayout.getSelectedTabPosition());
             frag.onActivityResult(requestCode, resultCode, data);

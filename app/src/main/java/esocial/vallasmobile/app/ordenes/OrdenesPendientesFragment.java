@@ -91,8 +91,8 @@ public class OrdenesPendientesFragment extends BaseFragment implements OrdenesLi
     @Override
     public void onResume() {
         super.onResume();
-        if(getVallasApplication().getRefreshOrdenes()) {
-            getVallasApplication().setRefreshOrdenes(false);
+        if(getVallasApplication().getRefreshOrdenesPendientes()) {
+            getVallasApplication().setRefreshOrdenesPendientes(false);
             loadOrdenes();
         }
     }

@@ -25,8 +25,8 @@ android {
         applicationId "esocial.vallasmobile"
         minSdkVersion 16
         targetSdkVersion 23
-        versionCode 104
-        versionName "1.0.4"
+        versionCode 105
+        versionName "1.0.5"
     }
     buildTypes {
         release {
